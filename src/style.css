@@ -1,31 +1,85 @@
 :root {
     --background-color: lightsteelblue;
     --secondary-color: steelblue;
+    --menu-color: rgb(145, 189, 224);
     --accent-color: whitesmoke;
+    --font-color: rgb(20, 20, 20);
 }
 
 body {
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
     background-color: var(--background-color);
-    /* need to switch to grid display for side panel */
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 250px calc(100vw - 250px);
+    grid-template-rows: 110px calc(100vh - 110px - 62px) 62px;
     margin: 0;
 }
 
+.logo {
+    max-height: 90%;
+    margin-right: 8px;
+    /* whitesmoke color */
+    filter: invert(100%) sepia(0%) saturate(7480%) hue-rotate(201deg) brightness(107%) contrast(92%);
+}
+
 header {
-background-color: var(--secondary-color);
-color: var(--accent-color);
-padding: 10px;
+    grid-column: 1 / -1;
+    background-color: var(--secondary-color);
+    color: var(--accent-color);
+    box-shadow: 1px 1px 6px rgb(0, 0, 0, 0.8);
+    z-index: 1;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.menu {
+    background-color: var(--menu-color);
+    color: var(--font-color);
+    font-size: 1.2rem;
+}
+
+.menuOptions {
+    list-style: none;
+    padding: 0;
+}
+
+.projectsHeader {
+    font-weight: 500;
+    font-size: 1.3rem;
+}
+
+.menuOptions li,
+.projectsHeader {
+    margin: 10px 1rem;
+    padding: 8px;
+    border-radius: 8px;    
+}
+
+.menuOptions li:hover {
+    background-color: rgb(245, 245, 245, 0.3);
+    box-shadow: 2px 2px 6px rgb(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.menuOptions li:active {
+    box-shadow: 2px 2px 6px rgb(0, 0, 0, 0.4);
+}
+
+.content {
+    background-color: var(--background-color);
+    color: var(--font-color);
 }
 
 footer {
-background-color: var(--secondary-color);
-color: whitesmoke;
-display: flex;
-align-items: center;
-justify-content: center;
-margin-top: auto;
+    grid-column: 1 / -1;
+    background-color: var(--secondary-color);
+    color: whitesmoke;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
 }
 
 .github {
