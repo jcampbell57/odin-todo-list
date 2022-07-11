@@ -2,8 +2,12 @@ const body = document.querySelector('body');
 
 
 // Icon generators 
-// import checklist from '../src/assets/checklist.svg';
+import logoIcon from './assets/check-decagram-outline.svg';
 import checklist from './assets/checklist.svg';
+import calendarToday from './assets/calendar-today.svg';
+import calendarWeek from './assets/calendar-week.svg';
+import additionIcon from './assets/plus.svg';
+import githubIcon from './assets/GitHub-light-32px.svg';
 
 const _createChecklistIcon = (li) => {
     const checklistIcon = document.createElement('img');
@@ -13,22 +17,22 @@ const _createChecklistIcon = (li) => {
 }
 
 const _createAdditionIcon = (li) => {
-    const additionIcon = document.createElement('img');
-    additionIcon.src = '../src/assets/plus.svg';
-    additionIcon.setAttribute('class', 'icon')
-    li.appendChild(additionIcon);
+    const newAdditionIcon = document.createElement('img');
+    newAdditionIcon.src = additionIcon;
+    newAdditionIcon.setAttribute('class', 'icon')
+    li.appendChild(newAdditionIcon);
 }
 
 const _createTodayIcon = (li) => {
     const _createTodayIcon = document.createElement('img');
-    _createTodayIcon.src = '../src/assets/calendar-today.svg';
+    _createTodayIcon.src = calendarToday;
     _createTodayIcon.setAttribute('class', 'icon')
     li.appendChild(_createTodayIcon);
 }
 
 const _createWeekIcon = (li) => {
     const _createWeekIcon = document.createElement('img');
-    _createWeekIcon.src = '../src/assets/calendar-range.svg';
+    _createWeekIcon.src = calendarWeek;
     _createWeekIcon.setAttribute('class', 'icon')
     li.appendChild(_createWeekIcon);
 }
@@ -39,7 +43,7 @@ const _createHeader = () => {
     
     // display title
     const logo = document.createElement('img');
-    logo.src = '../src/assets/check-decagram-outline.svg';
+    logo.src = logoIcon;
     logo.target = '_blank';
     logo.setAttribute('class', 'logo');
     header.appendChild(logo);
@@ -154,7 +158,7 @@ const _createFooter = () => {
     githubLink.target = '_blank';
   
     const githubIcon = document.createElement('img');
-    githubIcon.src = '../src/assets/GitHub-light-32px.png';
+    githubIcon.src = githubIcon;
     githubIcon.setAttribute('class', 'github');
 
     githubLink.appendChild(githubIcon);
