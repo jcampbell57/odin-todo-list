@@ -12,4 +12,8 @@ const addProjectBtn = document.querySelector('.addProjectBtn');
 addProjectBtn.addEventListener('click', () => {
     console.log('yay');
 })
-// const addTaskBtn = document.querySelector('');
+
+const addTaskBtn = document.querySelector('.addTaskBtn');
+addTaskBtn.addEventListener('click', () => {
+    console.log('yay');
+})

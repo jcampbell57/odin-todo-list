@@ -1,6 +1,38 @@
 const body = document.querySelector('body');
 
 
+// Icon generators 
+import checklist from '../src/assets/checklist.svg';
+
+const _createChecklistIcon = (li) => {
+    const checklistIcon = document.createElement('img');
+    checklistIcon.src = checklist;
+    checklistIcon.setAttribute('class', 'icon')
+    li.appendChild(checklistIcon);
+}
+
+const _createAdditionIcon = (li) => {
+    const additionIcon = document.createElement('img');
+    additionIcon.src = '../src/assets/plus.svg';
+    additionIcon.setAttribute('class', 'icon')
+    li.appendChild(additionIcon);
+}
+
+const _createTodayIcon = (li) => {
+    const _createTodayIcon = document.createElement('img');
+    _createTodayIcon.src = '../src/assets/calendar-today.svg';
+    _createTodayIcon.setAttribute('class', 'icon')
+    li.appendChild(_createTodayIcon);
+}
+
+const _createWeekIcon = (li) => {
+    const _createWeekIcon = document.createElement('img');
+    _createWeekIcon.src = '../src/assets/calendar-range.svg';
+    _createWeekIcon.setAttribute('class', 'icon')
+    li.appendChild(_createWeekIcon);
+}
+
+
 const _createHeader = () => {
     const header = document.createElement('header')
     
@@ -23,37 +55,53 @@ const _createMenu = () => {
     const menu = document.createElement('div');
     menu.setAttribute('class', 'menu');
 
+    // Main menu
     const menuOptions = document.createElement('ul');
     menuOptions.setAttribute('class', 'menuOptions');
-
+    
     const allTasks = document.createElement('li');
-    allTasks.innerText = 'All tasks';
+    _createChecklistIcon(allTasks);
+    const allTasksText = document.createElement('span');
+    allTasksText.textContent = 'All tasks';
+    allTasks.appendChild(allTasksText)
     menuOptions.appendChild(allTasks);
 
-    const pastDue = document.createElement('li');
-    pastDue.innerText = 'Past due';
-    menuOptions.appendChild(pastDue);
-
     const dueToday = document.createElement('li');
-    dueToday.innerText = 'Due today';
+    _createTodayIcon(dueToday);
+    const dueTodayText = document.createElement('span');
+    dueTodayText.innerText = 'Due today';
+    dueToday.appendChild(dueTodayText);
     menuOptions.appendChild(dueToday);
 
     const dueWeek = document.createElement('li');
-    dueWeek.innerText = 'Due this week';
+    _createWeekIcon(dueWeek);
+    const dueWeekText = document.createElement('span');
+    dueWeekText.innerText = 'Due this week';
+    dueWeek.appendChild(dueWeekText);
     menuOptions.appendChild(dueWeek);
 
 
+    // Projects menu
     const projectsHeader = document.createElement('p');
     projectsHeader.setAttribute('class', 'projectsHeader')
     projectsHeader.textContent = 'Projects';
 
-
     const projectsMenu = document.createElement('ul');
     projectsMenu.setAttribute('class', 'menuOptions');
 
+    const sampleProj = document.createElement('li');
+    _createChecklistIcon(sampleProj);
+    const sampleProjText = document.createElement('span');
+    sampleProjText.textContent = 'Sample project';
+    sampleProj.appendChild(sampleProjText)
+    projectsMenu.appendChild(sampleProj);
+
     const addProject = document.createElement('li');
     addProject.setAttribute('class', 'addProjectBtn')
-    addProject.innerText = 'Add Project';
+    _createAdditionIcon(addProject)
+    const addProjectText = document.createElement('span');
+    addProjectText.innerText = 'Add Project';
+    addProject.appendChild(addProjectText)
     projectsMenu.appendChild(addProject);
 
 
@@ -73,16 +121,22 @@ const _createContent = () => {
     contentTitle.setAttribute('class', 'contentTitle');
     contentTitle.innerText = 'All tasks';
     
-    const taskContainer = document.createElement('div');
-    taskContainer.setAttribute('class', 'taskContainer');
+    const taskContainer = document.createElement('ul');
+    taskContainer.setAttribute('class', 'menuOptions');
 
-    const addTask = document.createElement('div');
+    const addTaskContainer = document.createElement('ul');
+    addTaskContainer.setAttribute('class', 'menuOptions');
+    const addTask = document.createElement('li');
     addTask.setAttribute('class', 'addTaskBtn');
-    addTask.innerText = 'Add task';
+    _createAdditionIcon(addTask);
+    const addTaskText = document.createElement('span');
+    addTaskText.innerText = 'Add task';
+    addTask.appendChild(addTaskText)
+    addTaskContainer.appendChild(addTask)
     
     content.appendChild(contentTitle);
     content.appendChild(taskContainer);
-    content.appendChild(addTask)
+    content.appendChild(addTaskContainer)
 
     body.appendChild(content);
 }

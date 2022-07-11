@@ -39,9 +39,19 @@ header {
     font-size: 1.2rem;
 }
 
+.icon {
+    height: 1.2rem;
+    margin-right: 8px;
+}
+
 .menuOptions {
     list-style: none;
     padding: 0;
+}
+
+.menuOptions>li {
+    display: flex;
+    align-items: center;
 }
 
 .projectsHeader {
@@ -73,6 +83,7 @@ header {
 .content {
     background-color: var(--background-color);
     color: var(--font-color);
+    font-size: 1.2rem;
     /* padding: 20px; */
 }
 
