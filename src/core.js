@@ -5,9 +5,9 @@ const body = document.querySelector('body');
 import logoIcon from './assets/check-decagram-outline.svg';
 import checklist from './assets/checklist.svg';
 import calendarToday from './assets/calendar-today.svg';
-import calendarWeek from './assets/calendar-week.svg';
+import calendarWeek from './assets/calendar-range.svg';
 import additionIcon from './assets/plus.svg';
-import githubIcon from './assets/GitHub-light-32px.svg';
+import githubIcon from './assets/GitHub-light-32px.png';
 
 const _createChecklistIcon = (li) => {
     const checklistIcon = document.createElement('img');
@@ -157,11 +157,11 @@ const _createFooter = () => {
     githubLink.href = 'https://github.com/jcampbell57';
     githubLink.target = '_blank';
   
-    const githubIcon = document.createElement('img');
-    githubIcon.src = githubIcon;
-    githubIcon.setAttribute('class', 'github');
+    const newGithubIcon = document.createElement('img');
+    newGithubIcon.src = githubIcon;
+    newGithubIcon.setAttribute('class', 'github');
 
-    githubLink.appendChild(githubIcon);
+    githubLink.appendChild(newGithubIcon);
     footer.appendChild(copyright);
     footer.appendChild(githubLink);
     body.appendChild(footer);
