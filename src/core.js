@@ -1,7 +1,6 @@
+
 const body = document.querySelector('body');
 
-
-// Icon generators 
 import logoIcon from './assets/check-decagram-outline.svg';
 import checklist from './assets/checklist.svg';
 import calendarToday from './assets/calendar-today.svg';
@@ -9,6 +8,8 @@ import calendarWeek from './assets/calendar-range.svg';
 import additionIcon from './assets/plus.svg';
 import githubIcon from './assets/GitHub-light-32px.png';
 
+
+// Icon generators 
 const _createChecklistIcon = (li) => {
     const checklistIcon = document.createElement('img');
     checklistIcon.src = checklist;
@@ -35,6 +36,31 @@ const _createWeekIcon = (li) => {
     _createWeekIcon.src = calendarWeek;
     _createWeekIcon.setAttribute('class', 'icon')
     li.appendChild(_createWeekIcon);
+}
+
+
+// Form generator
+const _createForm = (form) => {
+    const formRow1 = document.createElement('div');
+    formRow1.setAttribute('class', 'formRow');
+    formRow1.innerHTML = "<input type='text' id='newTask' name='newTask'></input>";
+
+    const formRow2 = document.createElement('div');
+    formRow2.setAttribute('class', 'formRow');
+    formRow2.setAttribute('id', 'formButtons');
+
+    const addBtn = document.createElement('button');
+    addBtn.setAttribute('class', 'addBtn');
+    addBtn.innerText = "add";
+    formRow2.appendChild(addBtn);
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.setAttribute('class', 'cancelBtn');
+    cancelBtn.innerText = "cancel";
+    formRow2.appendChild(cancelBtn);
+
+    form.appendChild(formRow1);
+    form.appendChild(formRow2);
 }
 
 
@@ -109,6 +135,14 @@ const _createMenu = () => {
     addProject.appendChild(addProjectText)
     projectsMenu.appendChild(addProject);
 
+    // Generate and hide new project form
+    const addProjectForm = document.createElement('form');
+    addProjectForm.setAttribute('class', 'addProjectForm');
+    addProjectForm.setAttribute('id', 'hidden')
+    addProjectForm.method = 'get';
+    _createForm(addProjectForm);
+    projectsMenu.appendChild(addProjectForm)
+
 
     menu.appendChild(menuOptions);
     menu.appendChild(projectsHeader);
@@ -129,6 +163,7 @@ const _createContent = () => {
     const taskContainer = document.createElement('ul');
     taskContainer.setAttribute('class', 'menuOptions');
 
+    // Add task button
     const addTaskContainer = document.createElement('ul');
     addTaskContainer.setAttribute('class', 'menuOptions');
     const addTask = document.createElement('li');
@@ -136,12 +171,21 @@ const _createContent = () => {
     _createAdditionIcon(addTask);
     const addTaskText = document.createElement('span');
     addTaskText.innerText = 'Add task';
-    addTask.appendChild(addTaskText)
-    addTaskContainer.appendChild(addTask)
+    addTask.appendChild(addTaskText);
+    addTaskContainer.appendChild(addTask);
+
+    // Generate and hide new task form
+    const addTaskForm = document.createElement('form');
+    addTaskForm.setAttribute('class', 'addTaskForm');
+    addTaskForm.setAttribute('id', 'hidden')
+    addTaskForm.method = 'get';
+    _createForm(addTaskForm);
+
     
     content.appendChild(contentTitle);
     content.appendChild(taskContainer);
-    content.appendChild(addTaskContainer)
+    content.appendChild(addTaskContainer);
+    content.appendChild(addTaskForm);
 
     body.appendChild(content);
 }
@@ -164,6 +208,7 @@ const _createFooter = () => {
     githubLink.appendChild(newGithubIcon);
     footer.appendChild(copyright);
     footer.appendChild(githubLink);
+
     body.appendChild(footer);
 }
 

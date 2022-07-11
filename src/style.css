@@ -62,7 +62,11 @@ header {
 .menuOptions li,
 .projectsHeader,
 .contentTitle,
-.addTaskBtn {
+.addTaskBtn,
+/* #newTask,
+.addBtn,
+.cancelBtn { */
+.addProjectForm {
     margin: 10px 1rem;
     padding: 8px;
     border-radius: 8px;    
@@ -77,6 +81,75 @@ header {
 
 .menuOptions li:active,
 .addTaskBtn:active {
+    box-shadow: 2px 2px 6px rgb(0, 0, 0, 0.4);
+}
+
+
+/* form styling */
+
+#shown {
+    display: block;
+}
+
+#hidden {
+    display: none;
+}
+
+.addProjectForm,
+.addTaskForm {
+    padding: 0;
+}
+
+.addTaskForm {
+    margin: 10px;
+}
+
+.formRow{
+    display: flex;
+    justify-content:space-around;
+    gap: 8px;
+
+}
+
+#formButtons {
+    margin-top: 8px;
+}
+
+#newTask {
+    width: 100%;
+    font-size: 1.2rem;
+    padding: 6px;
+    border: none;
+    border-radius: 8px;
+}
+
+.addBtn,
+.cancelBtn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;    
+    font-size: 1rem;
+}
+
+.addBtn {
+    background-color: lightgreen;
+    border: 2px solid hsl(120, 73%, 55%);
+}
+
+.cancelBtn {
+    background-color: lightpink;
+    border: 2px solid hsl(351, 100%, 70%);
+
+}
+
+.addBtn:hover,
+.cancelBtn:hover {
+    box-shadow: 2px 2px 6px rgb(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.addBtn:active,
+.cancelBtn:active {
     box-shadow: 2px 2px 6px rgb(0, 0, 0, 0.4);
 }
 
@@ -102,7 +175,7 @@ header {
 footer {
     grid-column: 1 / -1;
     background-color: var(--secondary-color);
-    color: whitesmoke;
+    color: var(--accent-color);
     font-size: 1.2rem;
     display: flex;
     align-items: center;

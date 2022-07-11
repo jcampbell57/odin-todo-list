@@ -1,5 +1,5 @@
-class task {
-    static myTasks = [];
+class tasks {
+    static all = [];
 
     constructor (newTask) {
         this.newTask = newTask
@@ -7,8 +7,8 @@ class task {
 
 };
 
-class project {
-    static myProjects = [];
+class projects {
+    static all = [];
 
     constructor (projectName) {
         this.projectName = projectName
@@ -17,6 +17,6 @@ class project {
 }
 
 export {
-    project,
-    task,
+    projects,
+    tasks,
 }
