@@ -3,7 +3,7 @@ const body = document.querySelector('body');
 
 // Icon generators 
 // import checklist from '../src/assets/checklist.svg';
-import checklist from '/src/assets/checklist.svg';
+import checklist from './assets/checklist.svg';
 
 const _createChecklistIcon = (li) => {
     const checklistIcon = document.createElement('img');
