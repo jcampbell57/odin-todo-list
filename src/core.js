@@ -52,6 +52,7 @@ const _createMenu = () => {
     projectsMenu.setAttribute('class', 'menuOptions');
 
     const addProject = document.createElement('li');
+    addProject.setAttribute('class', 'addProjectBtn')
     addProject.innerText = 'Add Project';
     projectsMenu.appendChild(addProject);
 
@@ -67,6 +68,22 @@ const _createMenu = () => {
 const _createContent = () => {
     const content = document.createElement('div');
     content.setAttribute('class', 'content');
+
+    const contentTitle = document.createElement('h2');
+    contentTitle.setAttribute('class', 'contentTitle');
+    contentTitle.innerText = 'All tasks';
+    
+    const taskContainer = document.createElement('div');
+    taskContainer.setAttribute('class', 'taskContainer');
+
+    const addTask = document.createElement('div');
+    addTask.setAttribute('class', 'addTaskBtn');
+    addTask.innerText = 'Add task';
+    
+    content.appendChild(contentTitle);
+    content.appendChild(taskContainer);
+    content.appendChild(addTask)
+
     body.appendChild(content);
 }
 

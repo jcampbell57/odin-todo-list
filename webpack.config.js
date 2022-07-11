@@ -10,6 +10,7 @@ module.exports = {
   entry: {
     index: './src/index.js',
     core: './src/core.js',
+    tasks: './src/tasks.js',
   },
   devtool: 'inline-source-map',
   plugins: [

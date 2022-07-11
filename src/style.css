@@ -45,31 +45,48 @@ header {
 }
 
 .projectsHeader {
-    font-weight: 500;
+    font-weight: 700;
     font-size: 1.3rem;
 }
 
 .menuOptions li,
-.projectsHeader {
+.projectsHeader,
+.contentTitle,
+.addTaskBtn {
     margin: 10px 1rem;
     padding: 8px;
     border-radius: 8px;    
 }
 
-.menuOptions li:hover {
+.menuOptions li:hover,
+.addTaskBtn:hover {
     background-color: rgb(245, 245, 245, 0.3);
     box-shadow: 2px 2px 6px rgb(0, 0, 0, 0.2);
     cursor: pointer;
 }
 
-.menuOptions li:active {
+.menuOptions li:active,
+.addTaskBtn:active {
     box-shadow: 2px 2px 6px rgb(0, 0, 0, 0.4);
 }
 
 .content {
     background-color: var(--background-color);
     color: var(--font-color);
+    /* padding: 20px; */
 }
+
+/* .contentTitle {
+    border: 1px solid red;
+}
+
+.taskContainer {
+    border: 1px solid red;
+}
+
+.addTaskBtn {
+    border: 1px solid red;
+} */
 
 footer {
     grid-column: 1 / -1;
