@@ -130,21 +130,21 @@ const _createMenu = () => {
 
     const projectsMenu = document.createElement('ul');
     projectsMenu.setAttribute('class', 'menuOptions');
+    projectsMenu.setAttribute('id', 'projectsMenu');
 
-    const sampleProj = document.createElement('li');
-    _createChecklistIcon(sampleProj);
-    const sampleProjText = document.createElement('span');
-    sampleProjText.textContent = 'Sample project';
-    sampleProj.appendChild(sampleProjText)
-    projectsMenu.appendChild(sampleProj);
 
+    // Add project button
+    const addTaskContainer = document.createElement('ul');
+    addTaskContainer.setAttribute('class', 'menuOptions');
     const addProject = document.createElement('li');
     addProject.setAttribute('class', 'addProjectBtn')
     _createAdditionIcon(addProject)
     const addProjectText = document.createElement('span');
     addProjectText.innerText = 'Add Project';
     addProject.appendChild(addProjectText)
-    projectsMenu.appendChild(addProject);
+    addTaskContainer.appendChild(addProject)
+    // projectsMenu.appendChild(addTaskContainer);
+
 
     // Generate and hide new project form
     const addProjectForm = document.createElement('form');
@@ -152,12 +152,13 @@ const _createMenu = () => {
     addProjectForm.setAttribute('id', 'hidden')
     addProjectForm.method = 'get';
     _createForm(addProjectForm);
-    projectsMenu.appendChild(addProjectForm)
+    addTaskContainer.appendChild(addProjectForm)
 
 
     menu.appendChild(menuOptions);
     menu.appendChild(projectsHeader);
     menu.appendChild(projectsMenu);
+    menu.appendChild(addTaskContainer);
 
     body.appendChild(menu);
 }
@@ -170,10 +171,6 @@ const _createContent = () => {
     const contentTitle = document.createElement('h2');
     contentTitle.setAttribute('class', 'contentTitle');
     contentTitle.innerText = 'All tasks';
-
-    // previous iteration
-    // const taskContainer = document.createElement('ul');
-    // taskContainer.setAttribute('class', 'menuOptions');
 
     const taskContainer = document.createElement('table');
     taskContainer.setAttribute('class', 'menuOptions');

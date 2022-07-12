@@ -10,10 +10,31 @@ initialize();
 // import { addTask } from './tasks';
 
 // generate content (important)
+const taskList = document.querySelector('#taskList');
+
+
 const _generateContent = () => {
-    const _generateTask = () => {
-        
-    }
+
+}
+
+import checkboxBlank from './assets/checkbox-blank.svg';
+import checkboxMarked from './assets/checkbox-marked.svg';
+import deleteIcon from './assets/delete.svg';
+import editIcon from './assets/edit.svg';
+
+
+const _displayTask = (newTask) => {
+    const newRow = document.createElement('tr');
+    newRow.setAttribute('id', 'notComplete');
+    newRow.innerHTML = 
+        `<tr id='notComplete'>
+            <td class='checkboxContainer'><img src='${checkboxBlank}' class='icon'></td>
+            <td class='taskContainer'>${newTask}</td>
+            <td class='dateContainer'>no date</td>
+            <td class='editContainer'><img src='${editIcon}' class='icon'></td>
+            <td class='closeContainer'><img src='${deleteIcon}' class='icon' alt='delete' id='removeRow'></td>
+        </tr>`;
+    taskList.appendChild(newRow);
 }
 
 
@@ -36,13 +57,42 @@ const _hideAddProjectForm = () => {
     newProjectInput.value = '';
 }
 
+
+
+
+
+// REDUNDANT WITH CORE.JS -- CONSOLODATE
+import checklist from './assets/checklist.svg';
+const _createChecklistIcon = (li) => {
+    const checklistIcon = document.createElement('img');
+    checklistIcon.src = checklist;
+    checklistIcon.setAttribute('class', 'icon')
+    li.appendChild(checklistIcon);
+}
+
+const addProj = (newProj) => {
+    const projectsMenu = document.querySelector('#projectsMenu');
+    const sampleProj = document.createElement('li');
+    _createChecklistIcon(sampleProj);
+    const sampleProjText = document.createElement('span');
+    sampleProjText.textContent = newProj;
+    sampleProj.appendChild(sampleProjText)
+    projectsMenu.appendChild(sampleProj);
+} 
+// REDUNDANT WITH CORE.JS -- CONSOLODATE
+
+
+
+
+
 const newProjectInput = document.querySelector('#newProjectInput');
 const addProjectForm = document.querySelector('.addProjectForm')
 addProjectForm.addEventListener('submit', (e) => {
     e.preventDefault();
     if (e.submitter.getAttribute('class') === 'addBtn') {
         // submitProject function goes here
-        console.log(newProjectInput.value);
+        const newProj = newProjectInput.value
+        addProj(newProj);
     }
     _hideAddProjectForm();
 });
@@ -72,7 +122,8 @@ addTaskForm.addEventListener('submit', (e) => {
     e.preventDefault();
     if (e.submitter.getAttribute('class') === 'addBtn') {
         // submitTask function goes here
-        console.log(newTaskInput.value)
+        const newTask = newTaskInput.value
+        _displayTask(newTask);
     }
     _hideAddTaskForm();
 });
