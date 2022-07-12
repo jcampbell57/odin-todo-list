@@ -9,6 +9,14 @@ initialize();
 // import { addProject } from './tasks';
 // import { addTask } from './tasks';
 
+// generate content (important)
+const _generateContent = () => {
+    const _generateTask = () => {
+        
+    }
+}
+
+
 // add project
 const _showAddProjectForm = () => {
     if (addTaskForm.getAttribute('id') === 'shown') {
@@ -25,11 +33,17 @@ addProjectBtn.addEventListener('click', _showAddProjectForm);
 const _hideAddProjectForm = () => {
     addProjectBtn.setAttribute('id', 'shown')
     addProjectForm.setAttribute('id', 'hidden')
+    newProjectInput.value = '';
 }
 
+const newProjectInput = document.querySelector('#newProjectInput');
 const addProjectForm = document.querySelector('.addProjectForm')
 addProjectForm.addEventListener('submit', (e) => {
     e.preventDefault();
+    if (e.submitter.getAttribute('class') === 'addBtn') {
+        // submitProject function goes here
+        console.log(newProjectInput.value);
+    }
     _hideAddProjectForm();
 });
 
@@ -49,10 +63,16 @@ addTaskBtn.addEventListener('click', _showAddTaskForm);
 const _hideAddTaskForm = () => {
     addTaskBtn.setAttribute('id', 'shown')
     addTaskForm.setAttribute('id', 'hidden')
+    newTaskInput.value = '';
 }
 
-const addTaskForm = document.querySelector('.addTaskForm')
+const newTaskInput = document.querySelector('#newTaskInput');
+const addTaskForm = document.querySelector('.addTaskForm');
 addTaskForm.addEventListener('submit', (e) => {
     e.preventDefault();
+    if (e.submitter.getAttribute('class') === 'addBtn') {
+        // submitTask function goes here
+        console.log(newTaskInput.value)
+    }
     _hideAddTaskForm();
 });

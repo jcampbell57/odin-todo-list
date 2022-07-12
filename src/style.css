@@ -22,6 +22,10 @@ body {
     filter: invert(100%) sepia(0%) saturate(7480%) hue-rotate(201deg) brightness(107%) contrast(92%);
 }
 
+
+
+
+
 header {
     grid-column: 1 / -1;
     background-color: var(--secondary-color);
@@ -33,6 +37,10 @@ header {
     align-items: center;
 }
 
+
+
+
+
 .menu {
     background-color: var(--menu-color);
     color: var(--font-color);
@@ -41,7 +49,6 @@ header {
 
 .icon {
     height: 1.2rem;
-    margin-right: 8px;
 }
 
 .menuOptions {
@@ -52,6 +59,7 @@ header {
 .menuOptions>li {
     display: flex;
     align-items: center;
+    gap: 8px;
 }
 
 .projectsHeader {
@@ -63,13 +71,16 @@ header {
 .projectsHeader,
 .contentTitle,
 .addTaskBtn,
-/* #newTask,
-.addBtn,
-.cancelBtn { */
-.addProjectForm {
+.addProjectForm,
+tbody>tr {
     margin: 10px 1rem;
     padding: 8px;
     border-radius: 8px;    
+}
+
+tbody>tr:hover {
+    background-color: rgb(245, 245, 245, 0.3);
+    box-shadow: 2px 2px 6px rgb(0, 0, 0, 0.2);
 }
 
 .menuOptions li:hover,
@@ -83,6 +94,9 @@ header {
 .addTaskBtn:active {
     box-shadow: 2px 2px 6px rgb(0, 0, 0, 0.4);
 }
+
+
+
 
 
 /* form styling */
@@ -115,7 +129,8 @@ header {
     margin-top: 8px;
 }
 
-#newTask {
+#newTaskInput,
+#newProjectInput {
     width: 100%;
     font-size: 1.2rem;
     padding: 6px;
@@ -153,6 +168,10 @@ header {
     box-shadow: 2px 2px 6px rgb(0, 0, 0, 0.4);
 }
 
+
+
+
+
 .content {
     background-color: var(--background-color);
     color: var(--font-color);
@@ -171,6 +190,61 @@ header {
 .addTaskBtn {
     border: 1px solid red;
 } */
+
+
+
+
+
+/* table styling */
+
+table {
+    /* border: 1px solid red; */
+    width: 100%;
+}
+
+tbody>tr {
+    box-sizing: border-box;
+    /* width: 100%; */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* border: 2px solid blue; */
+}
+
+td {
+    /* border: 2px solid pink; */
+    display: flex;
+    /* align-items: center; */
+    /* justify-content: center; */
+}
+
+.checkboxContainer:hover,
+.dateContainer:hover,
+.editContainer:hover,
+.closeContainer:hover {
+    cursor: pointer;
+}
+
+.checkboxContainer:active {
+    filter: invert(18%) sepia(76%) saturate(2312%) hue-rotate(109deg) brightness(100%) contrast(107%);
+}
+
+.editContainer:active,
+.closeContainer:active {
+    filter: invert(7%) sepia(51%) saturate(5951%) hue-rotate(350deg) brightness(140%) contrast(136%);
+}
+
+.taskContainer {
+
+}
+
+td img {
+    /* border: 2px solid blue; */
+    color: #006400;
+}
+
+
+
 
 footer {
     grid-column: 1 / -1;

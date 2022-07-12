@@ -6,6 +6,10 @@ import checklist from './assets/checklist.svg';
 import calendarToday from './assets/calendar-today.svg';
 import calendarWeek from './assets/calendar-range.svg';
 import additionIcon from './assets/plus.svg';
+import checkboxBlank from './assets/checkbox-blank.svg';
+import checkboxMarked from './assets/checkbox-marked.svg';
+import deleteIcon from './assets/delete.svg';
+import editIcon from './assets/edit.svg';
 import githubIcon from './assets/GitHub-light-32px.png';
 
 
@@ -43,7 +47,14 @@ const _createWeekIcon = (li) => {
 const _createForm = (form) => {
     const formRow1 = document.createElement('div');
     formRow1.setAttribute('class', 'formRow');
-    formRow1.innerHTML = "<input type='text' id='newTask' name='newTask'></input>";
+    // assign input ID according to class of form
+    if (form.getAttribute('class') === 'addProjectForm') {
+        formRow1.innerHTML = "<input type='text' id='newProjectInput' name='newProjectInput'></input>";
+    } else if (form.getAttribute('class') === 'addTaskForm') {
+        formRow1.innerHTML = "<input type='text' id='newTaskInput' name='newTaskInput'></input>";
+    } else {
+        console.log('this is strange')
+    }
 
     const formRow2 = document.createElement('div');
     formRow2.setAttribute('class', 'formRow');
@@ -159,9 +170,40 @@ const _createContent = () => {
     const contentTitle = document.createElement('h2');
     contentTitle.setAttribute('class', 'contentTitle');
     contentTitle.innerText = 'All tasks';
-    
-    const taskContainer = document.createElement('ul');
+
+    // previous iteration
+    // const taskContainer = document.createElement('ul');
+    // taskContainer.setAttribute('class', 'menuOptions');
+
+    const taskContainer = document.createElement('table');
     taskContainer.setAttribute('class', 'menuOptions');
+    taskContainer.innerHTML = 
+        `<thead>
+            <tr>
+                <th class='checkboxContainer'></th>
+                <th class='taskContainer'></th>
+                <th class='dateContainer'></th>
+                <th class='editContainer'></th>
+                <th class='closeContainer'></th>
+            </tr>
+        </thead>
+        <tbody id='taskList'>
+            <tr id='notComplete'>
+                <td class='checkboxContainer'><img src='${checkboxBlank}' class='icon'></td>
+                <td class='taskContainer'>do chores</td>
+                <td class='dateContainer'>no date</td>
+                <td class='editContainer'><img src='${editIcon}' class='icon'></td>
+                <td class='closeContainer'><img src='${deleteIcon}' class='icon' alt='delete' id='removeRow'></td>
+            </tr>
+            <tr id='notComplete'>
+                <td class='checkboxContainer'><img src='${checkboxBlank}' class='icon'></td>
+                <td class='taskContainer'>do chores2</td>
+                <td class='dateContainer'>no date</td>
+                <td class='editContainer'><img src='${editIcon}' class='icon'></td>
+                <td class='closeContainer'><img src='${deleteIcon}' class='icon' alt='delete' id='removeRow'></td>
+            </tr>
+        </tbody>`
+    
 
     // Add task button
     const addTaskContainer = document.createElement('ul');
