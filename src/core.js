@@ -45,21 +45,32 @@ const _createWeekIcon = (li) => {
 
 // Form generator
 const _createForm = (form) => {
+    
     const formRow1 = document.createElement('div');
     formRow1.setAttribute('class', 'formRow');
-    // assign input ID according to class of form
-    if (form.getAttribute('class') === 'addProjectForm') {
-        formRow1.innerHTML = "<input type='text' id='newProjectInput' name='newProjectInput'></input>";
-    } else if (form.getAttribute('class') === 'addTaskForm') {
-        formRow1.innerHTML = "<input type='text' id='newTaskInput' name='newTaskInput'></input>";
-    } else {
-        console.log('this is strange')
-    }
-
+    
     const formRow2 = document.createElement('div');
     formRow2.setAttribute('class', 'formRow');
     formRow2.setAttribute('id', 'formButtons');
 
+    const formRow3 = document.createElement('div');
+    formRow3.setAttribute('id', 'hidden');
+
+    // row one: assign input and error IDs according to class of form
+    // row three: assign error class and text according to class of form
+    if (form.getAttribute('class') === 'addProjectForm') {
+        formRow1.innerHTML = "<input type='text' id='newProjectInput' name='newProjectInput'></input>";
+        formRow3.setAttribute('class', 'newProjErrorContainer');
+        formRow3.innerText = 'Name your project!'
+    } else if (form.getAttribute('class') === 'addTaskForm') {
+        formRow1.innerHTML = "<input type='text' id='newTaskInput' name='newTaskInput'></input>";
+        formRow3.setAttribute('class', 'newTaskErrorContainer');
+        formRow3.innerText = 'Name your task!'
+    } else {
+        console.log('this is strange')
+    }
+
+    // row two: submit and cancel buttons
     const addBtn = document.createElement('button');
     addBtn.setAttribute('class', 'addBtn');
     addBtn.innerText = "add";
@@ -68,10 +79,11 @@ const _createForm = (form) => {
     const cancelBtn = document.createElement('button');
     cancelBtn.setAttribute('class', 'cancelBtn');
     cancelBtn.innerText = "cancel";
-    formRow2.appendChild(cancelBtn);
+    formRow2.appendChild(cancelBtn);    
 
     form.appendChild(formRow1);
     form.appendChild(formRow2);
+    form.appendChild(formRow3);
 }
 
 
@@ -143,17 +155,16 @@ const _createMenu = () => {
     projectsMenu.setAttribute('id', 'projectsMenu');
 
 
-    // Add project button
-    const addTaskContainer = document.createElement('ul');
-    addTaskContainer.setAttribute('class', 'menuOptions');
+    // Generate add project button
+    const addProjectContainer = document.createElement('ul');
+    addProjectContainer.setAttribute('class', 'menuOptions');
     const addProject = document.createElement('li');
     addProject.setAttribute('class', 'addProjectBtn')
     _createAdditionIcon(addProject)
     const addProjectText = document.createElement('span');
     addProjectText.innerText = 'Add Project';
     addProject.appendChild(addProjectText)
-    addTaskContainer.appendChild(addProject)
-    // projectsMenu.appendChild(addTaskContainer);
+    addProjectContainer.appendChild(addProject)
 
 
     // Generate and hide new project form
@@ -162,13 +173,13 @@ const _createMenu = () => {
     addProjectForm.setAttribute('id', 'hidden')
     addProjectForm.method = 'get';
     _createForm(addProjectForm);
-    addTaskContainer.appendChild(addProjectForm)
+    addProjectContainer.appendChild(addProjectForm)
 
 
     menu.appendChild(menuOptions);
     menu.appendChild(projectsHeader);
     menu.appendChild(projectsMenu);
-    menu.appendChild(addTaskContainer);
+    menu.appendChild(addProjectContainer);
 
     body.appendChild(menu);
 }
@@ -197,7 +208,7 @@ const _createContent = () => {
         <tbody id='taskList'></tbody>`
     
 
-    // Add task button
+    // Create add task button
     const addTaskContainer = document.createElement('ul');
     addTaskContainer.setAttribute('class', 'menuOptions');
     const addTask = document.createElement('li');
@@ -214,7 +225,6 @@ const _createContent = () => {
     addTaskForm.setAttribute('id', 'hidden')
     addTaskForm.method = 'get';
     _createForm(addTaskForm);
-
     
     content.appendChild(contentTitle);
     content.appendChild(taskContainer);
