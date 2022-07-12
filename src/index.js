@@ -17,8 +17,8 @@ import checkboxBlank from './assets/checkbox-blank.svg';
 import checkboxMarked from './assets/checkbox-marked.svg';
 import deleteIcon from './assets/delete.svg';
 import editIcon from './assets/edit.svg';
-// import { addProject } from './tasks';
-// import { addTask } from './tasks';
+import { projects } from './tasks';
+import { tasks } from './tasks';
 
 
 
@@ -75,7 +75,6 @@ const _createDeleteIcon = (li) => {
 
 // REDUNDANT WITH CORE.JS -- CONSOLODATE
 import checklist from './assets/checklist.svg';
-import { projects, tasks } from './tasks';
 const _createChecklistIcon = (li) => {
     const checklistIcon = document.createElement('img');
     checklistIcon.src = checklist;
@@ -94,8 +93,6 @@ const addProj = (newProj) => {
     _createDeleteIcon(sampleProj);
     projectsMenu.appendChild(sampleProj);
 } 
-
-
 
 
 
@@ -122,6 +119,7 @@ const _hideAddTaskForm = () => {
 
 
 
+
 // CHANGE TO STATIC, ADD TO CLASS
 // add new project from form
 const newProjErrorContainer = document.querySelector('.newProjErrorContainer');
@@ -143,13 +141,14 @@ const _submitNewProjectForm = (e) => {
 
 
     // add proj to array
-    // projects.all.push(newProj);
+    projects.all.push(newProj);
 
     // Create new row & populate with task info
 
 
     // append
 }
+
 
 // CHANGE TO STATIC, ADD TO CLASS
 // add new task from form
@@ -158,6 +157,13 @@ const newTaskErrorContainer = document.querySelector('.newTaskErrorContainer');
 const _submitNewTaskForm = (e) => {
     // verify or cancel submission
     e.preventDefault();
+
+    const submitTask = (newTask) => {
+        tasks.all.push(newTask);
+        _displayTask(newTask);
+        console.log(tasks.all)
+    }
+
     if (e.submitter.getAttribute('class') === 'addBtn' && newTaskInput.value === '') {
         // show Task name error
         newTaskErrorContainer.setAttribute('id', 'showBlock');
@@ -165,20 +171,20 @@ const _submitNewTaskForm = (e) => {
     } else if (e.submitter.getAttribute('class') === 'addBtn') {
         // submit new Task
         const newTask = newTaskInput.value
-        _displayTask(newTask);
+        submitTask(newTask);
     }
     _hideAddTaskForm();
     newTaskErrorContainer.setAttribute('id', 'hidden');
 
 
     // add task to array(s)
-    // tasks.all.push(newTask);
 
     // Create new row & populate with task info
 
 
     // append
 }
+
 
 
 

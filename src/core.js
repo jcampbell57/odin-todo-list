@@ -56,7 +56,7 @@ const _createForm = (form) => {
     const formRow3 = document.createElement('div');
     formRow3.setAttribute('id', 'hidden');
 
-    // row one: assign input and error IDs according to class of form
+    // row one: assign input according to class of form
     // row three: assign error class and text according to class of form
     if (form.getAttribute('class') === 'addProjectForm') {
         formRow1.innerHTML = "<input type='text' id='newProjectInput' name='newProjectInput'></input>";
