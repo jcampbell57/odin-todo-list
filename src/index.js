@@ -127,6 +127,13 @@ const newProjErrorContainer = document.querySelector('.newProjErrorContainer');
 const _submitNewProjectForm = (e) => {
     // verify or cancel submission
     e.preventDefault();
+
+    const submitProj = (newProj) => {
+        projects.all.push(newProj);
+        addProj(newProj);
+        console.log(projects.all)
+    }
+    
     if (e.submitter.getAttribute('class') === 'addBtn' && newProjectInput.value === '') {
         // show project name error
         newProjErrorContainer.setAttribute('id', 'showBlock');
@@ -134,14 +141,11 @@ const _submitNewProjectForm = (e) => {
     } else if (e.submitter.getAttribute('class') === 'addBtn') {
         // submit new project
         const newProj = newProjectInput.value
-        addProj(newProj);
+        submitProj(newProj);
     }
     _hideAddProjectForm();
     newProjErrorContainer.setAttribute('id', 'hidden');
 
-
-    // add proj to array
-    projects.all.push(newProj);
 
     // Create new row & populate with task info
 
