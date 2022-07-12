@@ -75,6 +75,16 @@ const _createForm = (form) => {
 }
 
 
+
+
+
+// DOM modification functions (Move from index.js)
+
+
+
+
+
+// Initialization functions
 const _createHeader = () => {
     const header = document.createElement('header')
     
@@ -184,22 +194,7 @@ const _createContent = () => {
                 <th class='closeContainer'></th>
             </tr>
         </thead>
-        <tbody id='taskList'>
-            <tr id='notComplete'>
-                <td class='checkboxContainer'><img src='${checkboxBlank}' class='icon'></td>
-                <td class='taskContainer'>do chores</td>
-                <td class='dateContainer'>no date</td>
-                <td class='editContainer'><img src='${editIcon}' class='icon'></td>
-                <td class='closeContainer'><img src='${deleteIcon}' class='icon' alt='delete' id='removeRow'></td>
-            </tr>
-            <tr id='notComplete'>
-                <td class='checkboxContainer'><img src='${checkboxBlank}' class='icon'></td>
-                <td class='taskContainer'>do chores2</td>
-                <td class='dateContainer'>no date</td>
-                <td class='editContainer'><img src='${editIcon}' class='icon'></td>
-                <td class='closeContainer'><img src='${deleteIcon}' class='icon' alt='delete' id='removeRow'></td>
-            </tr>
-        </tbody>`
+        <tbody id='taskList'></tbody>`
     
 
     // Add task button

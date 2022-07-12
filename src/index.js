@@ -59,7 +59,15 @@ const _hideAddProjectForm = () => {
 
 
 
-
+const _createDeleteIcon = (li) => {
+    const newCloseContainer = document.createElement('div');
+    newCloseContainer.setAttribute('id', 'closeContainer')
+    const newDeleteIcon = document.createElement('img');
+    newDeleteIcon.src = deleteIcon;
+    newDeleteIcon.setAttribute('class', 'icon')
+    newCloseContainer.appendChild(newDeleteIcon);
+    li.appendChild(newCloseContainer);
+}
 
 // REDUNDANT WITH CORE.JS -- CONSOLODATE
 import checklist from './assets/checklist.svg';
@@ -77,6 +85,7 @@ const addProj = (newProj) => {
     const sampleProjText = document.createElement('span');
     sampleProjText.textContent = newProj;
     sampleProj.appendChild(sampleProjText)
+    _createDeleteIcon(sampleProj);
     projectsMenu.appendChild(sampleProj);
 } 
 // REDUNDANT WITH CORE.JS -- CONSOLODATE

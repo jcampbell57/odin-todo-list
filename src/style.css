@@ -234,9 +234,9 @@ td {
     filter: invert(7%) sepia(51%) saturate(5951%) hue-rotate(350deg) brightness(140%) contrast(136%);
 }
 
-.taskContainer {
+/* .taskContainer {
 
-}
+} */
 
 td img {
     /* border: 2px solid blue; */
