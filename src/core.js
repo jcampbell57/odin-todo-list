@@ -6,19 +6,26 @@ import checklist from './assets/checklist.svg';
 import calendarToday from './assets/calendar-today.svg';
 import calendarWeek from './assets/calendar-range.svg';
 import additionIcon from './assets/plus.svg';
-import checkboxBlank from './assets/checkbox-blank.svg';
-import checkboxMarked from './assets/checkbox-marked.svg';
-import deleteIcon from './assets/delete.svg';
-import editIcon from './assets/edit.svg';
 import githubIcon from './assets/GitHub-light-32px.png';
+import deleteIcon from './assets/delete.svg';
 
 
 // Icon generators 
-const _createChecklistIcon = (li) => {
+const createChecklistIcon = (li) => {
     const checklistIcon = document.createElement('img');
     checklistIcon.src = checklist;
     checklistIcon.setAttribute('class', 'icon')
     li.appendChild(checklistIcon);
+}
+
+const createDeleteIcon = (li) => {
+    const newCloseContainer = document.createElement('div');
+    newCloseContainer.setAttribute('id', 'closeContainer')
+    const newDeleteIcon = document.createElement('img');
+    newDeleteIcon.src = deleteIcon;
+    newDeleteIcon.setAttribute('class', 'icon')
+    newCloseContainer.appendChild(newDeleteIcon);
+    li.appendChild(newCloseContainer);
 }
 
 const _createAdditionIcon = (li) => {
@@ -29,17 +36,17 @@ const _createAdditionIcon = (li) => {
 }
 
 const _createTodayIcon = (li) => {
-    const _createTodayIcon = document.createElement('img');
-    _createTodayIcon.src = calendarToday;
-    _createTodayIcon.setAttribute('class', 'icon')
-    li.appendChild(_createTodayIcon);
+    const newTodayIcon = document.createElement('img');
+    newTodayIcon.src = calendarToday;
+    newTodayIcon.setAttribute('class', 'icon')
+    li.appendChild(newTodayIcon);
 }
 
 const _createWeekIcon = (li) => {
-    const _createWeekIcon = document.createElement('img');
-    _createWeekIcon.src = calendarWeek;
-    _createWeekIcon.setAttribute('class', 'icon')
-    li.appendChild(_createWeekIcon);
+    const newWeekIcon = document.createElement('img');
+    newWeekIcon.src = calendarWeek;
+    newWeekIcon.setAttribute('class', 'icon')
+    li.appendChild(newWeekIcon);
 }
 
 
@@ -90,12 +97,6 @@ const _createForm = (form) => {
 
 
 
-// DOM modification functions (Move from index.js)
-
-
-
-
-
 // Initialization functions
 const _createHeader = () => {
     const header = document.createElement('header')
@@ -124,7 +125,7 @@ const _createMenu = () => {
     menuOptions.setAttribute('class', 'menuOptions');
     
     const allTasks = document.createElement('li');
-    _createChecklistIcon(allTasks);
+    createChecklistIcon(allTasks);
     const allTasksText = document.createElement('span');
     allTasksText.textContent = 'All tasks';
     allTasks.appendChild(allTasksText)
@@ -265,4 +266,13 @@ const initialize = () => {
 };
 
 
-export default initialize;
+
+
+
+// export default initialize;
+
+export {
+    initialize,
+    createChecklistIcon,
+    createDeleteIcon,
+}

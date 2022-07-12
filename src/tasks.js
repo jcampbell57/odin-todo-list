@@ -1,20 +1,32 @@
 class tasks {
     static all = [];
 
+    
+
     constructor (newTask) {
-        this.newTask = newTask
+        this.task = newTask
     }
 
+
+
 };
+
+
 
 class projects {
     static all = [];
 
+
+
     constructor (projectName) {
-        this.projectName = projectName
+        this.project = projectName
     }
 
+
+
 }
+
+
 
 export {
     projects,
