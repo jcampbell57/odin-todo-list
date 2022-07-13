@@ -171,12 +171,13 @@ const _displayTasks = () => {
 
 
 // PROJECTS
-// Add single project to tasklist display
+// Add single project to menu
 const _displayProject = (newProj, i) => {
     const newProjectContainer = document.createElement('li');
     newProjectContainer.setAttribute('class', `project`)
     newProjectContainer.setAttribute('id', `${i}`)
     newProjectContainer.addEventListener('click', (e) => {
+        // console.log(e.target)
         setContentTitle(e)
     })
     createChecklistIcon(newProjectContainer);

@@ -299,9 +299,14 @@ const initialize = () => {
 // PROJECTS
 // Delete project
 const _deleteProject = (e) => {
-    let doomedIndex = e.target.parentElement.parentElement.getAttribute('id');
-    projects.all.splice(doomedIndex, 1);
-    e.target.parentElement.parentElement.remove();
+    if (e.target.getAttribute('id') === 'deleteItem') {
+        let doomedIndex = e.target.parentElement.parentElement.getAttribute('id');
+        projects.all.splice(doomedIndex, 1);
+        e.target.parentElement.parentElement.remove();
+    } else {
+        return
+    }
+    // console.log(e.target.getAttribute('id') === 'deleteItem')
 }
 
 
@@ -319,8 +324,12 @@ const _deleteTask = (e) => {
 // TASK DISPLAY OPTIONS
 
 const setContentTitle = (e) => {
-    const contentTitle = document.querySelector('.contentTitle')
-    contentTitle.textContent = e.target.innerText
+    if (e.target.getAttribute('id') !== 'deleteItem') {
+        const contentTitle = document.querySelector('.contentTitle')
+        contentTitle.textContent = e.target.innerText
+        } else {
+        return
+    }
 }
 
 
