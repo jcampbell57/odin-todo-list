@@ -231,7 +231,7 @@ td {
 .checkboxContainer:hover,
 .dateContainer:hover,
 .editContainer:hover,
-.closeContainer:hover {
+#deleteItem:hover {
     cursor: pointer;
 }
 
@@ -240,7 +240,7 @@ td {
 }
 
 .editContainer:active,
-.closeContainer:active {
+#deleteItem:active {
     filter: invert(7%) sepia(51%) saturate(5951%) hue-rotate(350deg) brightness(140%) contrast(136%);
 }
 

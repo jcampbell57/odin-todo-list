@@ -9,6 +9,9 @@ import additionIcon from './assets/plus.svg';
 import githubIcon from './assets/GitHub-light-32px.png';
 import deleteIcon from './assets/delete.svg';
 
+import { projects } from './tasks';
+import { tasks } from './tasks';
+
 
 // Icon generators 
 const createChecklistIcon = (li) => {
@@ -18,14 +21,24 @@ const createChecklistIcon = (li) => {
     li.appendChild(checklistIcon);
 }
 
-const createDeleteIcon = (li) => {
-    const newCloseContainer = document.createElement('div');
-    newCloseContainer.setAttribute('id', 'closeContainer')
+const createDeleteIcon = (container) => {
+    // create image and assign attributes
     const newDeleteIcon = document.createElement('img');
     newDeleteIcon.src = deleteIcon;
     newDeleteIcon.setAttribute('class', 'icon')
-    newCloseContainer.appendChild(newDeleteIcon);
-    li.appendChild(newCloseContainer);
+    newDeleteIcon.setAttribute('id', 'deleteItem')
+    // add event listener
+    if (container.getAttribute('class') === 'taskCloseContainer') {
+        // Event listener to delete task
+        newDeleteIcon.addEventListener('click', (e) => _deleteTask(e))
+    } else if (container.getAttribute('class') === 'projectCloseContainer') {
+        // Event listener to delete project
+        newDeleteIcon.addEventListener('click', (e) => _deleteProject(e))
+    } else {
+        console.log('this is strange');
+    }
+    // append to container
+    container.appendChild(newDeleteIcon)
 }
 
 const _createAdditionIcon = (li) => {
@@ -203,7 +216,7 @@ const _createContent = () => {
                 <th class='taskContainer'></th>
                 <th class='dateContainer'></th>
                 <th class='editContainer'></th>
-                <th class='closeContainer'></th>
+                <th class='taskCloseContainer'></th>
             </tr>
         </thead>
         <tbody id='taskList'></tbody>`
@@ -264,6 +277,30 @@ const initialize = () => {
     _createContent();
     _createFooter();
 };
+
+
+
+
+
+// DOM modification functions
+
+// TASKS
+// Delete task
+const _deleteTask = (e) => {
+    let doomedIndex = e.target.parentElement.parentElement.getAttribute('id');
+    tasks.all.splice(doomedIndex, 1);
+    e.target.parentElement.parentElement.remove();
+}
+
+
+
+// PROJECTS
+// Delete project
+const _deleteProject = (e) => {
+    let doomedIndex = e.target.parentElement.parentElement.getAttribute('id');
+    projects.all.splice(doomedIndex, 1);
+    e.target.parentElement.parentElement.remove();
+}
 
 
 

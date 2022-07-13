@@ -77,17 +77,21 @@ const hideAddTaskForm = () => {
 
 // TASKS
 // Add single task to tasklist display
-const _displayTask = (task) => {
+const _displayTask = (task, i) => {
     const newRow = document.createElement('tr');
-    newRow.setAttribute('id', 'notComplete');
+    newRow.setAttribute('class', 'notComplete');
+    newRow.setAttribute('id', `${i}`);
     newRow.innerHTML = 
-        `<tr id='notComplete'>
-            <td class='checkboxContainer'><img src='${checkboxBlank}' class='icon'></td>
-            <td class='taskContainer'>${task}</td>
-            <td class='dateContainer'>no date</td>
-            <td class='editContainer'><img src='${editIcon}' class='icon'></td>
-            <td class='closeContainer'><img src='${deleteIcon}' class='icon' alt='delete' id='removeRow'></td>
-        </tr>`;
+        `<td class='checkboxContainer'><img src='${checkboxBlank}' class='icon'></td>
+        <td class='taskContainer'>${task}</td>
+        <td class='dateContainer'>no date</td>
+        <td class='editContainer'><img src='${editIcon}' class='icon'></td>`
+    // add delete button
+    const closeContainer = document.createElement('td');
+    closeContainer.setAttribute('class', 'taskCloseContainer');
+    createDeleteIcon(closeContainer);
+    newRow.appendChild(closeContainer);
+
     tasklist.appendChild(newRow);
 }
 
@@ -99,9 +103,13 @@ const _displayTasks = () => {
     for (let i=0; i<oldTaskCount; i++) {
         tasklist.firstChild.remove();
     }
-
+    
     // append all tasks to tasklist
-    tasks.all.forEach(task => _displayTask(task));
+    let i=0
+    tasks.all.forEach(task => {
+        _displayTask(task, i)
+        i++
+    });
 }
 
 
@@ -110,14 +118,21 @@ const _displayTasks = () => {
 
 // PROJECTS
 // Add single project to tasklist display
-const _displayProject = (newProj) => {
-    const sampleProj = document.createElement('li');
-    createChecklistIcon(sampleProj);
-    const sampleProjText = document.createElement('span');
-    sampleProjText.textContent = newProj;
-    sampleProj.appendChild(sampleProjText)
-    createDeleteIcon(sampleProj);
-    projectsMenu.appendChild(sampleProj);
+const _displayProject = (newProj, i) => {
+    const newProjectContainer = document.createElement('li');
+    newProjectContainer.setAttribute('class', `project`)
+    newProjectContainer.setAttribute('id', `${i}`)
+    createChecklistIcon(newProjectContainer);
+    const newProjectText = document.createElement('span');
+    newProjectText.textContent = newProj;
+    newProjectContainer.appendChild(newProjectText)
+    // extra wrapper so event listeners work on both tasks and projects
+    const closeContainerDiv = document.createElement('div');
+    closeContainerDiv.setAttribute('class', 'projectCloseContainer')
+    createDeleteIcon(closeContainerDiv);    
+    // createDeleteIcon(newProjectContainer);
+    newProjectContainer.appendChild(closeContainerDiv)
+    projectsMenu.appendChild(newProjectContainer);
 } 
 
 
@@ -130,7 +145,11 @@ const _displayProjects = () => {
     }
 
     // append all tasks to tasklist
-    projects.all.forEach(project => _displayProject(project));
+    let i=0
+    projects.all.forEach(project => {
+        _displayProject(project, i)
+        i++
+    });
 }
 
 
