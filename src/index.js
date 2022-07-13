@@ -28,6 +28,7 @@ import editIcon from './assets/edit.svg';
 
 import { createChecklistIcon } from './core';
 import { createDeleteIcon } from './core';
+import { setContentTitle } from './core';
 
 
 
@@ -54,6 +55,34 @@ const _hideAddProjectForm = () => {
     newProjectInput.value = '';
 }
 
+// Verify new project form submission
+const newProjErrorContainer = document.querySelector('.newProjErrorContainer');
+
+const _submitNewProjectForm = (e) => {
+    // verify or cancel submission
+    e.preventDefault();
+
+
+    const submitProj = (newProj) => {
+        projects.all.push(newProj);
+        _displayProjects();
+    }
+    
+
+    if (e.submitter.getAttribute('class') === 'addBtn' && newProjectInput.value === '') {
+        // show project name error
+        newProjErrorContainer.setAttribute('id', 'showBlock');
+        return;
+    } else if (e.submitter.getAttribute('class') === 'addBtn') {
+        // submit new project
+        const newProj = newProjectInput.value
+        submitProj(newProj);
+    }
+    _hideAddProjectForm();
+    newProjErrorContainer.setAttribute('id', 'hidden');
+}
+
+
 
 // Show/hide new task form
 const _showAddTaskForm = () => {
@@ -69,6 +98,31 @@ const hideAddTaskForm = () => {
     addTaskBtn.setAttribute('id', 'showFlex')
     addTaskForm.setAttribute('id', 'hidden')
     newTaskInput.value = '';
+}
+
+// Verify new task form submission
+const newTaskErrorContainer = document.querySelector('.newTaskErrorContainer');
+
+const submitNewTaskForm = (e) => {
+    // verify or cancel submission
+    e.preventDefault();
+
+    const submitTask = (newTask) => {
+        tasks.all.push(newTask);
+        _displayTasks();
+    }
+
+    if (e.submitter.getAttribute('class') === 'addBtn' && newTaskInput.value === '') {
+        // show Task name error
+        newTaskErrorContainer.setAttribute('id', 'showBlock');
+        return;
+    } else if (e.submitter.getAttribute('class') === 'addBtn') {
+        // submit new Task
+        const newTask = newTaskInput.value
+        submitTask(newTask);
+    }
+    hideAddTaskForm();
+    newTaskErrorContainer.setAttribute('id', 'hidden');
 }
 
 
@@ -122,6 +176,9 @@ const _displayProject = (newProj, i) => {
     const newProjectContainer = document.createElement('li');
     newProjectContainer.setAttribute('class', `project`)
     newProjectContainer.setAttribute('id', `${i}`)
+    newProjectContainer.addEventListener('click', (e) => {
+        setContentTitle(e)
+    })
     createChecklistIcon(newProjectContainer);
     const newProjectText = document.createElement('span');
     newProjectText.textContent = newProj;
@@ -156,63 +213,7 @@ const _displayProjects = () => {
 
 
 
-// Verify new project form submission
-const newProjErrorContainer = document.querySelector('.newProjErrorContainer');
-
-const _submitNewProjectForm = (e) => {
-    // verify or cancel submission
-    e.preventDefault();
-
-
-    const submitProj = (newProj) => {
-        projects.all.push(newProj);
-        _displayProjects(newProj);
-        // console.log(projects.all)
-    }
-    
-
-    if (e.submitter.getAttribute('class') === 'addBtn' && newProjectInput.value === '') {
-        // show project name error
-        newProjErrorContainer.setAttribute('id', 'showBlock');
-        return;
-    } else if (e.submitter.getAttribute('class') === 'addBtn') {
-        // submit new project
-        const newProj = newProjectInput.value
-        submitProj(newProj);
-    }
-    _hideAddProjectForm();
-    newProjErrorContainer.setAttribute('id', 'hidden');
-}
-
-
-
-
-
-// Verify new task form submission
-const newTaskErrorContainer = document.querySelector('.newTaskErrorContainer');
-
-const submitNewTaskForm = (e) => {
-    // verify or cancel submission
-    e.preventDefault();
-
-    const submitTask = (newTask) => {
-        tasks.all.push(newTask);
-        console.log(tasks.all)
-        _displayTasks();
-    }
-
-    if (e.submitter.getAttribute('class') === 'addBtn' && newTaskInput.value === '') {
-        // show Task name error
-        newTaskErrorContainer.setAttribute('id', 'showBlock');
-        return;
-    } else if (e.submitter.getAttribute('class') === 'addBtn') {
-        // submit new Task
-        const newTask = newTaskInput.value
-        submitTask(newTask);
-    }
-    hideAddTaskForm();
-    newTaskErrorContainer.setAttribute('id', 'hidden');
-}
+// TASKS DISPLAY OPTIONS
 
 
 

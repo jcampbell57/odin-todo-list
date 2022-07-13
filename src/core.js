@@ -138,6 +138,10 @@ const _createMenu = () => {
     menuOptions.setAttribute('class', 'menuOptions');
     
     const allTasks = document.createElement('li');
+    allTasks.setAttribute('class', 'allTasks');
+    allTasks.addEventListener('click', (e) => {
+        setContentTitle(e)
+    })
     createChecklistIcon(allTasks);
     const allTasksText = document.createElement('span');
     allTasksText.textContent = 'All tasks';
@@ -145,6 +149,10 @@ const _createMenu = () => {
     menuOptions.appendChild(allTasks);
 
     const dueToday = document.createElement('li');
+    dueToday.setAttribute('class', 'dueToday');
+    dueToday.addEventListener('click', (e) => {
+        setContentTitle(e)
+    })
     _createTodayIcon(dueToday);
     const dueTodayText = document.createElement('span');
     dueTodayText.innerText = 'Due today';
@@ -152,6 +160,10 @@ const _createMenu = () => {
     menuOptions.appendChild(dueToday);
 
     const dueWeek = document.createElement('li');
+    dueWeek.setAttribute('class', 'dueWeek');
+    dueWeek.addEventListener('click', (e) => {
+        setContentTitle(e)
+    })
     _createWeekIcon(dueWeek);
     const dueWeekText = document.createElement('span');
     dueWeekText.innerText = 'Due this week';
@@ -284,6 +296,16 @@ const initialize = () => {
 
 // DOM modification functions
 
+// PROJECTS
+// Delete project
+const _deleteProject = (e) => {
+    let doomedIndex = e.target.parentElement.parentElement.getAttribute('id');
+    projects.all.splice(doomedIndex, 1);
+    e.target.parentElement.parentElement.remove();
+}
+
+
+
 // TASKS
 // Delete task
 const _deleteTask = (e) => {
@@ -294,12 +316,11 @@ const _deleteTask = (e) => {
 
 
 
-// PROJECTS
-// Delete project
-const _deleteProject = (e) => {
-    let doomedIndex = e.target.parentElement.parentElement.getAttribute('id');
-    projects.all.splice(doomedIndex, 1);
-    e.target.parentElement.parentElement.remove();
+// TASK DISPLAY OPTIONS
+
+const setContentTitle = (e) => {
+    const contentTitle = document.querySelector('.contentTitle')
+    contentTitle.textContent = e.target.innerText
 }
 
 
@@ -312,4 +333,5 @@ export {
     initialize,
     createChecklistIcon,
     createDeleteIcon,
+    setContentTitle
 }
