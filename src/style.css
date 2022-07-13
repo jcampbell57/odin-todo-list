@@ -95,6 +95,9 @@ tbody>tr:hover {
     box-shadow: 2px 2px 6px rgb(0, 0, 0, 0.4);
 }
 
+.projectCloseContainer {
+    margin-left: auto;
+}
 
 
 
@@ -235,6 +238,10 @@ td {
     cursor: pointer;
 }
 
+.dateContainer {
+    margin-left: auto;
+}
+
 .checkboxContainer:active {
     filter: invert(18%) sepia(76%) saturate(2312%) hue-rotate(109deg) brightness(100%) contrast(107%);
 }
@@ -253,6 +260,9 @@ td img {
     color: #006400;
 }
 
+#complete {
+    text-decoration: line-through;
+}
 
 
 

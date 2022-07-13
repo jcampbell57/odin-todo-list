@@ -21,12 +21,10 @@ const newTaskInput = document.querySelector('#newTaskInput');
 const tasklist = document.querySelector('#taskList');
 const projectsMenu = document.querySelector('#projectsMenu');
 
-import checkboxBlank from './assets/checkbox-blank.svg';
-import checkboxMarked from './assets/checkbox-marked.svg';
-import deleteIcon from './assets/delete.svg';
-import editIcon from './assets/edit.svg';
 
+import { createCheckboxIcon } from './core';
 import { createChecklistIcon } from './core';
+import { createEditIcon } from './core';
 import { createDeleteIcon } from './core';
 import { setContentTitle } from './core';
 
@@ -132,20 +130,42 @@ const submitNewTaskForm = (e) => {
 // TASKS
 // Add single task to tasklist display
 const _displayTask = (task, i) => {
+    // create task container
     const newRow = document.createElement('tr');
     newRow.setAttribute('class', 'notComplete');
     newRow.setAttribute('id', `${i}`);
-    newRow.innerHTML = 
-        `<td class='checkboxContainer'><img src='${checkboxBlank}' class='icon'></td>
-        <td class='taskContainer'>${task}</td>
-        <td class='dateContainer'>no date</td>
-        <td class='editContainer'><img src='${editIcon}' class='icon'></td>`
+    
+    // add checkbox
+    const checkboxContainer = document.createElement('td');
+    checkboxContainer.setAttribute('class', 'checkboxContainer');
+    createCheckboxIcon(checkboxContainer);
+    newRow.appendChild(checkboxContainer);
+    
+    // add task
+    const taskContainer = document.createElement('td');
+    taskContainer.setAttribute('class', 'taskContainer');
+    taskContainer.innerText = `${task}`;
+    newRow.appendChild(taskContainer);
+
+    // add date
+    const dateContainer = document.createElement('td');
+    dateContainer.setAttribute('class', 'dateContainer');
+    dateContainer.innerText = 'no date'
+    newRow.appendChild(dateContainer);
+
+    // add edit button
+    const editContainer = document.createElement('td');
+    editContainer.setAttribute('class', 'editContainer');
+    createEditIcon(editContainer);
+    newRow.appendChild(editContainer);
+
     // add delete button
     const closeContainer = document.createElement('td');
     closeContainer.setAttribute('class', 'taskCloseContainer');
     createDeleteIcon(closeContainer);
     newRow.appendChild(closeContainer);
 
+    //append task to tasklist
     tasklist.appendChild(newRow);
 }
 

@@ -2,23 +2,50 @@
 const body = document.querySelector('body');
 
 import logoIcon from './assets/check-decagram-outline.svg';
+import checkboxBlank from './assets/checkbox-blank.svg';
+import checkboxMarked from './assets/checkbox-marked.svg';
 import checklist from './assets/checklist.svg';
 import calendarToday from './assets/calendar-today.svg';
 import calendarWeek from './assets/calendar-range.svg';
 import additionIcon from './assets/plus.svg';
 import githubIcon from './assets/GitHub-light-32px.png';
 import deleteIcon from './assets/delete.svg';
+import editIcon from './assets/edit.svg';
 
 import { projects } from './tasks';
 import { tasks } from './tasks';
 
 
 // Icon generators 
+const createCheckboxIcon = (td) => {
+    const checkboxIcon = document.createElement('img');
+    checkboxIcon.src = checkboxBlank;
+    checkboxIcon.setAttribute('class', 'icon');
+    checkboxIcon.addEventListener('click', (e) => _markComplete(e))
+    td.appendChild(checkboxIcon);
+} 
+
+const _createMarkedCheckboxIcon = (td) => {
+    const markedCheckboxIcon = document.createElement('img');
+    markedCheckboxIcon.src = checkboxMarked;
+    markedCheckboxIcon.setAttribute('class', 'icon');
+    markedCheckboxIcon.addEventListener('click', (e) => _markIncomplete(e))
+    td.appendChild(markedCheckboxIcon);
+} 
+
+
 const createChecklistIcon = (li) => {
     const checklistIcon = document.createElement('img');
     checklistIcon.src = checklist;
     checklistIcon.setAttribute('class', 'icon')
     li.appendChild(checklistIcon);
+}
+
+const createEditIcon = (td) => {
+    const newEditIcon = document.createElement('img');
+    newEditIcon.src = editIcon;
+    newEditIcon.setAttribute('class', 'icon')
+    td.appendChild(newEditIcon);
 }
 
 const createDeleteIcon = (container) => {
@@ -299,19 +326,23 @@ const initialize = () => {
 // PROJECTS
 // Delete project
 const _deleteProject = (e) => {
-    if (e.target.getAttribute('id') === 'deleteItem') {
+    // not sure why this if statement was here... leaving it in case bug pops up
+    // if (e.target.getAttribute('id') === 'deleteItem') {
         let doomedIndex = e.target.parentElement.parentElement.getAttribute('id');
         projects.all.splice(doomedIndex, 1);
         e.target.parentElement.parentElement.remove();
-    } else {
-        return
-    }
+    // } else {
+        // return
+    // }
     // console.log(e.target.getAttribute('id') === 'deleteItem')
 }
 
 
 
 // TASKS
+// Complete task = 
+
+
 // Delete task
 const _deleteTask = (e) => {
     let doomedIndex = e.target.parentElement.parentElement.getAttribute('id');
@@ -332,6 +363,21 @@ const setContentTitle = (e) => {
     }
 }
 
+const _markComplete = (e) => {
+    e.target.parentElement.parentElement.children[1].setAttribute('id', 'complete');
+    let checkboxContainer = e.target.parentElement
+    e.target.remove();
+    _createMarkedCheckboxIcon(checkboxContainer)
+}
+
+const _markIncomplete = (e) => {
+    e.target.parentElement.parentElement.children[1].setAttribute('id', '');
+    let checkboxContainer = e.target.parentElement
+    e.target.remove();
+    createCheckboxIcon(checkboxContainer)
+
+}
+
 
 
 
@@ -340,7 +386,9 @@ const setContentTitle = (e) => {
 
 export {
     initialize,
+    createCheckboxIcon,
     createChecklistIcon,
+    createEditIcon,
     createDeleteIcon,
     setContentTitle
 }
