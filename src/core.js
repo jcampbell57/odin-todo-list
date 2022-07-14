@@ -8,15 +8,16 @@ import checklist from './assets/checklist.svg';
 import calendarToday from './assets/calendar-today.svg';
 import calendarWeek from './assets/calendar-range.svg';
 import additionIcon from './assets/plus.svg';
-import githubIcon from './assets/GitHub-light-32px.png';
-import deleteIcon from './assets/delete.svg';
 import editIcon from './assets/edit.svg';
+import calendarEditIcon from './assets/calendar-edit.svg';
+import deleteIcon from './assets/delete.svg';
+import githubIcon from './assets/GitHub-light-32px.png';
 
 import { projects } from './tasks';
 import { tasks } from './tasks';
 
 
-// Icon generators 
+// Icon & button generators 
 const createCheckboxIcon = (td) => {
     const checkboxIcon = document.createElement('img');
     checkboxIcon.src = checkboxBlank;
@@ -44,8 +45,19 @@ const createChecklistIcon = (li) => {
 const createEditIcon = (td) => {
     const newEditIcon = document.createElement('img');
     newEditIcon.src = editIcon;
-    newEditIcon.setAttribute('class', 'icon')
+    newEditIcon.setAttribute('class', 'icon');
+    //event listener to open task card
+    newEditIcon.addEventListener('click', (e) => _showTaskCard(e))
     td.appendChild(newEditIcon);
+}
+
+const createCalendarEditIcon = (td) => {
+    const newCalendarEditIcon = document.createElement('img');
+    newCalendarEditIcon.src = calendarEditIcon;
+    newCalendarEditIcon.setAttribute('class', 'icon editDateIcon')
+    newCalendarEditIcon.addEventListener('click', (e) => {
+    })
+    td.appendChild(newCalendarEditIcon);
 }
 
 const createDeleteIcon = (container) => {
@@ -89,6 +101,25 @@ const _createWeekIcon = (li) => {
     li.appendChild(newWeekIcon);
 }
 
+const createAddButton = (container) => {
+    const addBtn = document.createElement('button');
+    addBtn.setAttribute('class', 'addBtn');
+    addBtn.innerText = "submit";
+    container.appendChild(addBtn);
+    
+}
+
+const createCancelButton = (container, i) => {
+    const cancelBtn = document.createElement('button');
+    cancelBtn.setAttribute('class', 'cancelBtn');
+    cancelBtn.setAttribute('id', `${i}`);
+    cancelBtn.innerText = "cancel";
+    if (container.getAttribute('class') === 'cardRow') {
+        cancelBtn.addEventListener('click', () => _hideTaskCard(i))
+    };
+    container.appendChild(cancelBtn);   
+}
+
 
 // Form generator
 const _createForm = (form) => {
@@ -118,16 +149,9 @@ const _createForm = (form) => {
     }
 
     // row two: submit and cancel buttons
-    const addBtn = document.createElement('button');
-    addBtn.setAttribute('class', 'addBtn');
-    addBtn.innerText = "add";
-    formRow2.appendChild(addBtn);
-
-    const cancelBtn = document.createElement('button');
-    cancelBtn.setAttribute('class', 'cancelBtn');
-    cancelBtn.innerText = "cancel";
-    formRow2.appendChild(cancelBtn);    
-
+    createAddButton(formRow2);
+    createCancelButton(formRow2);
+       
     form.appendChild(formRow1);
     form.appendChild(formRow2);
     form.appendChild(formRow3);
@@ -340,8 +364,42 @@ const _deleteProject = (e) => {
 
 
 // TASKS
-// Complete task = 
+// Complete task
+const _markComplete = (e) => {
+    e.target.parentElement.parentElement.children[1].setAttribute('id', 'complete');
+    let checkboxContainer = e.target.parentElement
+    e.target.remove();
+    _createMarkedCheckboxIcon(checkboxContainer)
+}
 
+// Incomplete task
+const _markIncomplete = (e) => {
+    e.target.parentElement.parentElement.children[1].setAttribute('id', '');
+    let checkboxContainer = e.target.parentElement
+    e.target.remove();
+    createCheckboxIcon(checkboxContainer)
+}
+
+// Show task card
+const _showTaskCard = (e) => {
+    const taskID = e.target.parentElement.parentElement.getAttribute('id');
+    // show task card
+    const taskCard = document.querySelector(`.card${taskID}`);
+    taskCard.setAttribute('id', `${taskID}`);
+    //hide task listing
+    const taskListing = document.querySelector(`.listing${taskID}`);
+    taskListing.setAttribute('id', 'hidden');
+}
+
+// Hide task card
+const _hideTaskCard = (i) => {
+    // show task listing
+    const taskListing = document.querySelector(`.listing${i}`);
+    taskListing.setAttribute('id', `${i}`);
+    // hide task card
+    const taskCard = document.querySelector(`.card${i}`);
+    taskCard.setAttribute('id', 'hidden');
+}
 
 // Delete task
 const _deleteTask = (e) => {
@@ -363,20 +421,6 @@ const setContentTitle = (e) => {
     }
 }
 
-const _markComplete = (e) => {
-    e.target.parentElement.parentElement.children[1].setAttribute('id', 'complete');
-    let checkboxContainer = e.target.parentElement
-    e.target.remove();
-    _createMarkedCheckboxIcon(checkboxContainer)
-}
-
-const _markIncomplete = (e) => {
-    e.target.parentElement.parentElement.children[1].setAttribute('id', '');
-    let checkboxContainer = e.target.parentElement
-    e.target.remove();
-    createCheckboxIcon(checkboxContainer)
-
-}
 
 
 
@@ -389,6 +433,9 @@ export {
     createCheckboxIcon,
     createChecklistIcon,
     createEditIcon,
+    createCalendarEditIcon,
     createDeleteIcon,
+    createAddButton,
+    createCancelButton,
     setContentTitle
 }

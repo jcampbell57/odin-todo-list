@@ -15,16 +15,18 @@ body {
     margin: 0;
 }
 
+
+
+
+
+/* Header styling */
+
 .logo {
     max-height: 90%;
     margin-right: 8px;
     /* whitesmoke color */
     filter: invert(100%) sepia(0%) saturate(7480%) hue-rotate(201deg) brightness(107%) contrast(92%);
 }
-
-
-
-
 
 header {
     grid-column: 1 / -1;
@@ -40,6 +42,8 @@ header {
 
 
 
+
+/* Menu styling */
 
 .menu {
     background-color: var(--menu-color);
@@ -78,7 +82,7 @@ tbody>tr {
     border-radius: 8px;    
 }
 
-tbody>tr:hover {
+tbody>tr.task:hover {
     background-color: rgb(245, 245, 245, 0.3);
     box-shadow: 2px 2px 6px rgb(0, 0, 0, 0.2);
 }
@@ -102,7 +106,8 @@ tbody>tr:hover {
 
 
 
-/* form styling */
+
+/* Form styling */
 
 #showBlock {
     display: block;
@@ -185,6 +190,9 @@ tbody>tr:hover {
 
 
 
+
+/* Content styling */
+
 .content {
     background-color: var(--background-color);
     color: var(--font-color);
@@ -208,10 +216,10 @@ tbody>tr:hover {
 
 
 
-/* table styling */
+/* Table styling */
 
 table {
-    /* border: 1px solid red; */
+    border: 1px solid red;
     width: 100%;
 }
 
@@ -231,14 +239,22 @@ td {
     /* justify-content: center; */
 }
 
-.checkboxContainer:hover,
-.dateContainer:hover,
-.editContainer:hover,
-#deleteItem:hover {
+/* NEW */
+img.icon:hover,
+.dateContainer:hover {
     cursor: pointer;
 }
+/* OLD */
+/* .checkboxContainer:hover,
+.dateContainer:hover,
+.editContainer:hover,
+.editDateContainer:hover,
+#deleteItem:hover {
+    cursor: pointer;
+} */
 
-.dateContainer {
+.dateContainer,
+img#deleteItem {
     margin-left: auto;
 }
 
@@ -246,9 +262,13 @@ td {
     filter: invert(18%) sepia(76%) saturate(2312%) hue-rotate(109deg) brightness(100%) contrast(107%);
 }
 
-.editContainer:active,
 #deleteItem:active {
     filter: invert(7%) sepia(51%) saturate(5951%) hue-rotate(350deg) brightness(140%) contrast(136%);
+}
+
+.editContainer:active,
+img.editDateIcon:active {
+    filter: invert(60%) sepia(34%) saturate(3621%) hue-rotate(359deg) brightness(100%) contrast(109%);
 }
 
 /* .taskContainer {
@@ -265,6 +285,10 @@ td img {
 }
 
 
+
+
+
+/* Footer styling */
 
 footer {
     grid-column: 1 / -1;
