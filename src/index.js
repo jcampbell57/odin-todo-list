@@ -1,8 +1,9 @@
 // Page initialization
-// import initialize from './core'
-import { initialize } from './core';
+import initialize from './core'
+// import { initialize } from './core';
 import './style.css';
 
+// console.log (initialize)
 initialize();
 
 
@@ -22,14 +23,14 @@ const tasklist = document.querySelector('#taskList');
 const projectsMenu = document.querySelector('#projectsMenu');
 
 
-import { createCheckboxIcon } from './core';
-import { createChecklistIcon } from './core';
-import { createEditIcon } from './core';
-import { createCalendarEditIcon } from './core';
-import { createDeleteIcon } from './core';
-import { createAddButton } from './core';
-import { createCancelButton } from './core';
-import { setContentTitle } from './core';
+import { createCheckboxIcon } from './interactive';
+import { createChecklistIcon } from './interactive';
+import { createEditIcon } from './interactive';
+import { createCalendarEditIcon } from './interactive';
+import { createDeleteIcon } from './interactive';
+import { createAddButton } from './interactive';
+import { createCancelButton } from './interactive';
+import { setContentTitle } from './interactive';
 
 
 
