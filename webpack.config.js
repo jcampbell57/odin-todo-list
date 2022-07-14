@@ -11,6 +11,7 @@ module.exports = {
     index: './src/index.js',
     core: './src/core.js',
     tasks: './src/tasks.js',
+    interactive: './src/interactive.js'
   },
   devtool: 'inline-source-map',
   plugins: [

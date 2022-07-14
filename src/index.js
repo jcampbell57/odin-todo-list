@@ -202,6 +202,7 @@ const _displayTask = (task, i) => {
     const newCard = document.createElement('table');
     newCard.setAttribute('class', 'incomplete menuOptions');
     newCard.setAttribute('id', `${i}`);
+    
     // Create delete button
     createDeleteContainer(newCard);
 
@@ -212,58 +213,55 @@ const _displayTask = (task, i) => {
             <th class='taskContainer'></th>
             <th class='dateContainer'></th>
             <th class='editContainer'></th>
-            <th class='taskCloseContainer'></th>
         </tr>`
     
     // Create tbody
     const taskCard = document.createElement('tbody');
     taskCard.setAttribute('id', 'taskCard');
     
+
     // First row
     const cardRow1 = document.createElement('tr');
-    
-    // add checkbox
-    createCheckboxContainer(cardRow1);
-    
+    cardRow1.setAttribute('class', 'cardRow1')
     // add task name input
     const taskInputContainer = document.createElement('td');
     taskInputContainer.setAttribute('class', 'taskInputContainer');
     taskInputContainer.innerHTML = `<input type='text' id='newTaskInput' name='newTaskInput'></input>`;
     cardRow1.appendChild(taskInputContainer);
-
     // add date
     const editDateContainer = document.createElement('td');
     editDateContainer.setAttribute('class', 'editDateContainer');
     createDateContainer(editDateContainer);
     cardRow1.appendChild(editDateContainer);
-
     // add calendar edit button
     createCalendarEditIcon(cardRow1);
 
-    // // add delete button
-    // createDeleteContainer(cardRow1);
-    
-    
-    // Second row (project selection)
+
+    // Second row 
     const cardRow2 = document.createElement('tr');
+    cardRow2.setAttribute('class', 'cardRow2')
+    // add checkbox
+    // createCheckboxContainer(cardRow2);
+    // project input
     const projectInputContainer = document.createElement('td');
     projectInputContainer.setAttribute('class', 'projectInputContainer');
     projectInputContainer.innerHTML = `<input type='dropdown' id='newTaskInput' name='newTaskInput'></input>`;
     cardRow2.appendChild(projectInputContainer);
-
-
-    // Third row (priority selection, submit/cancel buttons)
-    const cardRow3 = document.createElement('tr');
-    cardRow3.setAttribute('class', 'cardRow')
+    // priority input
     const priorityInputContainer = document.createElement('td');
     priorityInputContainer.setAttribute('class', 'priorityInputContainer');
     priorityInputContainer.innerHTML = `<input type='dropdown' id='newTaskInput' name='newTaskInput'></input>`;
     cardRow2.appendChild(priorityInputContainer);
+
+
+    // Third row 
+    const cardRow3 = document.createElement('tr');
+    cardRow3.setAttribute('class', 'cardRow3')
     createAddButton(cardRow3);
     createCancelButton(cardRow3, `${i}`);
 
 
-    // append task to tasklist
+    // append task card to tasklist
     taskCard.appendChild(cardRow1);
     taskCard.appendChild(cardRow2);
     taskCard.appendChild(cardRow3);
