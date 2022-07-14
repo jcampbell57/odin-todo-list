@@ -1,16 +1,20 @@
-// Page initialization
-import initialize from './core'
-// import { initialize } from './core';
-import './style.css';
-
-// console.log (initialize)
-initialize();
-
 
 import { projects } from './tasks';
 import { tasks } from './tasks';
 
 
+// Page initialization
+// import { initialize } from './core';
+import initialize from './core'
+import './style.css';
+
+initialize();
+
+
+
+
+
+// DOM elements
 const addProjectBtn = document.querySelector('.addProjectBtn');
 const addProjectForm = document.querySelector('.addProjectForm')
 const newProjectInput = document.querySelector('#newProjectInput');
@@ -22,6 +26,11 @@ const newTaskInput = document.querySelector('#newTaskInput');
 const tasklist = document.querySelector('#taskList');
 const projectsMenu = document.querySelector('#projectsMenu');
 
+
+
+
+
+// DOM modification functions
 
 import { createCheckboxIcon } from './interactive';
 import { createChecklistIcon } from './interactive';
@@ -36,11 +45,7 @@ import { setContentTitle } from './interactive';
 
 
 
-// DOM modification functions
-
-
-
-// FORMS
+// PROJECT FORM
 // Show/hide new project form
 const _showAddProjectForm = () => {
     if (addTaskForm.getAttribute('id') === 'showBlock') {
@@ -86,6 +91,9 @@ const _submitNewProjectForm = (e) => {
 
 
 
+
+
+// TASK FORM
 // Show/hide new task form
 const _showAddTaskForm = () => {
     if (addProjectForm.getAttribute('id') === 'showBlock') {
@@ -105,7 +113,7 @@ const hideAddTaskForm = () => {
 // Verify new task form submission
 const newTaskErrorContainer = document.querySelector('.newTaskErrorContainer');
 
-const submitNewTaskForm = (e) => {
+const _submitNewTaskForm = (e) => {
     // verify or cancel submission
     e.preventDefault();
 
@@ -350,4 +358,4 @@ const _displayProjects = () => {
 addProjectBtn.addEventListener('click', _showAddProjectForm);
 addProjectForm.addEventListener('submit', (e) => _submitNewProjectForm(e));
 addTaskBtn.addEventListener('click', _showAddTaskForm);
-addTaskForm.addEventListener('submit', (e) => submitNewTaskForm(e));
+addTaskForm.addEventListener('submit', (e) => _submitNewTaskForm(e));
