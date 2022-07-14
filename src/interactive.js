@@ -125,10 +125,10 @@ const createCheckboxContainer = (tr) => {
     tr.appendChild(checkboxContainer);
 }
 
-const createDateContainer = (tr) => {
+const createDateContainer = (tr, date) => {
     const dateContainer = document.createElement('td');
     dateContainer.setAttribute('class', 'dateContainer');
-    dateContainer.innerText = 'no date'
+    dateContainer.innerText = `${date}`
     tr.appendChild(dateContainer);
 }
 
@@ -265,11 +265,11 @@ const displayTasks = () => {
         // add task
         const taskContainer = document.createElement('td');
         taskContainer.setAttribute('class', 'taskContainer');
-        taskContainer.innerText = `${task}`;
+        taskContainer.innerText = `${task.task}`;
         newListing.appendChild(taskContainer);
 
         // add date
-        createDateContainer(newListing);
+        createDateContainer(newListing, task.date);
 
         // add edit button
         const editContainer = document.createElement('td');
@@ -285,7 +285,7 @@ const displayTasks = () => {
     }
     
 
-    // Create and hide task car in tasklist display
+    // Create and hide task card in tasklist display
     const _createTaskCard = (task, i) => {
         // CREATE TASK CARD
         const newCardContainer = document.createElement('tr')
@@ -319,12 +319,12 @@ const displayTasks = () => {
         // add task name input
         const taskInputContainer = document.createElement('td');
         taskInputContainer.setAttribute('class', 'taskInputContainer');
-        taskInputContainer.innerHTML = `<input type='text' id='newTaskInput' name='newTaskInput'></input>`;
+        taskInputContainer.innerHTML = `<input type='text' id='newTaskInput' name='newTaskInput' value='${task.task}'></input>`;
         cardRow1.appendChild(taskInputContainer);
         // add date
         const editDateContainer = document.createElement('td');
         editDateContainer.setAttribute('class', 'editDateContainer');
-        createDateContainer(editDateContainer);
+        createDateContainer(editDateContainer, task.date);
         cardRow1.appendChild(editDateContainer);
         // add calendar edit button
         createCalendarEditIcon(cardRow1);
@@ -343,7 +343,7 @@ const displayTasks = () => {
         // priority input
         const priorityInputContainer = document.createElement('td');
         priorityInputContainer.setAttribute('class', 'priorityInputContainer');
-        priorityInputContainer.innerHTML = `<input type='dropdown' id='newTaskInput' name='newTaskInput'></input>`;
+        priorityInputContainer.innerHTML = `<input type='dropdown' id='newTaskInput' name='newTaskInput' value='${task.priority}'></input>`;
         cardRow2.appendChild(priorityInputContainer);
 
 

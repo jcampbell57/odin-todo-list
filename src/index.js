@@ -115,7 +115,12 @@ const _submitNewTaskForm = (e) => {
         return;
     } else if (e.submitter.getAttribute('class') === 'addBtn') {
         // submit new Task
-        const newTask = newTaskInput.value
+        const newTask = {
+            task: newTaskInput.value,
+            date: 'no date',
+            project: '',
+            priority: 'Medium',
+        }
         _submitTask(newTask);
     }
     _hideAddTaskForm();
