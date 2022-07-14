@@ -229,15 +229,9 @@ const displayProjects = () => {
 
 // Delete project
 const _deleteProject = (e) => {
-    // not sure why this if statement was here... leaving it in case bug pops up
-    // if (e.target.getAttribute('id') === 'deleteItem') {
-        let doomedIndex = e.target.parentElement.parentElement.getAttribute('id');
-        projects.all.splice(doomedIndex, 1);
-        e.target.parentElement.parentElement.remove();
-    // } else {
-        // return
-    // }
-    // console.log(e.target.getAttribute('id') === 'deleteItem')
+    let doomedIndex = e.target.parentElement.parentElement.getAttribute('id');
+    projects.all.splice(doomedIndex, 1);
+    displayProjects();
 }
 
 
@@ -428,7 +422,7 @@ const _hideTaskCard = (i) => {
 const _deleteTask = (e) => {
     let doomedIndex = e.target.parentElement.parentElement.getAttribute('id');
     tasks.all.splice(doomedIndex, 1);
-    e.target.parentElement.parentElement.remove();
+    displayTasks();
 }
 
 
