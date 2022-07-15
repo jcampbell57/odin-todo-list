@@ -519,16 +519,18 @@ const displayTasks = () => {
 // Complete task
 const _markComplete = (e) => {
     const taskID = e.target.getAttribute('id');
-    //mark task complete
-    tasks.all[taskID].complete = 'true'
+    if (tasks.all[taskID].complete === 'true') {
+        //mark task incomplete
+        tasks.all[taskID].complete = 'false'
+        console.log(tasks.all[taskID])
+    } else if (tasks.all[taskID].complete === 'false') {
+        //mark task complete
+        tasks.all[taskID].complete = 'true'
+        console.log(tasks.all[taskID])
+    } else {
+        console.log('this is strange')
+    }
     displayTasks();
-    // const taskContainer = document.querySelector(`.taskContainer${taskID}`)
-    // console.log(    tasks.all[taskID].complete)
-    // // strikethrough text
-    // taskContainer.setAttribute('id', 'complete');
-    // let checkboxContainer = e.target.parentElement
-    // e.target.remove();
-    // _createMarkedCheckboxIcon(checkboxContainer)
 }
 
 // Incomplete task
@@ -567,8 +569,6 @@ const _submitTaskCard = (e) => {
 
     // Refresh tasklist
     displayTasks();
-    // console.log(tasks.all[taskID])
-    // console.log(document.querySelector(`.taskCardPriority${taskID}`))
 }
 
 // Hide task card
