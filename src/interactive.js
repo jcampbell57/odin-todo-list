@@ -14,10 +14,15 @@ import { tasks } from './tasks';
 
 
 // Icon & button generators 
-const createCheckboxIcon = (td) => {
+const createCheckboxIcon = (td, task, i) => {
     const checkboxIcon = document.createElement('img');
-    checkboxIcon.src = checkboxBlank;
+    if (task.complete === 'true') {
+        checkboxIcon.src = checkboxMarked
+    } else {
+        checkboxIcon.src = checkboxBlank;
+    }
     checkboxIcon.setAttribute('class', 'icon');
+    checkboxIcon.setAttribute('id', `${i}`);
     checkboxIcon.addEventListener('click', (e) => _markComplete(e))
     td.appendChild(checkboxIcon);
 } 
@@ -123,10 +128,10 @@ const createCancelButton = (container, i) => {
 
 
 // Container AND icon generators (For task listing and task card)
-const createCheckboxContainer = (tr) => {
+const createCheckboxContainer = (tr, task, i) => {
     const checkboxContainer = document.createElement('td');
     checkboxContainer.setAttribute('class', 'checkboxContainer');
-    createCheckboxIcon(checkboxContainer);
+    createCheckboxIcon(checkboxContainer, task, i);
     tr.appendChild(checkboxContainer);
 }
 
@@ -266,8 +271,11 @@ const displayTasks = () => {
     const _createTaskListing = (task, i) => {
         // create task container
         const newListing = document.createElement('tr');
-        newListing.setAttribute('class', `incomplete task listing${i}`);
-        // add complete/incomplete filter here to assign class
+        newListing.setAttribute('class', `task listing${i}`);
+        // complete filter to assign class
+        if (task.complete === 'true') {
+            newListing.classList.add('complete')
+        }
         // assign priority class
         if (task.priority === 'high') {
             newListing.classList.add('highPriority');
@@ -280,11 +288,15 @@ const displayTasks = () => {
         newListing.setAttribute('id', `${i}`);
         
         // add checkbox
-        createCheckboxContainer(newListing);
+        createCheckboxContainer(newListing, task, i);
         
         // add task
         const taskContainer = document.createElement('td');
-        taskContainer.setAttribute('class', 'taskContainer');
+        taskContainer.setAttribute('class', `taskContainer${i}`);
+        // complete filter for strikethrough
+        if (task.complete === 'true') {
+            taskContainer.setAttribute('id', 'complete');
+        }
         taskContainer.innerText = `${task.task}`;
         newListing.appendChild(taskContainer);
 
@@ -335,6 +347,11 @@ const displayTasks = () => {
         const newCardContainer = document.createElement('tr')
         newCardContainer.setAttribute('class', `incomplete task card${i}`);
         newCardContainer.setAttribute('id', `hidden`);
+
+        // complete filter to assign class
+        if (task.complete === 'true') {
+            newCardContainer.classList.add('complete')
+        }       
 
         // assign priority class
         if (task.priority === 'high') {
@@ -501,10 +518,17 @@ const displayTasks = () => {
 
 // Complete task
 const _markComplete = (e) => {
-    e.target.parentElement.parentElement.children[1].setAttribute('id', 'complete');
-    let checkboxContainer = e.target.parentElement
-    e.target.remove();
-    _createMarkedCheckboxIcon(checkboxContainer)
+    const taskID = e.target.getAttribute('id');
+    //mark task complete
+    tasks.all[taskID].complete = 'true'
+    displayTasks();
+    // const taskContainer = document.querySelector(`.taskContainer${taskID}`)
+    // console.log(    tasks.all[taskID].complete)
+    // // strikethrough text
+    // taskContainer.setAttribute('id', 'complete');
+    // let checkboxContainer = e.target.parentElement
+    // e.target.remove();
+    // _createMarkedCheckboxIcon(checkboxContainer)
 }
 
 // Incomplete task
