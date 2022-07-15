@@ -125,7 +125,7 @@ const _createCancelButton = (container, i) => {
     cancelBtn.setAttribute('id', `${i}`);
     cancelBtn.innerText = "cancel";
     if (container.getAttribute('class') === 'cardRow3') {
-        cancelBtn.addEventListener('click', () => _hideTaskCard(i))
+        cancelBtn.addEventListener('click', () => displayTasks(i))
     };
     container.appendChild(cancelBtn);   
 }
@@ -272,8 +272,10 @@ const _deleteProject = (e) => {
 
     // If doomed project was selected, revert tasklist to all tasks
     const contentTitle = document.querySelector('.contentTitle');
+    const allTasksClassList = document.querySelector('.allTasks').classList
     if (contentTitle.textContent === doomedName) {
         contentTitle.textContent = 'All tasks' 
+        allTasksClassList.add('selected')
         displayTasks();
     }
 
@@ -588,16 +590,6 @@ const _submitTaskCard = (e) => {
 
     // Refresh tasklist
     displayTasks();
-}
-
-// Hide task card
-const _hideTaskCard = (i) => {
-    // show task listing
-    const taskListing = document.querySelector(`.listing${i}`);
-    taskListing.setAttribute('id', `${i}`);
-    // hide task card
-    const taskCard = document.querySelector(`.card${i}`);
-    taskCard.setAttribute('id', 'hidden');
 }
 
 // Delete task

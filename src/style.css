@@ -265,14 +265,6 @@ img.icon:hover,
 .dateContainer:hover {
     cursor: pointer;
 }
-/* OLD */
-/* .checkboxContainer:hover,
-.dateContainer:hover,
-.editContainer:hover,
-.editDateContainer:hover,
-#deleteItem:hover {
-    cursor: pointer;
-} */
 
 .dateContainer,
 img.deleteItem {
