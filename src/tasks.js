@@ -24,6 +24,7 @@ class projects {
 
     constructor (projectName) {
         this.name = projectName
+        this.selected = selected
     }
 
 

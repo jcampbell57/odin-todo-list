@@ -5,13 +5,11 @@ import logoIcon from './assets/check-decagram-outline.svg';
 import githubIcon from './assets/GitHub-light-32px.png';
 
 import { createChecklistIcon } from './interactive';
-import { setContentTitle } from './interactive';
+import { setTaskFilter } from './interactive';
 import { createForm } from './interactive';
 import { createWeekIcon } from './interactive';
 import { createTodayIcon } from './interactive';
 import { createAdditionIcon } from './interactive';
-
-import { displayTasks } from './interactive';
 
 
 // Initialization functions
@@ -42,10 +40,10 @@ const _createMenu = () => {
     menuOptions.setAttribute('class', 'menuOptions');
     
     const allTasks = document.createElement('li');
-    allTasks.setAttribute('class', 'allTasks');
+    allTasks.setAttribute('class', 'allTasks selected');
     allTasks.addEventListener('click', (e) => {
-        setContentTitle(e)
-        displayTasks();
+        setTaskFilter(allTasks, e)
+        allTasks.classList.add('selected')
     })
     createChecklistIcon(allTasks);
     const allTasksText = document.createElement('span');
@@ -56,8 +54,8 @@ const _createMenu = () => {
     const dueToday = document.createElement('li');
     dueToday.setAttribute('class', 'dueToday');
     dueToday.addEventListener('click', (e) => {
-        displayTasks();
-        setContentTitle(e)
+        setTaskFilter(dueToday, e)
+        dueToday.classList.add('selected')
     })
     createTodayIcon(dueToday);
     const dueTodayText = document.createElement('span');
@@ -68,8 +66,8 @@ const _createMenu = () => {
     const dueWeek = document.createElement('li');
     dueWeek.setAttribute('class', 'dueWeek');
     dueWeek.addEventListener('click', (e) => {
-        displayTasks();
-        setContentTitle(e)
+        setTaskFilter(dueWeek, e)
+        dueWeek.classList.add('selected')
     })
     createWeekIcon(dueWeek);
     const dueWeekText = document.createElement('span');

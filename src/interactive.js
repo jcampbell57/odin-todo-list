@@ -14,7 +14,7 @@ import { tasks } from './tasks';
 
 
 // Icon & button generators 
-const createCheckboxIcon = (td, task, i) => {
+const _createCheckboxIcon = (td, task, i) => {
     const checkboxIcon = document.createElement('img');
     if (task.complete === 'true') {
         checkboxIcon.src = checkboxMarked
@@ -42,7 +42,7 @@ const createChecklistIcon = (li) => {
     li.appendChild(checklistIcon);
 }
 
-const createEditIcon = (td) => {
+const _createEditIcon = (td) => {
     const newEditIcon = document.createElement('img');
     newEditIcon.src = editIcon;
     newEditIcon.setAttribute('class', 'icon');
@@ -51,7 +51,7 @@ const createEditIcon = (td) => {
     td.appendChild(newEditIcon);
 }
 
-const createCalendarEditIcon = (td) => {
+const _createCalendarEditIcon = (td) => {
     const newCalendarEditIcon = document.createElement('img');
     newCalendarEditIcon.src = calendarEditIcon;
     newCalendarEditIcon.setAttribute('class', 'icon editDateIcon')
@@ -60,7 +60,7 @@ const createCalendarEditIcon = (td) => {
     td.appendChild(newCalendarEditIcon);
 }
 
-const createDeleteIcon = (container, i) => {
+const _createDeleteIcon = (container, i) => {
     // create image and assign attributes
     const newDeleteIcon = document.createElement('img');
     newDeleteIcon.src = deleteIcon;
@@ -86,6 +86,7 @@ const createDeleteIcon = (container, i) => {
             trashIcon.classList.add('hidden')
         })    
     } else {
+        console.log(container)
         console.log('this is strange');
     }
     // append to container
@@ -113,8 +114,7 @@ const createWeekIcon = (li) => {
     li.appendChild(newWeekIcon);
 }
 
-const createAddButton = (container, i) => {
-    // console.log(container)
+const _createAddButton = (container, i) => {
     const addBtn = document.createElement('button');
     addBtn.setAttribute('class', 'addBtn');
     addBtn.innerText = "submit";
@@ -126,7 +126,7 @@ const createAddButton = (container, i) => {
     container.appendChild(addBtn);
 }
 
-const createCancelButton = (container, i) => {
+const _createCancelButton = (container, i) => {
     const cancelBtn = document.createElement('button');
     cancelBtn.setAttribute('class', 'cancelBtn');
     cancelBtn.setAttribute('id', `${i}`);
@@ -143,7 +143,7 @@ const createCancelButton = (container, i) => {
 const createCheckboxContainer = (tr, task, i) => {
     const checkboxContainer = document.createElement('td');
     checkboxContainer.setAttribute('class', 'checkboxContainer');
-    createCheckboxIcon(checkboxContainer, task, i);
+    _createCheckboxIcon(checkboxContainer, task, i);
     tr.appendChild(checkboxContainer);
 }
 
@@ -161,7 +161,7 @@ const createDateContainer = (tr, task, i) => {
 const createDeleteContainer = (tr) => {
     const closeContainer = document.createElement('td');
     closeContainer.setAttribute('class', 'taskCloseContainer');
-    createDeleteIcon(closeContainer);
+    _createDeleteIcon(closeContainer);
     tr.appendChild(closeContainer);
 }
 
@@ -195,8 +195,8 @@ const createForm = (form) => {
     }
 
     // row two: submit and cancel buttons
-    createAddButton(formRow2);
-    createCancelButton(formRow2);
+    _createAddButton(formRow2);
+    _createCancelButton(formRow2);
        
     form.appendChild(formRow1);
     form.appendChild(formRow2);
@@ -224,20 +224,23 @@ const displayProjects = () => {
     // Add single project to menu (called below)
     const _displayProject = (newProj, i) => {
         const newProjectContainer = document.createElement('li');
-        newProjectContainer.setAttribute('class', `project`)
+        newProjectContainer.classList.add(`project`)
         newProjectContainer.setAttribute('id', `${i}`)
-        // filter tasklist by project     
+        // assign class to selected project 
+        if (newProj.selected === 'true') {
+            newProjectContainer.classList.add('selected')
+        }
+
+        // event listener to filter tasklist by project name     
         newProjectContainer.addEventListener('click', (e) => {
-            // console.log(e.target)
-            setContentTitle(e)
-            displayTasks();
+            setTaskFilter(newProjectContainer)
         })
     
         createChecklistIcon(newProjectContainer);
         const newProjectText = document.createElement('span');
-        newProjectText.textContent = newProj;
+        newProjectText.textContent = newProj.name;
         newProjectContainer.appendChild(newProjectText)
-        createDeleteIcon(newProjectContainer, i);
+        _createDeleteIcon(newProjectContainer, i);
         projectsMenu.appendChild(newProjectContainer);
     } 
 
@@ -253,7 +256,7 @@ const displayProjects = () => {
 
 // Delete project
 const _deleteProject = (e) => {
-    console.log(e.target);
+    // console.log(e.target);
     let doomedIndex = e.target.parentElement.parentElement.getAttribute('id');
     projects.all.splice(doomedIndex, 1);
     displayProjects();
@@ -316,7 +319,7 @@ const displayTasks = () => {
         // add edit button
         const editContainer = document.createElement('td');
         editContainer.setAttribute('class', 'editContainer');
-        createEditIcon(editContainer);
+        _createEditIcon(editContainer);
         newListing.appendChild(editContainer);
 
         // add delete button
@@ -329,7 +332,6 @@ const displayTasks = () => {
 
         // set display filter
         const filter = document.querySelector('.contentTitle').textContent
-
         // date filters
         if (filter === 'All tasks') {
             return;
@@ -341,7 +343,7 @@ const displayTasks = () => {
 
         // project filter
         projects.all.forEach(project => {
-            if (project === filter) {
+            if (project.name === filter) {
                 if (task.project !== filter) {
                     newListing.classList.add('hidden');
                 };    
@@ -407,7 +409,7 @@ const displayTasks = () => {
         createDateContainer(editDateContainer, task, i);
         cardRow1.appendChild(editDateContainer);
         // add calendar edit button
-        createCalendarEditIcon(cardRow1);
+        _createCalendarEditIcon(cardRow1);
 
 
 
@@ -438,9 +440,9 @@ const displayTasks = () => {
         // remaining options generated from projects array
         projects.all.forEach(project => {
             const projectOption = document.createElement('option')
-            projectOption.value = `${project}`
-            projectOption.text = `${project}`
-            if (task.project === project) {
+            projectOption.value = `${project.name}`
+            projectOption.text = `${project.name}`
+            if (task.project === project.name) {
                 projectOption.selected = true;
             }
             projectDropdown.appendChild(projectOption)
@@ -494,8 +496,8 @@ const displayTasks = () => {
         // Third row 
         const cardRow3 = document.createElement('tr');
         cardRow3.setAttribute('class', 'cardRow3')
-        createAddButton(cardRow3, i);
-        createCancelButton(cardRow3, `${i}`);
+        _createAddButton(cardRow3, i);
+        _createCancelButton(cardRow3, `${i}`);
 
 
 
@@ -548,7 +550,7 @@ const _markIncomplete = (e) => {
     e.target.parentElement.parentElement.children[1].setAttribute('id', '');
     let checkboxContainer = e.target.parentElement
     e.target.remove();
-    createCheckboxIcon(checkboxContainer)
+    _createCheckboxIcon(checkboxContainer)
 }
 
 // Show task card
@@ -604,13 +606,40 @@ const _deleteTask = (e) => {
 
 // TASK DISPLAY OPTIONS
 
-const setContentTitle = (e) => {
-    if (e.target.getAttribute('id') !== 'deleteItem') {
-        const contentTitle = document.querySelector('.contentTitle')
-        contentTitle.textContent = e.target.innerText
-        } else {
-        return
+// how is this being skipped when clicking on delete icon??
+const setTaskFilter = (container, e) => {   
+
+    // set content title (filter)
+    const contentTitle = document.querySelector('.contentTitle')
+    contentTitle.textContent = container.innerText
+
+    // deselect any menu filter 
+    const allTasksClassList = document.querySelector('.allTasks').classList
+    const dueTodayClassList = document.querySelector('.dueToday').classList
+    const dueWeekClassList = document.querySelector('.dueWeek').classList
+    if (allTasksClassList.contains('selected')) {
+        allTasksClassList.remove('selected')
+    } if (dueTodayClassList.contains('selected')) {
+        dueTodayClassList.remove('selected')
+    } if (dueWeekClassList.contains('selected')) {
+        dueWeekClassList.remove('selected')
+    } 
+
+    // deselect all projects
+    projects.all.forEach(project => {
+        if (project.selected === 'true') {
+            project.selected = 'false'
+        }
+    }) 
+
+    // Select project if one is chosen (main menu selection is handled in event listener)
+    if (container.getAttribute('class') === 'project') {
+        var selectedProjectId = container.getAttribute('id');
+        projects.all[selectedProjectId].selected = 'true'
     }
+
+    displayProjects();    
+    displayTasks();
 }
 
 
@@ -620,23 +649,15 @@ const setContentTitle = (e) => {
 export {
     // Used in index & core
 
-
     // Used only in core
     createForm,
     createChecklistIcon,
     createWeekIcon,
     createTodayIcon,
     createAdditionIcon,
-    setContentTitle,
+    setTaskFilter,
 
     // Used only in index
-    createCheckboxIcon,
-    createEditIcon,
-    createCalendarEditIcon,
-    createDeleteIcon,
-    createAddButton,
-    createCancelButton,
-
     displayProjects,
     displayTasks,
 }

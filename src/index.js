@@ -71,7 +71,11 @@ const _submitNewProjectForm = (e) => {
         return;
     } else if (e.submitter.getAttribute('class') === 'addBtn') {
         // submit new project
-        const newProj = newProjectInput.value
+        const newProj = {
+            name: newProjectInput.value,
+            selected: 'false',
+        }
+        newProjectInput.value
         submitProj(newProj);
     }
     _hideAddProjectForm();
