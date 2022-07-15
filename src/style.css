@@ -99,10 +99,6 @@ tbody>tr.task:hover {
     box-shadow: 2px 2px 6px rgb(0, 0, 0, 0.4);
 }
 
-.projectCloseContainer {
-    margin-left: auto;
-}
-
 
 
 
@@ -234,19 +230,19 @@ tbody>tr {
 }
 
 .highPriority {
-    border-left: 6px solid darkred;
+    border-left: 5px solid red;
 }
 
 .mediumPriority {
-    border-left: 6px solid darkorange;
+    border-left: 5px solid darkorange;
 }
 
 .lowPriority {
-    border-left: 6px solid darkgreen;
+    border-left: 5px solid green;
 }
 
 .complete {
-    border-left: 6px solid var(--font-color);
+    border-left: 5px solid var(--font-color);
 }
 
 .hidden {

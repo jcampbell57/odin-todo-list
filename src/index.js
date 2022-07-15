@@ -54,6 +54,8 @@ const _submitNewProjectForm = (e) => {
     const submitProj = (newProj) => {
         projects.all.push(newProj);
         displayProjects();
+        // so you can add tasks to new project:
+        displayTasks();
     }
     
     const _hideAddProjectForm = () => {
@@ -114,11 +116,19 @@ const _submitNewTaskForm = (e) => {
         newTaskErrorContainer.setAttribute('id', 'showBlock');
         return;
     } else if (e.submitter.getAttribute('class') === 'addBtn') {
+        // assign project
+        var newTaskProject = ''
+        if (document.querySelector('.contentTitle').textContent !== 'All tasks' ||
+        document.querySelector('.contentTitle').textContent !== 'Due today' ||
+        document.querySelector('.contentTitle').textContent !== 'Due this week') {
+            newTaskProject = document.querySelector('.contentTitle').textContent
+        } 
+        
         // submit new Task
         const newTask = {
             task: newTaskInput.value,
-            date: '2022-07-27',
-            project: 'Seattle',
+            date: ``,
+            project: `${newTaskProject}`,
             priority: 'medium',
             complete: 'false',
         }

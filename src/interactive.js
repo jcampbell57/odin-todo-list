@@ -60,7 +60,7 @@ const createCalendarEditIcon = (td) => {
     td.appendChild(newCalendarEditIcon);
 }
 
-const createDeleteIcon = (container) => {
+const createDeleteIcon = (container, i) => {
     // create image and assign attributes
     const newDeleteIcon = document.createElement('img');
     newDeleteIcon.src = deleteIcon;
@@ -70,9 +70,21 @@ const createDeleteIcon = (container) => {
     if (container.getAttribute('class') === 'taskCloseContainer') {
         // Event listener to delete task
         newDeleteIcon.addEventListener('click', (e) => _deleteTask(e))
-    } else if (container.getAttribute('class') === 'projectCloseContainer') {
+    } else if (container.getAttribute('class') === 'project') {
         // Event listener to delete project
-        newDeleteIcon.addEventListener('click', (e) => _deleteProject(e))
+        newDeleteIcon.classList.add(`deleteProject${i}`)        
+        newDeleteIcon.classList.add(`hidden`)        
+        newDeleteIcon.addEventListener('click', (e) => _deleteProject(e, i))        
+        // display trash icon on hover
+        container.addEventListener('mouseenter', () => {
+            const trashIcon = document.querySelector(`.deleteProject${i}`)
+            trashIcon.classList.remove('hidden')
+        })
+        // hide trash icon 
+        container.addEventListener('mouseleave', () => {
+            const trashIcon = document.querySelector(`.deleteProject${i}`)
+            trashIcon.classList.add('hidden')
+        })    
     } else {
         console.log('this is strange');
     }
@@ -214,21 +226,18 @@ const displayProjects = () => {
         const newProjectContainer = document.createElement('li');
         newProjectContainer.setAttribute('class', `project`)
         newProjectContainer.setAttribute('id', `${i}`)
+        // filter tasklist by project     
         newProjectContainer.addEventListener('click', (e) => {
             // console.log(e.target)
             setContentTitle(e)
             displayTasks();
         })
+    
         createChecklistIcon(newProjectContainer);
         const newProjectText = document.createElement('span');
         newProjectText.textContent = newProj;
         newProjectContainer.appendChild(newProjectText)
-        // extra wrapper so event listeners work on both tasks and projects
-        const closeContainerDiv = document.createElement('div');
-        closeContainerDiv.setAttribute('class', 'projectCloseContainer')
-        createDeleteIcon(closeContainerDiv);    
-        // createDeleteIcon(newProjectContainer);
-        newProjectContainer.appendChild(closeContainerDiv)
+        createDeleteIcon(newProjectContainer, i);
         projectsMenu.appendChild(newProjectContainer);
     } 
 
@@ -244,6 +253,7 @@ const displayProjects = () => {
 
 // Delete project
 const _deleteProject = (e) => {
+    console.log(e.target);
     let doomedIndex = e.target.parentElement.parentElement.getAttribute('id');
     projects.all.splice(doomedIndex, 1);
     displayProjects();
@@ -345,7 +355,7 @@ const displayTasks = () => {
     const _createTaskCard = (task, i) => {
         // CREATE TASK CARD
         const newCardContainer = document.createElement('tr')
-        newCardContainer.setAttribute('class', `incomplete task card${i}`);
+        newCardContainer.setAttribute('class', `task card${i}`);
         newCardContainer.setAttribute('id', `hidden`);
 
         // complete filter to assign class
