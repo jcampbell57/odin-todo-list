@@ -212,6 +212,7 @@ const displayProjects = () => {
         newProjectContainer.addEventListener('click', (e) => {
             // console.log(e.target)
             setContentTitle(e)
+            displayTasks();
         })
         createChecklistIcon(newProjectContainer);
         const newProjectText = document.createElement('span');
@@ -291,6 +292,30 @@ const displayTasks = () => {
 
         //append task to tasklist
         tasklist.appendChild(newListing);
+
+
+
+        // set display filter
+        const filter = document.querySelector('.contentTitle').textContent
+
+        // date filters
+        if (filter === 'All tasks') {
+            return;
+        } else if (filter === 'Due today') {
+            console.log(filter);
+        } else if (filter === 'Due this week') {
+            console.log(filter);
+        } 
+
+        // project filter
+        projects.all.forEach(project => {
+            if (project === filter) {
+                if (task.project !== filter) {
+                    newListing.classList.add('hidden');
+                };    
+            }
+        })
+        
     }
     
 
@@ -367,7 +392,6 @@ const displayTasks = () => {
         // remaining options generated from projects array
         projects.all.forEach(project => {
             const projectOption = document.createElement('option')
-            console.log(project)
             projectOption.value = `${project}`
             projectOption.text = `${project}`
             if (task.project === project) {

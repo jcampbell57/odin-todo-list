@@ -11,6 +11,8 @@ import { createWeekIcon } from './interactive';
 import { createTodayIcon } from './interactive';
 import { createAdditionIcon } from './interactive';
 
+import { displayTasks } from './interactive';
+
 
 // Initialization functions
 const _createHeader = () => {
@@ -43,6 +45,7 @@ const _createMenu = () => {
     allTasks.setAttribute('class', 'allTasks');
     allTasks.addEventListener('click', (e) => {
         setContentTitle(e)
+        displayTasks();
     })
     createChecklistIcon(allTasks);
     const allTasksText = document.createElement('span');
@@ -53,6 +56,7 @@ const _createMenu = () => {
     const dueToday = document.createElement('li');
     dueToday.setAttribute('class', 'dueToday');
     dueToday.addEventListener('click', (e) => {
+        displayTasks();
         setContentTitle(e)
     })
     createTodayIcon(dueToday);
@@ -64,6 +68,7 @@ const _createMenu = () => {
     const dueWeek = document.createElement('li');
     dueWeek.setAttribute('class', 'dueWeek');
     dueWeek.addEventListener('click', (e) => {
+        displayTasks();
         setContentTitle(e)
     })
     createWeekIcon(dueWeek);

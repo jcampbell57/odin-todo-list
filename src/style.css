@@ -232,6 +232,10 @@ tbody>tr {
     /* border: 2px solid blue; */
 }
 
+.hidden {
+    display: none;
+}
+
 td {
     /* border: 2px solid pink; */
     display: flex;
