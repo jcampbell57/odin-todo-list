@@ -232,6 +232,22 @@ tbody>tr {
     /* border: 2px solid blue; */
 }
 
+.highPriority {
+    border-left: 4px solid darkred;
+}
+
+.mediumPriority {
+    border-left: 4px solid darkorange;
+}
+
+.lowPriority {
+    border-left: 4px solid darkgreen;
+}
+
+.complete {
+    border-left: 4px solid var(--font-color);
+}
+
 .hidden {
     display: none;
 }
@@ -266,12 +282,12 @@ img#deleteItem {
     filter: invert(18%) sepia(76%) saturate(2312%) hue-rotate(109deg) brightness(100%) contrast(107%);
 }
 
-#deleteItem:active {
+#deleteItem:hover {
     filter: invert(7%) sepia(51%) saturate(5951%) hue-rotate(350deg) brightness(140%) contrast(136%);
 }
 
-.editContainer:active,
-img.editDateIcon:active {
+.editContainer:hover,
+img.editDateIcon:hover {
     filter: invert(60%) sepia(34%) saturate(3621%) hue-rotate(359deg) brightness(100%) contrast(109%);
 }
 

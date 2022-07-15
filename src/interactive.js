@@ -267,6 +267,16 @@ const displayTasks = () => {
         // create task container
         const newListing = document.createElement('tr');
         newListing.setAttribute('class', `incomplete task listing${i}`);
+        // add complete/incomplete filter here to assign class
+        // assign priority class
+        if (task.priority === 'high') {
+            newListing.classList.add('highPriority');
+        } else if (task.priority === 'medium') {
+            newListing.classList.add('mediumPriority');
+        } else if (task.priority === 'low') {
+            newListing.classList.add('lowPriority');
+        }
+
         newListing.setAttribute('id', `${i}`);
         
         // add checkbox
@@ -326,6 +336,15 @@ const displayTasks = () => {
         newCardContainer.setAttribute('class', `incomplete task card${i}`);
         newCardContainer.setAttribute('id', `hidden`);
 
+        // assign priority class
+        if (task.priority === 'high') {
+            newCardContainer.classList.add('highPriority');
+        } else if (task.priority === 'medium') {
+            newCardContainer.classList.add('mediumPriority');
+        } else if (task.priority === 'low') {
+            newCardContainer.classList.add('lowPriority');
+        }
+        
         const newCard = document.createElement('table');
         newCard.setAttribute('class', 'incomplete menuOptions');
         newCard.setAttribute('id', `${i}`);
