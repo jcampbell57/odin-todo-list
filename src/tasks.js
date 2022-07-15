@@ -8,6 +8,7 @@ class tasks {
         this.date = date
         this.project = project
         this.priority = priority
+        this.complete = complete
     }
 
 

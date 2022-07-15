@@ -96,12 +96,17 @@ const createWeekIcon = (li) => {
     li.appendChild(newWeekIcon);
 }
 
-const createAddButton = (container) => {
+const createAddButton = (container, i) => {
+    // console.log(container)
     const addBtn = document.createElement('button');
     addBtn.setAttribute('class', 'addBtn');
     addBtn.innerText = "submit";
+    if (container.classList.contains('cardRow3')) {
+        // convert card to form? and change this event listener to trigger when form submits
+        addBtn.setAttribute('id', `${i}`);
+        addBtn.addEventListener('click', (e) => _submitTaskCard(e))
+    };
     container.appendChild(addBtn);
-    
 }
 
 const createCancelButton = (container, i) => {
@@ -125,10 +130,14 @@ const createCheckboxContainer = (tr) => {
     tr.appendChild(checkboxContainer);
 }
 
-const createDateContainer = (tr, date) => {
+const createDateContainer = (tr, task, i) => {
     const dateContainer = document.createElement('td');
     dateContainer.setAttribute('class', 'dateContainer');
-    dateContainer.innerText = `${date}`
+    if (tr.classList.contains('editDateContainer')) {
+        dateContainer.innerHTML = `<input class='taskCardDate${i}' type='date' value='${task.date}'>`
+    } else {
+    dateContainer.innerText = `${task.date}`
+    }
     tr.appendChild(dateContainer);
 }
 
@@ -269,7 +278,7 @@ const displayTasks = () => {
         newListing.appendChild(taskContainer);
 
         // add date
-        createDateContainer(newListing, task.date);
+        createDateContainer(newListing, task);
 
         // add edit button
         const editContainer = document.createElement('td');
@@ -318,13 +327,13 @@ const displayTasks = () => {
         cardRow1.setAttribute('class', 'cardRow1')
         // add task name input
         const taskInputContainer = document.createElement('td');
-        taskInputContainer.setAttribute('class', 'taskInputContainer');
-        taskInputContainer.innerHTML = `<input type='text' id='newTaskInput' name='newTaskInput' value='${task.task}'></input>`;
+        taskInputContainer.setAttribute('class', `taskInputContainer`);
+        taskInputContainer.innerHTML = `<input type='text' class='taskCardTask${i}' id='newTaskInput' name='newTaskInput' value='${task.task}'></input>`;
         cardRow1.appendChild(taskInputContainer);
         // add date
         const editDateContainer = document.createElement('td');
-        editDateContainer.setAttribute('class', 'editDateContainer');
-        createDateContainer(editDateContainer, task.date);
+        editDateContainer.setAttribute('class', `editDateContainer`);
+        createDateContainer(editDateContainer, task, i);
         cardRow1.appendChild(editDateContainer);
         // add calendar edit button
         createCalendarEditIcon(cardRow1);
@@ -338,19 +347,19 @@ const displayTasks = () => {
         // project input
         const projectInputContainer = document.createElement('td');
         projectInputContainer.setAttribute('class', 'projectInputContainer');
-        projectInputContainer.innerHTML = `<input type='dropdown' id='newTaskInput' name='newTaskInput'></input>`;
+        projectInputContainer.innerHTML = `<input type='dropdown' class='taskCardProject${i}' id='newTaskInput' name='newTaskInput' value='${task.project}'></input>`;
         cardRow2.appendChild(projectInputContainer);
         // priority input
         const priorityInputContainer = document.createElement('td');
         priorityInputContainer.setAttribute('class', 'priorityInputContainer');
-        priorityInputContainer.innerHTML = `<input type='dropdown' id='newTaskInput' name='newTaskInput' value='${task.priority}'></input>`;
+        priorityInputContainer.innerHTML = `<input type='dropdown' class='taskCardPriority${i}' id='newTaskInput' name='newTaskInput' value='${task.priority}'></input>`;
         cardRow2.appendChild(priorityInputContainer);
 
 
         // Third row 
         const cardRow3 = document.createElement('tr');
         cardRow3.setAttribute('class', 'cardRow3')
-        createAddButton(cardRow3);
+        createAddButton(cardRow3, i);
         createCancelButton(cardRow3, `${i}`);
 
 
@@ -406,6 +415,25 @@ const _showTaskCard = (e) => {
     //hide task listing
     const taskListing = document.querySelector(`.listing${taskID}`);
     taskListing.setAttribute('id', 'hidden');
+}
+
+const _submitTaskCard = (e) => {
+    const taskID = (e.target.getAttribute('id')) 
+
+    // Get input values
+    const updatedTask = document.querySelector(`.taskCardTask${taskID}`).value
+    const updatedDate = document.querySelector(`.taskCardDate${taskID}`).value
+    const updatedProject = document.querySelector(`.taskCardProject${taskID}`).value
+    const updatedPriority = document.querySelector(`.taskCardPriority${taskID}`).value
+
+    // Apply input values to task object
+    tasks.all[taskID].task = updatedTask
+    tasks.all[taskID].date = updatedDate
+    tasks.all[taskID].project = updatedProject
+    tasks.all[taskID].priority = updatedPriority
+
+    // Refresh tasklist
+    displayTasks();
 }
 
 // Hide task card

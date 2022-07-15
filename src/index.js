@@ -117,9 +117,10 @@ const _submitNewTaskForm = (e) => {
         // submit new Task
         const newTask = {
             task: newTaskInput.value,
-            date: 'no date',
-            project: '',
-            priority: 'Medium',
+            date: '2022-07-27',
+            project: 'Seattle',
+            priority: 'High',
+            complete: 'false',
         }
         _submitTask(newTask);
     }
