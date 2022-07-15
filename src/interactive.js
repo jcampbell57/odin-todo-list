@@ -339,25 +339,58 @@ const displayTasks = () => {
         createCalendarEditIcon(cardRow1);
 
 
+
         // Second row 
         const cardRow2 = document.createElement('tr');
         cardRow2.setAttribute('class', 'cardRow2')
+        
         // add checkbox
         // createCheckboxContainer(cardRow2);
-        // project input
+        
+        // project input container
         const projectInputContainer = document.createElement('td');
         projectInputContainer.setAttribute('class', 'projectInputContainer');
-        projectInputContainer.innerHTML = `<input type='dropdown' class='taskCardProject${i}' id='newTaskInput' name='newTaskInput' value='${task.project}'></input>`;
+        
+        // create project dropdown 
+        const projectDropdown = document.createElement('select')
+        projectDropdown.setAttribute('class', `taskCardProject${i}`)
+        projectDropdown.setAttribute('id', 'newTaskInput')
+        projectDropdown.setAttribute('name', 'newTaskInput')
+        projectDropdown.setAttribute('value', `${task.project}`)
+
+        // create project dropdown options
+        // blank option for no project
+        const blankProjectOption = document.createElement('option')
+        blankProjectOption.value = ''
+        blankProjectOption.text = ''
+        projectDropdown.appendChild(blankProjectOption)
+        // remaining options generated from projects array
+        projects.all.forEach(project => {
+            const projectOption = document.createElement('option')
+            console.log(project)
+            projectOption.value = `${project}`
+            projectOption.text = `${project}`
+            if (task.project === project) {
+                projectOption.selected = true;
+            }
+            projectDropdown.appendChild(projectOption)
+        })
+        projectInputContainer.appendChild(projectDropdown)
         cardRow2.appendChild(projectInputContainer);
-        // priority input
+        
+
+        // priority input container
         const priorityInputContainer = document.createElement('td');
         priorityInputContainer.setAttribute('class', 'priorityInputContainer');
+        
         // create priority dropdown 
         const priorityDropdown = document.createElement('select')
         priorityDropdown.setAttribute('class', `taskCardPriority${i}`)
         priorityDropdown.setAttribute('id', 'newTaskInput')
         priorityDropdown.setAttribute('name', 'newTaskInput')
         priorityDropdown.setAttribute('value', `${task.priority}`)
+        
+        // create priority dropdown options
         // high priority
         const priorityHigh = document.createElement('option')
         priorityHigh.value = 'high'
@@ -370,6 +403,7 @@ const displayTasks = () => {
         const priorityLow = document.createElement('option')
         priorityLow.value = 'low'
         priorityLow.text = 'Low'
+        
         // priority selection
         if (task.priority === 'high') {
         priorityHigh.selected = true;
@@ -377,11 +411,14 @@ const displayTasks = () => {
         priorityLow.selected = true;
         } else 
         priorityMedium.selected = true;
+        
+        // append priority input to row
         priorityDropdown.appendChild(priorityHigh);
         priorityDropdown.appendChild(priorityMedium);
-        priorityDropdown.appendChild(priorityLow);
-        priorityInputContainer.appendChild(priorityDropdown);
+        priorityDropdown.appendChild(priorityLow);        
+        priorityInputContainer.appendChild(priorityDropdown);        
         cardRow2.appendChild(priorityInputContainer);
+
 
 
         // Third row 
@@ -389,6 +426,7 @@ const displayTasks = () => {
         cardRow3.setAttribute('class', 'cardRow3')
         createAddButton(cardRow3, i);
         createCancelButton(cardRow3, `${i}`);
+
 
 
         // append task card to tasklist

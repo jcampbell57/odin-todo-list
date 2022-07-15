@@ -23,7 +23,7 @@ class projects {
 
 
     constructor (projectName) {
-        this.project = projectName
+        this.name = projectName
     }
 
 
