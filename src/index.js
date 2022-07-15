@@ -119,7 +119,7 @@ const _submitNewTaskForm = (e) => {
             task: newTaskInput.value,
             date: '2022-07-27',
             project: 'Seattle',
-            priority: 'High',
+            priority: 'medium',
             complete: 'false',
         }
         _submitTask(newTask);

@@ -352,7 +352,35 @@ const displayTasks = () => {
         // priority input
         const priorityInputContainer = document.createElement('td');
         priorityInputContainer.setAttribute('class', 'priorityInputContainer');
-        priorityInputContainer.innerHTML = `<input type='dropdown' class='taskCardPriority${i}' id='newTaskInput' name='newTaskInput' value='${task.priority}'></input>`;
+        // create priority dropdown 
+        const priorityDropdown = document.createElement('select')
+        priorityDropdown.setAttribute('class', `taskCardPriority${i}`)
+        priorityDropdown.setAttribute('id', 'newTaskInput')
+        priorityDropdown.setAttribute('name', 'newTaskInput')
+        priorityDropdown.setAttribute('value', `${task.priority}`)
+        // high priority
+        const priorityHigh = document.createElement('option')
+        priorityHigh.value = 'high'
+        priorityHigh.text = 'High'
+        // medium priority
+        const priorityMedium = document.createElement('option')
+        priorityMedium.value = 'medium'
+        priorityMedium.text = 'Medium'
+        // low priority
+        const priorityLow = document.createElement('option')
+        priorityLow.value = 'low'
+        priorityLow.text = 'Low'
+        // priority selection
+        if (task.priority === 'high') {
+        priorityHigh.selected = true;
+        } else if (task.priority === 'low') {
+        priorityLow.selected = true;
+        } else 
+        priorityMedium.selected = true;
+        priorityDropdown.appendChild(priorityHigh);
+        priorityDropdown.appendChild(priorityMedium);
+        priorityDropdown.appendChild(priorityLow);
+        priorityInputContainer.appendChild(priorityDropdown);
         cardRow2.appendChild(priorityInputContainer);
 
 
@@ -434,6 +462,8 @@ const _submitTaskCard = (e) => {
 
     // Refresh tasklist
     displayTasks();
+    // console.log(tasks.all[taskID])
+    // console.log(document.querySelector(`.taskCardPriority${taskID}`))
 }
 
 // Hide task card
