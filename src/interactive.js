@@ -27,14 +27,6 @@ const _createCheckboxIcon = (td, task, i) => {
     td.appendChild(checkboxIcon);
 } 
 
-const _createMarkedCheckboxIcon = (td) => {
-    const markedCheckboxIcon = document.createElement('img');
-    markedCheckboxIcon.src = checkboxMarked;
-    markedCheckboxIcon.setAttribute('class', 'icon');
-    markedCheckboxIcon.addEventListener('click', (e) => _markIncomplete(e))
-    td.appendChild(markedCheckboxIcon);
-} 
-
 const createChecklistIcon = (li) => {
     const checklistIcon = document.createElement('img');
     checklistIcon.src = checklist;
@@ -46,7 +38,7 @@ const _createEditIcon = (td) => {
     const newEditIcon = document.createElement('img');
     newEditIcon.src = editIcon;
     newEditIcon.setAttribute('class', 'icon');
-    //event listener to open task card
+    // event listener to open task card
     newEditIcon.addEventListener('click', (e) => _showTaskCard(e))
     td.appendChild(newEditIcon);
 }
@@ -64,13 +56,14 @@ const _createDeleteIcon = (container, i) => {
     // create image and assign attributes
     const newDeleteIcon = document.createElement('img');
     newDeleteIcon.src = deleteIcon;
-    newDeleteIcon.setAttribute('class', 'icon')
-    newDeleteIcon.setAttribute('id', 'deleteItem')
+    newDeleteIcon.setAttribute('class', 'icon deleteItem')
+    newDeleteIcon.setAttribute('id', `${i}`)
     // add event listener
     if (container.getAttribute('class') === 'taskCloseContainer') {
         // Event listener to delete task
         newDeleteIcon.addEventListener('click', (e) => _deleteTask(e))
-    } else if (container.getAttribute('class') === 'project') {
+    } else if (container.getAttribute('class') === 'project' || 
+    container.classList.contains('project')) {
         // Event listener to delete project
         newDeleteIcon.classList.add(`deleteProject${i}`)        
         newDeleteIcon.classList.add(`hidden`)        
@@ -233,6 +226,10 @@ const displayProjects = () => {
 
         // event listener to filter tasklist by project name     
         newProjectContainer.addEventListener('click', (e) => {
+            // if deleting project, do not set filter
+            if (e.target.classList.contains('deleteItem')) {
+                return;
+            };
             setTaskFilter(newProjectContainer)
         })
     
@@ -256,10 +253,30 @@ const displayProjects = () => {
 
 // Delete project
 const _deleteProject = (e) => {
-    // console.log(e.target);
-    let doomedIndex = e.target.parentElement.parentElement.getAttribute('id');
+    // Identify project to delete
+    const doomedIndex = e.target.getAttribute('id');
+    const doomedName = projects.all[doomedIndex].name;
+
+    // delete project
     projects.all.splice(doomedIndex, 1);
     displayProjects();
+
+    // delete all tasks in doomed project
+    // optional, but seems necesarry
+    // change from splice to deleted propery with hidden class to use in stats table with completed property
+    tasks.all.forEach((task, index) => {
+        if (task.project === doomedName) {
+            tasks.all.splice(index, 1)
+        }
+    })
+
+    // If doomed project was selected, revert tasklist to all tasks
+    const contentTitle = document.querySelector('.contentTitle');
+    if (contentTitle.textContent === doomedName) {
+        contentTitle.textContent = 'All tasks' 
+        displayTasks();
+    }
+
 }
 
 
@@ -534,23 +551,13 @@ const _markComplete = (e) => {
     if (tasks.all[taskID].complete === 'true') {
         //mark task incomplete
         tasks.all[taskID].complete = 'false'
-        console.log(tasks.all[taskID])
     } else if (tasks.all[taskID].complete === 'false') {
         //mark task complete
         tasks.all[taskID].complete = 'true'
-        console.log(tasks.all[taskID])
     } else {
         console.log('this is strange')
     }
     displayTasks();
-}
-
-// Incomplete task
-const _markIncomplete = (e) => {
-    e.target.parentElement.parentElement.children[1].setAttribute('id', '');
-    let checkboxContainer = e.target.parentElement
-    e.target.remove();
-    _createCheckboxIcon(checkboxContainer)
 }
 
 // Show task card

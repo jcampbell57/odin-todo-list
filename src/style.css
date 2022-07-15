@@ -275,7 +275,7 @@ img.icon:hover,
 } */
 
 .dateContainer,
-img#deleteItem {
+img.deleteItem {
     margin-left: auto;
 }
 
@@ -283,7 +283,7 @@ img#deleteItem {
     filter: invert(18%) sepia(76%) saturate(2312%) hue-rotate(109deg) brightness(100%) contrast(107%);
 }
 
-#deleteItem:hover {
+.deleteItem:hover {
     filter: invert(7%) sepia(51%) saturate(5951%) hue-rotate(350deg) brightness(140%) contrast(136%);
 }
 
