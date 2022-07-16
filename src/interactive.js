@@ -115,6 +115,10 @@ const _createAddButton = (container, i) => {
         // convert card to form? and change this event listener to trigger when form submits
         addBtn.setAttribute('id', `${i}`);
         addBtn.addEventListener('click', (e) => _submitTaskCard(e))
+    } else if (i.getAttribute('class') === 'addProjectForm') {
+        addBtn.classList.add('projectAddBtn');
+    } else if (i.getAttribute('class') === 'addTaskForm') {
+        addBtn.classList.add('taskAddBtn');
     };
     container.appendChild(addBtn);
 }
@@ -186,10 +190,9 @@ const createForm = (form) => {
     } else {
         console.log('this is strange')
     }
-
     // row two: submit and cancel buttons
-    _createAddButton(formRow2);
-    _createCancelButton(formRow2);
+    _createAddButton(formRow2, form);
+    _createCancelButton(formRow2, form);
        
     form.appendChild(formRow1);
     form.appendChild(formRow2);
@@ -262,13 +265,21 @@ const _deleteProject = (e) => {
     displayProjects();
 
     // delete all tasks in doomed project
-    // optional, but seems necesarry
-    // change from splice to deleted propery with hidden class to use in stats table with completed property
+    // could change from splice to deleted propery with hidden class to use in stats table with completed property //
+    // mark tasks for deletion
     tasks.all.forEach((task, index) => {
         if (task.project === doomedName) {
-            tasks.all.splice(index, 1)
+            tasks.toDelete.push(task.name)
         }
     })
+    // delete marked tasks
+    tasks.toDelete.forEach(doomedTask => {
+        tasks.all.forEach((task, index) => {
+            if (task.name === doomedTask) {
+                tasks.all.splice(index, 1)
+            }
+        })
+    }) 
 
     // If doomed project was selected, revert tasklist to all tasks
     const contentTitle = document.querySelector('.contentTitle');
@@ -276,9 +287,10 @@ const _deleteProject = (e) => {
     if (contentTitle.textContent === doomedName) {
         contentTitle.textContent = 'All tasks' 
         allTasksClassList.add('selected')
-        displayTasks();
     }
 
+    // refresh tasklist
+    displayTasks();
 }
 
 
@@ -329,7 +341,7 @@ const displayTasks = () => {
         if (task.complete === 'true') {
             taskContainer.setAttribute('id', 'complete');
         }
-        taskContainer.innerText = `${task.task}`;
+        taskContainer.innerText = `${task.name}`;
         newListing.appendChild(taskContainer);
 
         // add date
@@ -354,10 +366,40 @@ const displayTasks = () => {
         // date filters
         if (filter === 'All tasks') {
             return;
+
         } else if (filter === 'Due today') {
-            console.log(filter);
+            // hide if no due date
+            if (task.date === '') {
+                newListing.classList.add('hidden');
+                return;
+            }
+            
+            // grab today's date and task date
+            const today = new Date();
+            const taskDate = new Date(task.date)
+            
+            // hide if not due today
+            if (today.getMonth() !== taskDate.getMonth() ||
+                today.getDate() - 1 !== taskDate.getDate() ||
+                today.getFullYear() !== taskDate.getFullYear() ) {
+                    newListing.classList.add('hidden');
+            }
+        
         } else if (filter === 'Due this week') {
             console.log(filter);
+
+            // hide if no due date
+            if (task.date === '') {
+                newListing.classList.add('hidden');
+                return;
+            }
+            
+            // grab today's date and task date
+            const today = new Date();
+            const taskDate = new Date(task.date)
+            
+            // hide if not due this week
+
         } 
 
         // project filter
@@ -420,7 +462,7 @@ const displayTasks = () => {
         // add task name input
         const taskInputContainer = document.createElement('td');
         taskInputContainer.setAttribute('class', `taskInputContainer`);
-        taskInputContainer.innerHTML = `<input type='text' class='taskCardTask${i}' id='newTaskInput' name='newTaskInput' value='${task.task}'></input>`;
+        taskInputContainer.innerHTML = `<input type='text' class='taskCardTask${i}' id='newTaskInput' name='newTaskInput' value='${task.name}'></input>`;
         cardRow1.appendChild(taskInputContainer);
         // add date
         const editDateContainer = document.createElement('td');
@@ -435,9 +477,6 @@ const displayTasks = () => {
         // Second row 
         const cardRow2 = document.createElement('tr');
         cardRow2.setAttribute('class', 'cardRow2')
-        
-        // add checkbox
-        // createCheckboxContainer(cardRow2);
         
         // project input container
         const projectInputContainer = document.createElement('td');
@@ -583,7 +622,7 @@ const _submitTaskCard = (e) => {
     const updatedPriority = document.querySelector(`.taskCardPriority${taskID}`).value
 
     // Apply input values to task object
-    tasks.all[taskID].task = updatedTask
+    tasks.all[taskID].name = updatedTask
     tasks.all[taskID].date = updatedDate
     tasks.all[taskID].project = updatedProject
     tasks.all[taskID].priority = updatedPriority
@@ -637,6 +676,7 @@ const setTaskFilter = (container, e) => {
         projects.all[selectedProjectId].selected = 'true'
     }
 
+    // refresh
     displayProjects();    
     displayTasks();
 }

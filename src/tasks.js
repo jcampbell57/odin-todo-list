@@ -1,10 +1,51 @@
 class tasks {
-    static all = [];
+    // real
+    // static all = []
+    // placeholder content
+    static all = [
+        {
+            name: 'Finish Date Filter',
+            date: `2022-07-16`,
+            project: ``,
+            priority: 'high',
+            complete: 'false',
+        },
+        {
+            name: 'Finish local storage',
+            date: `2022-07-17`,
+            project: ``,
+            priority: 'high',
+            complete: 'false',
+        },
+        {
+            name: 'Space Needle',
+            date: `2022-07-27`,
+            project: `Business trip`,
+            priority: 'high',
+            complete: 'false',
+        },
+        {
+            name: 'Troll under the bridge',
+            date: `2022-07-27`,
+            project: `Business trip`,
+            priority: 'medium',
+            complete: 'false',
+        },
+        {
+            name: 'Pike place coffee meeting',
+            date: `2022-07-26`,
+            project: `Business trip`,
+            priority: 'medium',
+            complete: 'false',        
+        },
+    ];
+
+    static toDelete = [];
 
     
 
     constructor (newTask) {
-        this.task = newTask
+        this.name = newTask
         this.date = date
         this.project = project
         this.priority = priority
@@ -18,7 +59,15 @@ class tasks {
 
 
 class projects {
-    static all = [];
+    // real
+    // static all = []
+    // placeholder content
+    static all = [
+        {
+            name: 'Business trip',
+            selected: 'false'    
+        },
+    ];
 
 
 

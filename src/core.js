@@ -4,12 +4,14 @@ const body = document.querySelector('body');
 import logoIcon from './assets/check-decagram-outline.svg';
 import githubIcon from './assets/GitHub-light-32px.png';
 
-import { createChecklistIcon } from './interactive';
-import { setTaskFilter } from './interactive';
-import { createForm } from './interactive';
-import { createWeekIcon } from './interactive';
-import { createTodayIcon } from './interactive';
-import { createAdditionIcon } from './interactive';
+import { 
+    createChecklistIcon, 
+    displayTasks,
+    setTaskFilter,
+    createForm,
+    createWeekIcon,
+    createTodayIcon,
+    createAdditionIcon } from './interactive';
 
 
 // Initialization functions
@@ -56,6 +58,7 @@ const _createMenu = () => {
     dueToday.addEventListener('click', (e) => {
         setTaskFilter(dueToday, e)
         dueToday.classList.add('selected')
+        displayTasks();
     })
     createTodayIcon(dueToday);
     const dueTodayText = document.createElement('span');
@@ -68,6 +71,7 @@ const _createMenu = () => {
     dueWeek.addEventListener('click', (e) => {
         setTaskFilter(dueWeek, e)
         dueWeek.classList.add('selected')
+        displayTasks();
     })
     createWeekIcon(dueWeek);
     const dueWeekText = document.createElement('span');

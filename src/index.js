@@ -32,6 +32,10 @@ import { displayTasks } from './interactive';
 
 
 
+// insert placeholder content
+displayProjects();
+displayTasks();
+
 
 
 // PROJECT FORM
@@ -65,11 +69,11 @@ const _submitNewProjectForm = (e) => {
     }
     
     // verify or cancel submission
-    if (e.submitter.getAttribute('class') === 'addBtn' && newProjectInput.value === '') {
+    if (e.submitter.classList.contains('addBtn') && newProjectInput.value === '') {
         // show project name error
         newProjErrorContainer.setAttribute('id', 'showBlock');
         return;
-    } else if (e.submitter.getAttribute('class') === 'addBtn') {
+    } else if (e.submitter.classList.contains('addBtn')) {
         // submit new project
         const newProj = {
             name: newProjectInput.value,
@@ -115,11 +119,11 @@ const _submitNewTaskForm = (e) => {
     }
     
     // verify or cancel submission
-    if (e.submitter.getAttribute('class') === 'addBtn' && newTaskInput.value === '') {
+    if (e.submitter.classList.contains('addBtn') && newTaskInput.value === '') {
         // show Task name error
         newTaskErrorContainer.setAttribute('id', 'showBlock');
         return;
-    } else if (e.submitter.getAttribute('class') === 'addBtn') {
+    } else if (e.submitter.classList.contains('addBtn')) {
         // assign project
         var newTaskProject = ''
         if (document.querySelector('.contentTitle').textContent !== 'All tasks' ||
@@ -130,8 +134,8 @@ const _submitNewTaskForm = (e) => {
         
         // submit new Task
         const newTask = {
-            task: newTaskInput.value,
-            date: ``,
+            name: newTaskInput.value,
+            date: '',
             project: `${newTaskProject}`,
             priority: 'medium',
             complete: 'false',
