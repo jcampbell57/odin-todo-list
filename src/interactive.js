@@ -8,8 +8,8 @@ import editIcon from './assets/edit.svg';
 import calendarEditIcon from './assets/calendar-edit.svg';
 import deleteIcon from './assets/delete.svg';
 
-import { projects } from './tasks';
-import { tasks } from './tasks';
+import { projects, tasks } from './tasks';
+import { add, isWithinInterval, startOfDay } from 'date-fns';
 
 
 
@@ -364,9 +364,12 @@ const displayTasks = () => {
         // set display filter
         const filter = document.querySelector('.contentTitle').textContent
         // date filters
+
+        // All tasks
         if (filter === 'All tasks') {
             return;
 
+        // Due Today
         } else if (filter === 'Due today') {
             // hide if no due date
             if (task.date === '') {
@@ -385,6 +388,7 @@ const displayTasks = () => {
                     newListing.classList.add('hidden');
             }
         
+        // Due this week
         } else if (filter === 'Due this week') {
             console.log(filter);
 
@@ -394,12 +398,27 @@ const displayTasks = () => {
                 return;
             }
             
-            // grab today's date and task date
-            const today = new Date();
-            const taskDate = new Date(task.date)
+            // grab week dates and task due date date
+            const today = startOfDay(new Date())
+            const endOfWeek = add(today, {days: 7})
+            // midnight due date
+            const taskDate = add(startOfDay(new Date(task.date)), {days: 1, hours: 23, minutes: 59})
             
             // hide if not due this week
+            console.log(isWithinInterval(taskDate, {
+                start: today,
+                end: endOfWeek
+            }))
+            console.log(newListing)
 
+            if (isWithinInterval(taskDate, {
+                start: today,
+                end: endOfWeek,
+            }) === false) {
+                console.log('yay')
+                newListing.classList.add('hidden')
+                return
+            }
         } 
 
         // project filter
