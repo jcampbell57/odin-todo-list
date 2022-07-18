@@ -31,7 +31,7 @@ import { displayTasks } from './interactive';
 // temp
 // localStorage.clear();
 
-// Initiate storage arrays
+// Initiate storage arrays if localStorage is empty
 const storageTasksArray = [];
 const storageProjectsArray = [];
 if (localStorage.length === 0) {
@@ -44,7 +44,19 @@ if (localStorage.length === 0) {
     // push placerholder projects
     storageProjects.push(
         {
-            name: 'Business trip',
+            name: 'Home',
+            selected: 'false'    
+        },
+        {
+            name: 'Study',
+            selected: 'false'    
+        },
+        {
+            name: 'Work',
+            selected: 'false'    
+        },
+        {
+            name: 'Vacation',
             selected: 'false'    
         },
     )
@@ -54,41 +66,76 @@ if (localStorage.length === 0) {
     // PLACEHOLDER TASKS
     // grab tasks array from storage
     const storageTasks = JSON.parse(localStorage.getItem('storageTasks'))
-    // push placeholder tasks
+    // push placeholder tasks (dates calculated so demo will always be functional)
     storageTasks.push(
         {
-            name: 'Finish Date Filter',
-            date: `2022-07-16`,
-            project: ``,
-            priority: 'high',
-            complete: 'false',
-        },
-        {
-            name: 'Finish local storage',
-            date: `2022-07-17`,
-            project: ``,
-            priority: 'high',
-            complete: 'false',
-        },
-        {
-            name: 'Space Needle',
-            date: `2022-07-27`,
-            project: `Business trip`,
-            priority: 'high',
-            complete: 'false',
-        },
-        {
-            name: 'Troll under the bridge',
-            date: `2022-07-27`,
-            project: `Business trip`,
+            name: 'Meal Prep',
+            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 2}`,
+            project: `Home`,
             priority: 'medium',
             complete: 'false',
         },
         {
-            name: 'Pike place coffee meeting',
-            date: `2022-07-26`,
-            project: `Business trip`,
+            name: 'Dust & vacuum',
+            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 1}`,
+            project: `Home`,
+            priority: 'low',
+            complete: 'false',
+        },
+        {
+            name: 'Yardwork',
+            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 3}`,
+            project: `Home`,
+            priority: 'low',
+            complete: 'false',
+        },
+        {
+            name: 'Practice on HackerRank',
+            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate()}`,
+            project: `Study`,
             priority: 'medium',
+            complete: 'false',
+        },
+        {
+            name: 'Practice on CodeWars',
+            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate()}`,
+            project: `Study`,
+            priority: 'medium',
+            complete: 'false',
+        },
+        {
+            name: 'Update resume',
+            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 7}`,
+            project: `Work`,
+            priority: 'high',
+            complete: 'false',
+        },
+        {
+            name: 'Apply for SWE positions',
+            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 7}`,
+            project: `Work`,
+            priority: 'high',
+            complete: 'false',
+        },
+        {
+            name: 'Purchase Space Needle tickets',
+            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 9}`,
+            project: `Vacation`,
+            priority: 'high',
+            complete: 'false',
+        },
+        {
+            name: 'Purchase plane tickets',
+            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 9}`,
+            project: `Vacation`,
+            priority: 'high',
+            complete: 'false',
+        },
+        {
+            name: 'Book hotel or AirBnB',
+            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 9}`,
+            project: `Vacation`,
+            priority: 'high',
             complete: 'false',        
         },
     )
