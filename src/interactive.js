@@ -8,7 +8,7 @@ import editIcon from './assets/edit.svg';
 import calendarEditIcon from './assets/calendar-edit.svg';
 import deleteIcon from './assets/delete.svg';
 
-import { projects, tasks } from './tasks';
+import { tasks } from './tasks';
 import { add, isWithinInterval, startOfDay } from 'date-fns';
 
 
@@ -34,10 +34,11 @@ const createChecklistIcon = (li) => {
     li.appendChild(checklistIcon);
 }
 
-const _createEditIcon = (td) => {
+const _createEditIcon = (td, i) => {
     const newEditIcon = document.createElement('img');
     newEditIcon.src = editIcon;
     newEditIcon.setAttribute('class', 'icon');
+    newEditIcon.setAttribute('id', `${i}`);
     // event listener to open task card
     newEditIcon.addEventListener('click', (e) => _showTaskCard(e))
     td.appendChild(newEditIcon);
@@ -147,10 +148,17 @@ const createCheckboxContainer = (tr, task, i) => {
 const createDateContainer = (tr, task, i) => {
     const dateContainer = document.createElement('td');
     dateContainer.setAttribute('class', 'dateContainer');
+    //task card
     if (tr.classList.contains('editDateContainer')) {
         dateContainer.innerHTML = `<input class='taskCardDate${i}' type='date' value='${task.date}'>`
+    // task listing
     } else {
-    dateContainer.innerText = `${task.date}`
+        // only display due date if there is one
+        if (task.date === '') {
+            dateContainer.innerText === ''
+        } else {
+            dateContainer.innerText = `${add(new Date(task.date), {days: 1}).toLocaleDateString()}`
+        }
     }
     tr.appendChild(dateContainer);
 }
@@ -246,7 +254,8 @@ const displayProjects = () => {
 
     // Append all tasks to tasklist
     let i=0
-    projects.all.forEach(project => {
+    const storageProjects = JSON.parse(localStorage.getItem('storageProjects'))
+    storageProjects.forEach(project => {
         _displayProject(project, i)
         i++
     });
@@ -256,30 +265,41 @@ const displayProjects = () => {
 
 // Delete project
 const _deleteProject = (e) => {
+    // grab arrays from storage
+    const storageProjects = JSON.parse(localStorage.getItem('storageProjects'))
+    const storageTasks = JSON.parse(localStorage.getItem('storageTasks'))
+
     // Identify project to delete
     const doomedIndex = e.target.getAttribute('id');
-    const doomedName = projects.all[doomedIndex].name;
+    const doomedName = storageProjects[doomedIndex].name;
 
     // delete project
-    projects.all.splice(doomedIndex, 1);
-    displayProjects();
+    storageProjects.splice(doomedIndex, 1);
 
     // delete all tasks in doomed project
     // could change from splice to deleted propery with hidden class to use in stats table with completed property //
     // mark tasks for deletion
-    tasks.all.forEach((task, index) => {
+    storageTasks.forEach((task, index) => {
         if (task.project === doomedName) {
+            // will delete after loop as to not make errors
             tasks.toDelete.push(task.name)
         }
     })
     // delete marked tasks
     tasks.toDelete.forEach(doomedTask => {
-        tasks.all.forEach((task, index) => {
+        storageTasks.forEach((task, index) => {
             if (task.name === doomedTask) {
-                tasks.all.splice(index, 1)
+                storageTasks.splice(index, 1)
             }
         })
     }) 
+    // clear teDelete array 
+    tasks.toDelete = [];
+
+    // set changes to localStorage
+    localStorage.setItem('storageTasks', JSON.stringify(storageTasks));
+    localStorage.setItem('storageProjects', JSON.stringify(storageProjects));
+
 
     // If doomed project was selected, revert tasklist to all tasks
     const contentTitle = document.querySelector('.contentTitle');
@@ -290,6 +310,7 @@ const _deleteProject = (e) => {
     }
 
     // refresh tasklist
+    displayProjects();
     displayTasks();
 }
 
@@ -350,7 +371,7 @@ const displayTasks = () => {
         // add edit button
         const editContainer = document.createElement('td');
         editContainer.setAttribute('class', 'editContainer');
-        _createEditIcon(editContainer);
+        _createEditIcon(editContainer, i);
         newListing.appendChild(editContainer);
 
         // add delete button
@@ -390,7 +411,6 @@ const displayTasks = () => {
         
         // Due this week
         } else if (filter === 'Due this week') {
-            console.log(filter);
 
             // hide if no due date
             if (task.date === '') {
@@ -405,31 +425,28 @@ const displayTasks = () => {
             const taskDate = add(startOfDay(new Date(task.date)), {days: 1, hours: 23, minutes: 59})
             
             // hide if not due this week
-            console.log(isWithinInterval(taskDate, {
-                start: today,
-                end: endOfWeek
-            }))
-            console.log(newListing)
-
             if (isWithinInterval(taskDate, {
                 start: today,
                 end: endOfWeek,
             }) === false) {
-                console.log('yay')
                 newListing.classList.add('hidden')
                 return
             }
         } 
 
         // project filter
-        projects.all.forEach(project => {
+        // grab projects array from storage
+        const storageProjects = JSON.parse(localStorage.getItem('storageProjects'))
+        // apply filter
+        storageProjects.forEach(project => {
             if (project.name === filter) {
                 if (task.project !== filter) {
                     newListing.classList.add('hidden');
                 };    
             }
         })
-        
+        // set projects array back into localStorage
+        localStorage.setItem('storageProjects', JSON.stringify(storageProjects))
     }
     
 
@@ -515,7 +532,8 @@ const displayTasks = () => {
         blankProjectOption.text = ''
         projectDropdown.appendChild(blankProjectOption)
         // remaining options generated from projects array
-        projects.all.forEach(project => {
+        const storageProjects = JSON.parse(localStorage.getItem('storageProjects'))
+        storageProjects.forEach(project => {
             const projectOption = document.createElement('option')
             projectOption.value = `${project.name}`
             projectOption.text = `${project.name}`
@@ -593,8 +611,10 @@ const displayTasks = () => {
     
 
     // append all tasks to tasklist
+    // NEW 
     let i=0
-    tasks.all.forEach(task => {
+    const storageTasks = JSON.parse(localStorage.getItem('storageTasks'))
+    storageTasks.forEach(task => {
         _createTaskListing(task, i);
         _createTaskCard(task, i);
         i++
@@ -608,21 +628,27 @@ const displayTasks = () => {
 // Complete task
 const _markComplete = (e) => {
     const taskID = e.target.getAttribute('id');
-    if (tasks.all[taskID].complete === 'true') {
+    // NEW
+    const storageTasks = JSON.parse(localStorage.getItem('storageTasks'))
+    if (storageTasks[taskID].complete === 'true') {
         //mark task incomplete
-        tasks.all[taskID].complete = 'false'
-    } else if (tasks.all[taskID].complete === 'false') {
+        storageTasks[taskID].complete = 'false'
+    } else if (storageTasks[taskID].complete === 'false') {
         //mark task complete
-        tasks.all[taskID].complete = 'true'
+        storageTasks[taskID].complete = 'true'
     } else {
         console.log('this is strange')
     }
+    // set changes to localStorage
+    localStorage.setItem('storageTasks', JSON.stringify(storageTasks));
     displayTasks();
 }
 
 // Show task card
 const _showTaskCard = (e) => {
-    const taskID = e.target.parentElement.parentElement.getAttribute('id');
+    const taskID = e.target.getAttribute('id');
+    // refresh tasklist to close other task cards (optional but looks cleaner)
+    displayTasks();
     // show task card
     const taskCard = document.querySelector(`.card${taskID}`);
     taskCard.setAttribute('id', `${taskID}`);
@@ -635,25 +661,35 @@ const _submitTaskCard = (e) => {
     const taskID = (e.target.getAttribute('id')) 
 
     // Get input values
-    const updatedTask = document.querySelector(`.taskCardTask${taskID}`).value
+    const updatedName = document.querySelector(`.taskCardTask${taskID}`).value
     const updatedDate = document.querySelector(`.taskCardDate${taskID}`).value
     const updatedProject = document.querySelector(`.taskCardProject${taskID}`).value
     const updatedPriority = document.querySelector(`.taskCardPriority${taskID}`).value
 
+    // NEW
+    // grab updated task from localStorage
+    const storageTasks = JSON.parse(localStorage.getItem('storageTasks'))
+    var updatedTask = storageTasks[taskID]
     // Apply input values to task object
-    tasks.all[taskID].name = updatedTask
-    tasks.all[taskID].date = updatedDate
-    tasks.all[taskID].project = updatedProject
-    tasks.all[taskID].priority = updatedPriority
-
-    // Refresh tasklist
+    updatedTask.name = updatedName
+    updatedTask.date = updatedDate
+    updatedTask.project = updatedProject
+    updatedTask.priority = updatedPriority
+    // set task array back into localStorage
+    localStorage.setItem('storageTasks', JSON.stringify(storageTasks))
     displayTasks();
 }
 
 // Delete task
 const _deleteTask = (e) => {
     let doomedIndex = e.target.parentElement.parentElement.getAttribute('id');
-    tasks.all.splice(doomedIndex, 1);
+    // NEW
+    const storageTasks = JSON.parse(localStorage.getItem('storageTasks'))
+    // remove task from localStorage
+    storageTasks.splice(doomedIndex, 1);
+    // set task array back into localStorage
+    localStorage.setItem('storageTasks', JSON.stringify(storageTasks))
+    // refresh tasklist
     displayTasks();
 }
 
@@ -682,8 +718,11 @@ const setTaskFilter = (container, e) => {
         dueWeekClassList.remove('selected')
     } 
 
+    // grab projects array from storage
+    const storageProjects = JSON.parse(localStorage.getItem('storageProjects'))
+    
     // deselect all projects
-    projects.all.forEach(project => {
+    storageProjects.forEach(project => {
         if (project.selected === 'true') {
             project.selected = 'false'
         }
@@ -692,8 +731,11 @@ const setTaskFilter = (container, e) => {
     // Select project if one is chosen (main menu selection is handled in event listener)
     if (container.getAttribute('class') === 'project') {
         var selectedProjectId = container.getAttribute('id');
-        projects.all[selectedProjectId].selected = 'true'
+        storageProjects[selectedProjectId].selected = 'true'
     }
+
+    // set projects array back into localStorage
+    localStorage.setItem('storageProjects', JSON.stringify(storageProjects))
 
     // refresh
     displayProjects();    

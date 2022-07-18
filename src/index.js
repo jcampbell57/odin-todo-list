@@ -1,8 +1,4 @@
 
-import { projects } from './tasks';
-import { tasks } from './tasks';
-
-
 // Page initialization
 // import { initialize } from './core';
 import initialize from './core'
@@ -32,9 +28,82 @@ import { displayTasks } from './interactive';
 
 
 
-// insert placeholder content
+// temp
+// localStorage.clear();
+
+// Initiate storage arrays
+const storageTasksArray = [];
+const storageProjectsArray = [];
+if (localStorage.length === 0) {
+    localStorage.setItem('storageTasks', JSON.stringify(storageTasksArray));
+    localStorage.setItem('storageProjects', JSON.stringify(storageProjectsArray));
+
+    // PLACEHOLDER PROJECTS
+    // grab storage array from storage
+    const storageProjects = JSON.parse(localStorage.getItem('storageProjects'))
+    // push placerholder projects
+    storageProjects.push(
+        {
+            name: 'Business trip',
+            selected: 'false'    
+        },
+    )
+    // set storage array back into storage
+    localStorage.setItem('storageProjects', JSON.stringify(storageProjects));
+
+    // PLACEHOLDER TASKS
+    // grab tasks array from storage
+    const storageTasks = JSON.parse(localStorage.getItem('storageTasks'))
+    // push placeholder tasks
+    storageTasks.push(
+        {
+            name: 'Finish Date Filter',
+            date: `2022-07-16`,
+            project: ``,
+            priority: 'high',
+            complete: 'false',
+        },
+        {
+            name: 'Finish local storage',
+            date: `2022-07-17`,
+            project: ``,
+            priority: 'high',
+            complete: 'false',
+        },
+        {
+            name: 'Space Needle',
+            date: `2022-07-27`,
+            project: `Business trip`,
+            priority: 'high',
+            complete: 'false',
+        },
+        {
+            name: 'Troll under the bridge',
+            date: `2022-07-27`,
+            project: `Business trip`,
+            priority: 'medium',
+            complete: 'false',
+        },
+        {
+            name: 'Pike place coffee meeting',
+            date: `2022-07-26`,
+            project: `Business trip`,
+            priority: 'medium',
+            complete: 'false',        
+        },
+    )
+    // set tasks array back into storage
+    localStorage.setItem('storageTasks', JSON.stringify(storageTasks));
+
+}
+
+
+
+// insert content from local storage if there is any
 displayProjects();
 displayTasks();
+
+
 
 
 
@@ -55,10 +124,17 @@ const _submitNewProjectForm = (e) => {
     // prevent actual form submission
     e.preventDefault();
 
+    // submit to local storage
     const submitProj = (newProj) => {
-        projects.all.push(newProj);
+        // grab array from storage
+        const storageProjects = JSON.parse(localStorage.getItem('storageProjects'))
+        // push task to array
+        storageProjects.push(newProj)
+        // set array back into storage
+        localStorage.setItem('storageProjects', JSON.stringify(storageProjects))
+        // refresh projects list
         displayProjects();
-        // so you can add tasks to new project:
+        // refresh tasklist so you can add tasks to new project
         displayTasks();
     }
     
@@ -107,8 +183,16 @@ const _submitNewTaskForm = (e) => {
     // prevent actual form submission
     e.preventDefault();
 
+    // submit to localStorage
     const _submitTask = (newTask) => {
-        tasks.all.push(newTask);
+        // NEW
+        // grab array from storage
+        const storageTasks = JSON.parse(localStorage.getItem('storageTasks'))
+        // push task to array
+        storageTasks.push(newTask)
+        // set array back into storage
+        localStorage.setItem('storageTasks', JSON.stringify(storageTasks))
+        // refresh tasklist
         displayTasks();
     }
 
@@ -126,8 +210,8 @@ const _submitNewTaskForm = (e) => {
     } else if (e.submitter.classList.contains('addBtn')) {
         // assign project
         var newTaskProject = ''
-        if (document.querySelector('.contentTitle').textContent !== 'All tasks' ||
-        document.querySelector('.contentTitle').textContent !== 'Due today' ||
+        if (document.querySelector('.contentTitle').textContent !== 'All tasks' &&
+        document.querySelector('.contentTitle').textContent !== 'Due today' &&
         document.querySelector('.contentTitle').textContent !== 'Due this week') {
             newTaskProject = document.querySelector('.contentTitle').textContent
         } 

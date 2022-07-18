@@ -3,9 +3,9 @@ const toml = require('toml');
 const yaml = require('yamljs');
 const json5 = require('json5');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-var isWithinInterval = require('date-fns/isWithinInterval')
-var add = require('date-fns/add')
-var startOfDay = require('date-fns/startOfDay')
+// var isWithinInterval = require('date-fns/isWithinInterval');
+// var add = require('date-fns/add');
+// var startOfDay = require('date-fns/startOfDay');
 
 
 module.exports = {
@@ -21,9 +21,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Things To Do',
     }),
-    new isWithinInterval,
-    new add,
-    new startOfDay,
+    // new isWithinInterval,
+    // new add,
+    // new startOfDay,
   ],
   output: {
     filename: '[name].bundle.js',
