@@ -5,7 +5,6 @@ import calendarToday from './assets/calendar-today.svg';
 import calendarWeek from './assets/calendar-range.svg';
 import additionIcon from './assets/plus.svg';
 import editIcon from './assets/edit.svg';
-import calendarEditIcon from './assets/calendar-edit.svg';
 import deleteIcon from './assets/delete.svg';
 
 import { tasks } from './tasks';
@@ -42,15 +41,6 @@ const _createEditIcon = (td, i) => {
     // event listener to open task card
     newEditIcon.addEventListener('click', (e) => _showTaskCard(e))
     td.appendChild(newEditIcon);
-}
-
-const _createCalendarEditIcon = (td) => {
-    const newCalendarEditIcon = document.createElement('img');
-    newCalendarEditIcon.src = calendarEditIcon;
-    newCalendarEditIcon.setAttribute('class', 'icon editDateIcon')
-    newCalendarEditIcon.addEventListener('click', (e) => {
-    })
-    td.appendChild(newCalendarEditIcon);
 }
 
 const _createDeleteIcon = (container, i) => {
@@ -150,7 +140,7 @@ const createDateContainer = (tr, task, i) => {
     dateContainer.setAttribute('class', 'dateContainer');
     //task card
     if (tr.classList.contains('editDateContainer')) {
-        dateContainer.innerHTML = `<input class='taskCardDate${i}' type='date' value='${task.date}'>`
+        dateContainer.innerHTML = `<input class='taskCardDate${i}' type='date' id='taskCardInput' name='taskCardInput' value='${task.date}'>`
     // task listing
     } else {
         // only display due date if there is one
@@ -504,25 +494,23 @@ const displayTasks = () => {
 
         // First row
         const cardRow1 = document.createElement('tr');
-        cardRow1.setAttribute('class', 'cardRow1')
+        cardRow1.setAttribute('class', 'cardRow cardRow1')
         // add task name input
         const taskInputContainer = document.createElement('td');
         taskInputContainer.setAttribute('class', `taskInputContainer`);
-        taskInputContainer.innerHTML = `<input type='text' class='taskCardTask${i}' id='newTaskInput' name='newTaskInput' value='${task.name}'></input>`;
+        taskInputContainer.innerHTML = `<input type='text' class='taskCardTask taskCardTask${i}' id='taskCardInput' name='taskCardInput' value='${task.name}'></input>`;
         cardRow1.appendChild(taskInputContainer);
-        // add date
+        // add date input
         const editDateContainer = document.createElement('td');
         editDateContainer.setAttribute('class', `editDateContainer`);
         createDateContainer(editDateContainer, task, i);
         cardRow1.appendChild(editDateContainer);
-        // add calendar edit button
-        _createCalendarEditIcon(cardRow1);
 
 
 
         // Second row 
         const cardRow2 = document.createElement('tr');
-        cardRow2.setAttribute('class', 'cardRow2')
+        cardRow2.setAttribute('class', 'cardRow cardRow2')
         
         // project input container
         const projectInputContainer = document.createElement('td');
@@ -531,8 +519,8 @@ const displayTasks = () => {
         // create project dropdown 
         const projectDropdown = document.createElement('select')
         projectDropdown.setAttribute('class', `taskCardProject${i}`)
-        projectDropdown.setAttribute('id', 'newTaskInput')
-        projectDropdown.setAttribute('name', 'newTaskInput')
+        projectDropdown.setAttribute('id', 'taskCardInput')
+        projectDropdown.setAttribute('name', 'taskCardInput')
         projectDropdown.setAttribute('value', `${task.project}`)
 
         // create project dropdown options
@@ -563,8 +551,8 @@ const displayTasks = () => {
         // create priority dropdown 
         const priorityDropdown = document.createElement('select')
         priorityDropdown.setAttribute('class', `taskCardPriority${i}`)
-        priorityDropdown.setAttribute('id', 'newTaskInput')
-        priorityDropdown.setAttribute('name', 'newTaskInput')
+        priorityDropdown.setAttribute('id', 'taskCardInput')
+        priorityDropdown.setAttribute('name', 'taskCardInput')
         priorityDropdown.setAttribute('value', `${task.priority}`)
         
         // create priority dropdown options
@@ -600,7 +588,7 @@ const displayTasks = () => {
 
         // Third row 
         const cardRow3 = document.createElement('tr');
-        cardRow3.setAttribute('class', 'cardRow3')
+        cardRow3.setAttribute('class', 'cardRow cardRow3')
         _createAddButton(cardRow3, i);
         _createCancelButton(cardRow3, `${i}`);
 
