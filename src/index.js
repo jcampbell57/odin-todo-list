@@ -37,6 +37,7 @@ const storageProjectsArray = [];
 if (localStorage.length === 0) {
     localStorage.setItem('storageTasks', JSON.stringify(storageTasksArray));
     localStorage.setItem('storageProjects', JSON.stringify(storageProjectsArray));
+    localStorage.setItem('completedFilter', true);
 
     // PLACEHOLDER PROJECTS
     // grab storage array from storage
@@ -70,21 +71,28 @@ if (localStorage.length === 0) {
     storageTasks.push(
         {
             name: 'Meal Prep',
-            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 2}`,
+            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 5}`,
             project: `Home`,
             priority: 'medium',
             complete: 'false',
         },
         {
             name: 'Dust & vacuum',
-            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 1}`,
+            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 2}`,
             project: `Home`,
             priority: 'low',
             complete: 'false',
         },
         {
+            name: 'Disc golf with friends',
+            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 8}`,
+            project: `Home`,
+            priority: 'medium',
+            complete: 'false',
+        },
+        {
             name: 'Yardwork',
-            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 3}`,
+            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 6}`,
             project: `Home`,
             priority: 'low',
             complete: 'false',
@@ -105,7 +113,7 @@ if (localStorage.length === 0) {
         },
         {
             name: 'Update resume',
-            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 7}`,
+            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 4}`,
             project: `Work`,
             priority: 'high',
             complete: 'false',
@@ -118,7 +126,7 @@ if (localStorage.length === 0) {
             complete: 'false',
         },
         {
-            name: 'Purchase Space Needle tickets',
+            name: 'Purchase event admission tickets',
             date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 9}`,
             project: `Vacation`,
             priority: 'high',
@@ -126,6 +134,13 @@ if (localStorage.length === 0) {
         },
         {
             name: 'Purchase plane tickets',
+            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 9}`,
+            project: `Vacation`,
+            priority: 'high',
+            complete: 'false',
+        },
+        {
+            name: 'Reserve airport parking',
             date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 9}`,
             project: `Vacation`,
             priority: 'high',

@@ -2,6 +2,7 @@
 const body = document.querySelector('body');
 
 import logoIcon from './assets/check-decagram-outline.svg';
+import verticalDotsIcon from './assets/dots-vertical.svg';
 import githubIcon from './assets/GitHub-light-32px.png';
 
 import { 
@@ -18,16 +19,74 @@ import {
 const _createHeader = () => {
     const header = document.createElement('header')
     
-    // display title
+    // display logo
     const logo = document.createElement('img');
     logo.src = logoIcon;
     logo.target = '_blank';
     logo.setAttribute('class', 'logo');
     header.appendChild(logo);
     
+    // display title
     const title = document.createElement('h1');
     title.textContent = 'Things To Do';
     header.appendChild(title);
+
+    // DROPDOWN MENU
+    // create options icon container and display icon
+    const optionsIconContainer = document.createElement('div');
+    optionsIconContainer.setAttribute('class', 'optionsIconContainer');
+    const optionsIcon = document.createElement('img');
+    optionsIcon.setAttribute('class', 'icon optionsIcon');
+    //show dropdown listener
+    optionsIcon.addEventListener('click', (e) => {
+        optionsIcon.classList.toggle('selected')
+        document.querySelector('.dropdownContainer').classList.toggle('hidden')
+    });
+    optionsIcon.src = verticalDotsIcon;
+    // close dropdown if the user clicks outside of it
+    window.onclick = function(e) {
+        if (!e.target.matches('.optionsIcon')) {
+            const dropdownContainer = document.querySelector('.dropdownContainer')
+            if (dropdownContainer.classList.contains('hidden') === false) {
+                dropdownContainer.classList.add('hidden')
+            }
+            const optionsIcon = document.querySelector('.optionsIcon')
+            if (optionsIcon.classList.contains('selected')) {
+                optionsIcon.classList.toggle('selected')
+            }
+        }
+    } 
+
+    // create dropdown container 
+    const dropdownContainer = document.createElement('div');
+    dropdownContainer.setAttribute('class', 'dropdownContainer hidden');
+
+    // create dropdown options
+    // set completed filter
+    const completedToggle = document.createElement('span');
+    completedToggle.setAttribute('class', 'dropdownItem completedTasksToggle');    
+    if (localStorage.getItem('completedFilter') === 'false') {
+        completedToggle.innerText = 'Hide completed tasks'
+    } else {
+        completedToggle.innerText = 'Show completed tasks'
+    }
+    completedToggle.addEventListener('click', () => {
+        if (completedToggle.innerText === 'Show completed tasks') {
+            completedToggle.innerText = 'Hide completed tasks'
+            localStorage.setItem('completedFilter', false)
+            displayTasks();
+        } else {
+            completedToggle.innerText = 'Show completed tasks'
+            localStorage.setItem('completedFilter', true)
+            displayTasks();
+        }
+    })
+
+    // append
+    dropdownContainer.appendChild(completedToggle)
+    optionsIconContainer.appendChild(optionsIcon)
+    optionsIconContainer.appendChild(dropdownContainer)
+    header.appendChild(optionsIconContainer)
     
     body.appendChild(header);
 }

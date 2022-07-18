@@ -383,9 +383,19 @@ const displayTasks = () => {
 
 
         // set display filter
-        const filter = document.querySelector('.contentTitle').textContent
-        // date filters
 
+        // completed
+        const completedTasksToggle = document.querySelector('.completedTasksToggle')
+        // check to see if completed tasks should be displayed
+        if (localStorage.getItem('completedFilter') === 'true') {
+            // hide completed tasks
+            if (task.complete === 'true') {
+                newListing.classList.add('hidden');
+            }            
+        }
+        
+        // DATE FILTERS
+        const filter = document.querySelector('.contentTitle').textContent
         // All tasks
         if (filter === 'All tasks') {
             return;
@@ -611,7 +621,6 @@ const displayTasks = () => {
     
 
     // append all tasks to tasklist
-    // NEW 
     let i=0
     const storageTasks = JSON.parse(localStorage.getItem('storageTasks'))
     storageTasks.forEach(task => {
