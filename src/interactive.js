@@ -342,11 +342,11 @@ const displayTasks = () => {
             newListing.classList.add('complete')
         }
         // assign priority class
-        if (task.priority === 'high') {
+        if (task.priority === '1') {
             newListing.classList.add('highPriority');
-        } else if (task.priority === 'medium') {
+        } else if (task.priority === '2') {
             newListing.classList.add('mediumPriority');
-        } else if (task.priority === 'low') {
+        } else if (task.priority === '3') {
             newListing.classList.add('lowPriority');
         }
 
@@ -473,11 +473,11 @@ const displayTasks = () => {
         }       
 
         // assign priority class
-        if (task.priority === 'high') {
+        if (task.priority === '1') {
             newCardContainer.classList.add('highPriority');
-        } else if (task.priority === 'medium') {
+        } else if (task.priority === '2') {
             newCardContainer.classList.add('mediumPriority');
-        } else if (task.priority === 'low') {
+        } else if (task.priority === '3') {
             newCardContainer.classList.add('lowPriority');
         }
         
@@ -570,21 +570,21 @@ const displayTasks = () => {
         // create priority dropdown options
         // high priority
         const priorityHigh = document.createElement('option')
-        priorityHigh.value = 'high'
+        priorityHigh.value = '1'
         priorityHigh.text = 'High'
         // medium priority
         const priorityMedium = document.createElement('option')
-        priorityMedium.value = 'medium'
+        priorityMedium.value = '2'
         priorityMedium.text = 'Medium'
         // low priority
         const priorityLow = document.createElement('option')
-        priorityLow.value = 'low'
+        priorityLow.value = '3'
         priorityLow.text = 'Low'
         
         // priority selection
-        if (task.priority === 'high') {
+        if (task.priority === '1') {
         priorityHigh.selected = true;
-        } else if (task.priority === 'low') {
+        } else if (task.priority === '3') {
         priorityLow.selected = true;
         } else 
         priorityMedium.selected = true;
@@ -620,9 +620,23 @@ const displayTasks = () => {
     }
     
 
+
+    // sort tasks by due date then priority
+    const storageTasks = JSON.parse(localStorage.getItem('storageTasks'))
+    storageTasks.sort((taskA, taskB) => {
+        if (new Date(taskA.date) - new Date(taskB.date) !== 0) {
+            return new Date(taskA.date) - new Date(taskB.date);
+        } else {
+            return taskA.priority - taskB.priority;
+        }
+    })
+    // set task array back into localStorage
+    localStorage.setItem('storageTasks', JSON.stringify(storageTasks));
+
+
+
     // append all tasks to tasklist
     let i=0
-    const storageTasks = JSON.parse(localStorage.getItem('storageTasks'))
     storageTasks.forEach(task => {
         _createTaskListing(task, i);
         _createTaskCard(task, i);
@@ -648,7 +662,7 @@ const _markComplete = (e) => {
     } else {
         console.log('this is strange')
     }
-    // set changes to localStorage
+    // set task array back into localStorage
     localStorage.setItem('storageTasks', JSON.stringify(storageTasks));
     displayTasks();
 }
