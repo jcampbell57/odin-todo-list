@@ -14,6 +14,8 @@ body {
     grid-template-rows: 110px calc(100vh - 110px - 62px) 62px;
     margin: 0;
     box-sizing: border-box;
+    max-width: 100vw;
+    max-height: 100vh;
 }
 
 
