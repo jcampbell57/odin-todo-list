@@ -215,6 +215,14 @@ header {
 
 /* Form styling */
 
+form {
+    width: 100%;
+}
+
+legend {
+    width: 100%;
+}
+
 #showBlock {
     display: block;
 }
