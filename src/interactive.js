@@ -759,8 +759,6 @@ const _deleteTask = (e) => {
 // how is this being skipped when clicking on delete icon??
 const setTaskFilter = (container, e) => {   
 
-    console.log('hi')
-
     // set content title (filter)
     const contentTitle = document.querySelector('.contentTitle')
     contentTitle.textContent = container.innerText
