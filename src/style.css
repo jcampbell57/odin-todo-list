@@ -13,6 +13,7 @@ body {
     grid-template-columns: 250px calc(100vw - 250px);
     grid-template-rows: 110px calc(100vh - 110px - 62px) 62px;
     margin: 0;
+    box-sizing: border-box;
 }
 
 
