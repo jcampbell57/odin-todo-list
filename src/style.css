@@ -77,6 +77,12 @@ header {
     align-items: center;
 }
 
+
+
+
+
+/* Dropdown menu styling */
+
 .optionsIconContainer {
     height: 100%;
     margin-left: auto;
@@ -115,13 +121,14 @@ header {
     right: 0;
     top: 100%;
     width: max-content;
+    box-sizing: border-box;
     z-index: 2;
 }
 
 .dropdownItem {
     display: block;
-    margin: 10px 1rem;
-    padding: 8px;
+    /* margin: 10px 1rem; */
+    padding: 12px 1rem;
     border-radius: 8px;   
 }
 
@@ -225,7 +232,7 @@ tbody>tr.task:hover {
     margin: 10px;
 }
 
-.formRow{
+.formRow {
     display: flex;
     justify-content:space-around;
     gap: 8px;
@@ -237,19 +244,22 @@ tbody>tr.task:hover {
 }
 
 #newTaskInput,
-#taskCardInput,
+.taskCardInput,
 #newProjectInput {
-    width: 100%;
-    font-size: 1.2rem;
     padding: 6px;
+    /* with padding compensation */
+    width: calc(100% - 12px);
+    font-size: 1.2rem;
+    margin: 6px;
     border: none;
     border-radius: 8px;
+    box-sizing: border-box;
 }
 
 .addBtn,
 .cancelBtn {
-    width: 100%;
     padding: 8px;
+    width: calc(100% - 16px);
     border-radius: 8px;    
     font-size: 1rem;
 }
@@ -294,22 +304,28 @@ tbody>tr.task:hover {
     color: var(--font-color);
     font-size: 1.2rem;
     max-width: 1000px;
+    box-sizing: border-box;
     overflow: auto;
     /* padding: 20px; */
 }
 
-
+.taskPastDue {
+    color: darkred;
+}
 
 
 
 /* Table styling */
 
-table {
+table,
+td > form {
     /* border: 1px solid red; */
     width: 100%;
+    box-sizing: border-box;
 }
 
-tbody>tr {
+tbody>tr,
+legend > div {
     box-sizing: border-box;
     /* width: 100%; */
     display: flex;
@@ -338,7 +354,8 @@ tbody>tr {
     display: none;
 }
 
-td {
+td,
+legend > div {
     /* border: 2px solid pink; */
     display: flex;
     /* align-items: center; */
@@ -374,12 +391,43 @@ img.deleteItem {
 
 
 /* Edit card styling */
-.cardRow2 > td,
-.taskInputContainer {
-    width: 100%;
+
+.task>td {
+    height: min-content;
+    box-sizing: border-box;
+
 }
 
-tbody>.cardRow {
+
+fieldset {
+    display: flex;
+    flex-direction: column;
+    /* border-radius: 6px; */
+    box-sizing: border-box;
+    padding: 6px;
+    width: 100%;
+    border: none;
+}
+
+fieldset > legend {
+    /* box-sizing: border-box; */
+    /* width: 100%; */
+    display: flex;
+    /* align-items: center; */
+    flex-direction: column;
+    gap: none;
+    width: auto;
+    height: auto;
+}
+
+.cardRow2 > div {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+legend>.cardRow {
+    width: 100%;
+    box-sizing: border-box;
     margin: 0 1rem;
     padding: 6px;
 }
@@ -415,9 +463,14 @@ footer {
     align-items: center;
     justify-content: center;
     margin-top: auto;
+    gap: 10px;
 }
 
 .github {
     height: 24px;
-    margin-left: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.github:hover {
+    transform: rotate(360deg) scale(1.2);
 }

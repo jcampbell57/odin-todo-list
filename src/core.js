@@ -11,6 +11,7 @@ import {
     setTaskFilter,
     createForm,
     createWeekIcon,
+    createPastDueIcon,
     createTodayIcon,
     createAdditionIcon } from './interactive';
 
@@ -137,6 +138,19 @@ const _createMenu = () => {
     dueWeekText.innerText = 'Due this week';
     dueWeek.appendChild(dueWeekText);
     menuOptions.appendChild(dueWeek);
+
+    const pastDue = document.createElement('li');
+    pastDue.setAttribute('class', 'pastDue');
+    pastDue.addEventListener('click', (e) => {
+        setTaskFilter(pastDue, e)
+        pastDue.classList.add('selected')
+        displayTasks();
+    })
+    createPastDueIcon(pastDue)
+    const pastDueText = document.createElement('span');
+    pastDueText.innerText = 'Past due';
+    pastDue.appendChild(pastDueText);
+    menuOptions.appendChild(pastDue);
 
 
     // Projects menu

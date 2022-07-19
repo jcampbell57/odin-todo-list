@@ -3,6 +3,7 @@ import checkboxMarked from './assets/checkbox-marked.svg';
 import checklist from './assets/checklist.svg';
 import calendarToday from './assets/calendar-today.svg';
 import calendarWeek from './assets/calendar-range.svg';
+import pastDue from './assets/history.svg';
 import additionIcon from './assets/plus.svg';
 import editIcon from './assets/edit.svg';
 import deleteIcon from './assets/delete.svg';
@@ -98,6 +99,13 @@ const createWeekIcon = (li) => {
     li.appendChild(newWeekIcon);
 }
 
+const createPastDueIcon = (li) => {
+    const newPastDueIcon = document.createElement('img');
+    newPastDueIcon.src = pastDue;
+    newPastDueIcon.setAttribute('class', 'icon')
+    li.appendChild(newPastDueIcon);
+}
+
 const _createAddButton = (container, i) => {
     const addBtn = document.createElement('button');
     addBtn.setAttribute('class', 'addBtn');
@@ -140,7 +148,11 @@ const createDateContainer = (tr, task, i) => {
     dateContainer.setAttribute('class', 'dateContainer');
     //task card
     if (tr.classList.contains('editDateContainer')) {
-        dateContainer.innerHTML = `<input class='taskCardDate${i}' type='date' id='taskCardInput' name='taskCardInput' value='${task.date}'>`
+        dateContainer.innerHTML = `<input class='taskCardInput taskCardDate${i}' 
+                                   type='date' 
+                                   id='taskCardDate' 
+                                   name='taskCardDate' 
+                                   value='${task.date}'>`
     // task listing
     } else {
         // only display due date if there is one
@@ -154,10 +166,19 @@ const createDateContainer = (tr, task, i) => {
 }
 
 const createDeleteContainer = (tr) => {
-    const closeContainer = document.createElement('td');
-    closeContainer.setAttribute('class', 'taskCloseContainer');
-    _createDeleteIcon(closeContainer);
-    tr.appendChild(closeContainer);
+    //task card
+    if (tr.classList.contains('task') === false) {
+        const closeContainer = document.createElement('div');
+        closeContainer.setAttribute('class', 'taskCloseContainer');
+        _createDeleteIcon(closeContainer);
+        tr.appendChild(closeContainer);
+    // task listing
+    } else {
+        const closeContainer = document.createElement('td');
+        closeContainer.setAttribute('class', 'taskCloseContainer');
+        _createDeleteIcon(closeContainer);
+        tr.appendChild(closeContainer);
+    }
 }
 
 
@@ -340,6 +361,11 @@ const displayTasks = () => {
             newListing.classList.add('lowPriority');
         }
 
+        // assign past due class (for darkred font color)
+        if (new Date() - new Date(task.date) > 0) {
+            newListing.classList.add('taskPastDue');
+        }
+
         newListing.setAttribute('id', `${i}`);
         
         // add checkbox
@@ -432,7 +458,22 @@ const displayTasks = () => {
                 newListing.classList.add('hidden')
                 return
             }
-        } 
+        
+        // hide if no due date
+            
+        } else if (filter === 'Past due') {
+            // Past due 
+            if (task.date === '') {
+                newListing.classList.add('hidden');
+                return;
+
+            // hide if not past due
+            } else if (new Date() - new Date(task.date) < 0) {
+                newListing.classList.add('hidden');
+                return;
+            }    
+        }
+
 
         // project filter
         // grab projects array from storage
@@ -471,56 +512,59 @@ const displayTasks = () => {
             newCardContainer.classList.add('lowPriority');
         }
         
-        const newCard = document.createElement('table');
-        newCard.setAttribute('class', 'incomplete menuOptions');
-        newCard.setAttribute('id', `${i}`);
-        
-        // Create delete button
-        createDeleteContainer(newCard);
+        // create form container 
+        const newCardFormContainer = document.createElement('td');
 
-        const newThead = document.createElement('thead');
-        newThead.innerHTML = 
-            `<tr>
-                <th class='checkboxContainer'></th>
-                <th class='taskContainer'></th>
-                <th class='dateContainer'></th>
-                <th class='editContainer'></th>
-            </tr>`
+        // Create form
+        const editCardForm = document.createElement('form');
+        editCardForm.setAttribute('class', 'menuOptions');
+        editCardForm.setAttribute('id', `${i}`);
         
         // Create tbody
-        const taskCard = document.createElement('tbody');
+        const taskCard = document.createElement('fieldset');
         taskCard.setAttribute('id', 'taskCard');
         
+        // create legend
+        const taskCardLegend = document.createElement('legend');
+        // taskCardLegend.innerText = 'Modify task'
 
         // First row
-        const cardRow1 = document.createElement('tr');
+        const cardRow1 = document.createElement('div');
         cardRow1.setAttribute('class', 'cardRow cardRow1')
         // add task name input
-        const taskInputContainer = document.createElement('td');
+        const taskInputContainer = document.createElement('div');
         taskInputContainer.setAttribute('class', `taskInputContainer`);
-        taskInputContainer.innerHTML = `<input type='text' class='taskCardTask taskCardTask${i}' id='taskCardInput' name='taskCardInput' value='${task.name}'></input>`;
+        taskInputContainer.innerHTML = `<label for='taskCardTask'>Task:</label>
+
+                                        <input type='text' 
+                                        class='taskCardInput taskCardTask${i}' 
+                                        id='taskCardTask' 
+                                        name='taskCardTask' 
+                                        value='${task.name}'></input>`;
         cardRow1.appendChild(taskInputContainer);
         // add date input
-        const editDateContainer = document.createElement('td');
+        const editDateContainer = document.createElement('div');
         editDateContainer.setAttribute('class', `editDateContainer`);
+        editDateContainer.innerHTML = "<label for='taskCardDate'>Due date:</label>";
         createDateContainer(editDateContainer, task, i);
         cardRow1.appendChild(editDateContainer);
 
 
 
         // Second row 
-        const cardRow2 = document.createElement('tr');
+        const cardRow2 = document.createElement('div');
         cardRow2.setAttribute('class', 'cardRow cardRow2')
         
         // project input container
-        const projectInputContainer = document.createElement('td');
+        const projectInputContainer = document.createElement('div');
         projectInputContainer.setAttribute('class', 'projectInputContainer');
-        
+        projectInputContainer.innerHTML = "<label for='taskCardProject'>Project:</label>";
+
         // create project dropdown 
         const projectDropdown = document.createElement('select')
-        projectDropdown.setAttribute('class', `taskCardProject${i}`)
-        projectDropdown.setAttribute('id', 'taskCardInput')
-        projectDropdown.setAttribute('name', 'taskCardInput')
+        projectDropdown.setAttribute('class', `taskCardInput taskCardProject${i}`)
+        projectDropdown.setAttribute('id', 'taskCardProject')
+        projectDropdown.setAttribute('name', 'taskCardProject')
         projectDropdown.setAttribute('value', `${task.project}`)
 
         // create project dropdown options
@@ -545,14 +589,15 @@ const displayTasks = () => {
         
 
         // priority input container
-        const priorityInputContainer = document.createElement('td');
+        const priorityInputContainer = document.createElement('div');
         priorityInputContainer.setAttribute('class', 'priorityInputContainer');
-        
+        priorityInputContainer.innerHTML = "<label for='taskCardPriority'>Priority:</label>";
+
         // create priority dropdown 
         const priorityDropdown = document.createElement('select')
-        priorityDropdown.setAttribute('class', `taskCardPriority${i}`)
-        priorityDropdown.setAttribute('id', 'taskCardInput')
-        priorityDropdown.setAttribute('name', 'taskCardInput')
+        priorityDropdown.setAttribute('class', `taskCardInput taskCardPriority${i}`)
+        priorityDropdown.setAttribute('id', 'taskCardPriority')
+        priorityDropdown.setAttribute('name', 'taskCardPriority')
         priorityDropdown.setAttribute('value', `${task.priority}`)
         
         // create priority dropdown options
@@ -587,7 +632,7 @@ const displayTasks = () => {
 
 
         // Third row 
-        const cardRow3 = document.createElement('tr');
+        const cardRow3 = document.createElement('div');
         cardRow3.setAttribute('class', 'cardRow cardRow3')
         _createAddButton(cardRow3, i);
         _createCancelButton(cardRow3, `${i}`);
@@ -595,14 +640,22 @@ const displayTasks = () => {
 
 
         // append task card to tasklist
-        taskCard.appendChild(cardRow1);
-        taskCard.appendChild(cardRow2);
-        taskCard.appendChild(cardRow3);
+        taskCardLegend.appendChild(cardRow1);
+        taskCardLegend.appendChild(cardRow2);
+        taskCardLegend.appendChild(cardRow3);
+        
+        taskCard.appendChild(taskCardLegend);
 
-        newCard.appendChild(newThead);
-        newCard.appendChild(taskCard);
+        // editCardForm.appendChild(newThead);
+        editCardForm.appendChild(taskCard);
 
-        newCardContainer.appendChild(newCard);
+        newCardFormContainer.appendChild(editCardForm);
+
+        // Create delete button
+        createDeleteContainer(newCardFormContainer);
+
+        
+        newCardContainer.appendChild(newCardFormContainer);
 
         tasklist.appendChild(newCardContainer);
     }
@@ -669,6 +722,7 @@ const _showTaskCard = (e) => {
 }
 
 const _submitTaskCard = (e) => {
+    e.preventDefault();
     const taskID = (e.target.getAttribute('id')) 
 
     // Get input values
@@ -677,7 +731,6 @@ const _submitTaskCard = (e) => {
     const updatedProject = document.querySelector(`.taskCardProject${taskID}`).value
     const updatedPriority = document.querySelector(`.taskCardPriority${taskID}`).value
 
-    // NEW
     // grab updated task from localStorage
     const storageTasks = JSON.parse(localStorage.getItem('storageTasks'))
     var updatedTask = storageTasks[taskID]
@@ -721,12 +774,15 @@ const setTaskFilter = (container, e) => {
     const allTasksClassList = document.querySelector('.allTasks').classList
     const dueTodayClassList = document.querySelector('.dueToday').classList
     const dueWeekClassList = document.querySelector('.dueWeek').classList
+    const pastDueClassList = document.querySelector('.pastDue').classList
     if (allTasksClassList.contains('selected')) {
         allTasksClassList.remove('selected')
     } if (dueTodayClassList.contains('selected')) {
         dueTodayClassList.remove('selected')
     } if (dueWeekClassList.contains('selected')) {
         dueWeekClassList.remove('selected')
+    } if (pastDueClassList.contains('selected')) {
+        pastDueClassList.remove('selected')
     } 
 
     // grab projects array from storage
@@ -764,6 +820,7 @@ export {
     createForm,
     createChecklistIcon,
     createWeekIcon,
+    createPastDueIcon,
     createTodayIcon,
     createAdditionIcon,
     setTaskFilter,
