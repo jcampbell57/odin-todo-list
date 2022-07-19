@@ -1,6 +1,5 @@
 
 // Page initialization
-// import { initialize } from './core';
 import initialize from './core'
 import './style.css';
 
@@ -28,8 +27,7 @@ import { displayTasks } from './interactive';
 
 
 
-// temp
-// localStorage.clear();
+
 
 // Initiate storage arrays if localStorage is empty
 const storageTasksArray = [];
@@ -39,7 +37,7 @@ if (localStorage.length === 0) {
     localStorage.setItem('storageProjects', JSON.stringify(storageProjectsArray));
     localStorage.setItem('completedFilter', true);
 
-    // PLACEHOLDER PROJECTS
+    // DEMO PROJECTS
     // grab storage array from storage
     const storageProjects = JSON.parse(localStorage.getItem('storageProjects'))
     // push placerholder projects
@@ -64,10 +62,10 @@ if (localStorage.length === 0) {
     // set storage array back into storage
     localStorage.setItem('storageProjects', JSON.stringify(storageProjects));
 
-    // PLACEHOLDER TASKS
+    // DEMO TASKS
     // grab tasks array from storage
     const storageTasks = JSON.parse(localStorage.getItem('storageTasks'))
-    // push placeholder tasks (dates calculated so demo will always be functional)
+    // push demo tasks (dates calculated so demo will always be functional)
     storageTasks.push(
         {
             name: 'Meal Prep',
