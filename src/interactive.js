@@ -14,7 +14,7 @@ import { add, format, isWithinInterval, parseISO, startOfDay } from 'date-fns';
 
 
 // Icon & button generators 
-const _createCheckboxIcon = (td, task, i) => {
+const _createCheckboxIcon = (div, task, i) => {
     const checkboxIcon = document.createElement('img');
     if (task.complete === 'true') {
         checkboxIcon.src = checkboxMarked
@@ -24,7 +24,7 @@ const _createCheckboxIcon = (td, task, i) => {
     checkboxIcon.setAttribute('class', 'icon');
     checkboxIcon.setAttribute('id', `${i}`);
     checkboxIcon.addEventListener('click', (e) => _markComplete(e))
-    td.appendChild(checkboxIcon);
+    div.appendChild(checkboxIcon);
 } 
 
 const createChecklistIcon = (li) => {
@@ -34,14 +34,14 @@ const createChecklistIcon = (li) => {
     li.appendChild(checklistIcon);
 }
 
-const _createEditIcon = (td, i) => {
+const _createEditIcon = (div, i) => {
     const newEditIcon = document.createElement('img');
     newEditIcon.src = editIcon;
     newEditIcon.setAttribute('class', 'icon');
     newEditIcon.setAttribute('id', `${i}`);
     // event listener to open task card
     newEditIcon.addEventListener('click', (e) => _showTaskCard(e))
-    td.appendChild(newEditIcon);
+    div.appendChild(newEditIcon);
 }
 
 const _createDeleteIcon = (container, i) => {
@@ -50,15 +50,15 @@ const _createDeleteIcon = (container, i) => {
     newDeleteIcon.src = deleteIcon;
     newDeleteIcon.setAttribute('class', 'icon deleteItem')
     newDeleteIcon.setAttribute('id', `${i}`)
-    // add event listener
-    if (container.getAttribute('class') === 'taskCloseContainer') {
+    
+    // ADD EVENT LISTENER
+    if (container.classList.contains('task')) {
         // Event listener to delete task
         newDeleteIcon.addEventListener('click', (e) => _deleteTask(e))
     } else if (container.getAttribute('class') === 'project' || 
     container.classList.contains('project')) {
         // Event listener to delete project
-        newDeleteIcon.classList.add(`deleteProject${i}`)        
-        newDeleteIcon.classList.add(`hidden`)        
+        newDeleteIcon.classList.add(`deleteProject`, `deleteProject${i}`, `hidden`)        
         newDeleteIcon.addEventListener('click', (e) => _deleteProject(e, i))        
         // display trash icon on hover
         container.addEventListener('mouseenter', () => {
@@ -71,7 +71,6 @@ const _createDeleteIcon = (container, i) => {
             trashIcon.classList.add('hidden')
         })    
     } else {
-        console.log(container)
         console.log('this is strange');
     }
     // append to container
@@ -139,18 +138,12 @@ const _createCancelButton = (container, i) => {
 
 
 // Container AND icon generators (For task listing and task card)
-const createCheckboxContainer = (tr, task, i) => {
-    const checkboxContainer = document.createElement('td');
-    checkboxContainer.setAttribute('class', 'checkboxContainer');
-    _createCheckboxIcon(checkboxContainer, task, i);
-    tr.appendChild(checkboxContainer);
-}
 
-const createDateContainer = (tr, task, i) => {
-    const dateContainer = document.createElement('td');
+const createDateContainer = (li, task, i) => {
+    const dateContainer = document.createElement('span');
     dateContainer.setAttribute('class', 'dateContainer');
     //task card date format
-    if (tr.classList.contains('editDateContainer')) {
+    if (li.classList.contains('editDateContainer')) {
         dateContainer.innerHTML = `<input class='taskCardInput taskCardDate${i}' 
                                    type='date' 
                                    id='taskCardDate' 
@@ -179,23 +172,7 @@ const createDateContainer = (tr, task, i) => {
             dateContainer.innerText = `${format(parseISO(task.date), 'LLL do')}`
         }
     }
-    tr.appendChild(dateContainer);
-}
-
-const createDeleteContainer = (tr) => {
-    //task card
-    if (tr.classList.contains('task') === false) {
-        const closeContainer = document.createElement('div');
-        closeContainer.setAttribute('class', 'taskCloseContainer');
-        _createDeleteIcon(closeContainer);
-        tr.appendChild(closeContainer);
-    // task listing
-    } else {
-        const closeContainer = document.createElement('td');
-        closeContainer.setAttribute('class', 'taskCloseContainer');
-        _createDeleteIcon(closeContainer);
-        tr.appendChild(closeContainer);
-    }
+    li.appendChild(dateContainer);
 }
 
 
@@ -304,8 +281,8 @@ const _deleteProject = (e) => {
     // delete project
     storageProjects.splice(doomedIndex, 1);
 
+
     // delete all tasks in doomed project
-    // could change from splice to deleted propery with hidden class to use in stats table with completed property //
     // mark tasks for deletion
     storageTasks.forEach((task, index) => {
         if (task.project === doomedName) {
@@ -363,7 +340,7 @@ const displayTasks = () => {
     // Add single task to tasklist display
     const _createTaskListing = (task, i) => {
         // create task container
-        const newListing = document.createElement('tr');
+        const newListing = document.createElement('li');
         newListing.setAttribute('class', `task listing${i}`);
         // complete filter to assign class
         if (task.complete === 'true') {
@@ -386,10 +363,10 @@ const displayTasks = () => {
         newListing.setAttribute('id', `${i}`);
         
         // add checkbox
-        createCheckboxContainer(newListing, task, i);
+        _createCheckboxIcon(newListing, task, i);
         
         // add task
-        const taskContainer = document.createElement('td');
+        const taskContainer = document.createElement('div');
         taskContainer.setAttribute('class', `taskContainer${i}`);
         // complete filter for strikethrough
         if (task.complete === 'true') {
@@ -402,13 +379,13 @@ const displayTasks = () => {
         createDateContainer(newListing, task);
 
         // add edit button
-        const editContainer = document.createElement('td');
+        const editContainer = document.createElement('div');
         editContainer.setAttribute('class', 'editContainer');
         _createEditIcon(editContainer, i);
         newListing.appendChild(editContainer);
 
         // add delete button
-        createDeleteContainer(newListing);
+        _createDeleteIcon(newListing, i);
 
         //append task to tasklist
         tasklist.appendChild(newListing);
@@ -513,8 +490,8 @@ const displayTasks = () => {
     // Create and hide task card in tasklist display
     const _createTaskCard = (task, i) => {
         // CREATE TASK CARD
-        const newCardContainer = document.createElement('tr')
-        newCardContainer.setAttribute('class', `task card${i}`);
+        const newCardContainer = document.createElement('li')
+        newCardContainer.setAttribute('class', `task card card${i}`);
         newCardContainer.setAttribute('id', `hidden`);
 
         // complete filter to assign class
@@ -530,16 +507,13 @@ const displayTasks = () => {
         } else if (task.priority === '3') {
             newCardContainer.classList.add('lowPriority');
         }
-        
-        // create form container 
-        const newCardFormContainer = document.createElement('td');
 
         // Create form
         const editCardForm = document.createElement('form');
         editCardForm.setAttribute('class', 'menuOptions');
         editCardForm.setAttribute('id', `${i}`);
         
-        // Create tbody
+        // Create fieldset
         const taskCard = document.createElement('fieldset');
         taskCard.setAttribute('id', 'taskCard');
         
@@ -664,17 +638,11 @@ const displayTasks = () => {
         taskCardLegend.appendChild(cardRow3);
         
         taskCard.appendChild(taskCardLegend);
-
-        // editCardForm.appendChild(newThead);
         editCardForm.appendChild(taskCard);
-
-        newCardFormContainer.appendChild(editCardForm);
+        newCardContainer.appendChild(editCardForm);
 
         // Create delete button
-        createDeleteContainer(newCardFormContainer);
-
-        
-        newCardContainer.appendChild(newCardFormContainer);
+        _createDeleteIcon(newCardContainer, i)
 
         tasklist.appendChild(newCardContainer);
     }
@@ -684,8 +652,15 @@ const displayTasks = () => {
     // sort tasks by due date then priority
     const storageTasks = JSON.parse(localStorage.getItem('storageTasks'))
     storageTasks.sort((taskA, taskB) => {
-        if (parseISO(taskA.date) - parseISO(taskB.date) !== 0) {
+        // tasks with no date to the top
+        if (taskA.date === '') {
+            return -1;
+        } else if (taskB.date === '') {
+            return 1;
+        // sort by due date
+        } else if (parseISO(taskA.date) - parseISO(taskB.date) !== 0) {
             return parseISO(taskA.date) - parseISO(taskB.date);
+        // sort by priority
         } else {
             return taskA.priority - taskB.priority;
         }
@@ -765,8 +740,7 @@ const _submitTaskCard = (e) => {
 
 // Delete task
 const _deleteTask = (e) => {
-    let doomedIndex = e.target.parentElement.parentElement.getAttribute('id');
-    // NEW
+    let doomedIndex = e.target.getAttribute('id');
     const storageTasks = JSON.parse(localStorage.getItem('storageTasks'))
     // remove task from localStorage
     storageTasks.splice(doomedIndex, 1);
@@ -784,6 +758,8 @@ const _deleteTask = (e) => {
 
 // how is this being skipped when clicking on delete icon??
 const setTaskFilter = (container, e) => {   
+
+    console.log('hi')
 
     // set content title (filter)
     const contentTitle = document.querySelector('.contentTitle')

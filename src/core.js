@@ -201,20 +201,9 @@ const _createContent = () => {
     contentTitle.setAttribute('class', 'contentTitle');
     contentTitle.innerText = 'All tasks';
 
-    const taskContainer = document.createElement('table');
-    taskContainer.setAttribute('class', 'menuOptions');
-    taskContainer.innerHTML = 
-        `<thead>
-            <tr>
-                <th class='checkboxContainer'></th>
-                <th class='taskContainer'></th>
-                <th class='dateContainer'></th>
-                <th class='editContainer'></th>
-                <th class='taskCloseContainer'></th>
-            </tr>
-        </thead>
-        <tbody id='taskList'></tbody>`
-    
+    const taskContainer = document.createElement('ul');
+    taskContainer.setAttribute('class', 'taskList');
+    taskContainer.setAttribute('id', 'taskList');
 
     // Create add task button
     const addTaskContainer = document.createElement('ul');
