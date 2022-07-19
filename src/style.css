@@ -26,18 +26,19 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2); 
-    box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     -webkit-border-radius: 6px;
     border-radius: 6px;
 }
 
 ::-webkit-scrollbar-track:hover {
-    border: 1px solid var(--secondary-color);
+    border: 1px solid rgb(20, 20, 20, 0.2);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--menu-color); 
+    /* background: var(--menu-color);  */
+    background: rgb(20, 20, 20, 0.25);
     -webkit-border-radius: 6px;
     border-radius: 6px;
     -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.4); 
@@ -50,7 +51,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:active {
-    border: 1px solid var(--secondary-color);
+    border: 1px solid rgb(20, 20, 20, 0.2);
 }
 
 
@@ -100,7 +101,7 @@ header {
 }
 
 .optionsIcon:hover {
-    background-color: rgb(245, 245, 245, 0.3);
+    background-color: rgb(245, 245, 245, 0.6);
     box-shadow: 2px 2px 6px rgb(0, 0, 0, 0.2);
     cursor: pointer;
     filter: none;
@@ -202,7 +203,7 @@ tbody>tr.task:hover {
 }
 
 .selected {
-    background-color: rgb(245, 245, 245, 0.3);
+    background-color: rgb(245, 245, 245, 0.6);
     box-shadow: 2px 2px 6px rgb(0, 0, 0, 0.1);
 }
 
@@ -293,6 +294,9 @@ tbody>tr.task:hover {
     color: darkred;
 }
 
+label {
+    font-size: 1rem;
+}
 
 
 
@@ -472,5 +476,5 @@ footer {
 }
 
 .github:hover {
-    transform: rotate(360deg) scale(1.2);
+    transform: rotate(-360deg) scale(1.2);
 }

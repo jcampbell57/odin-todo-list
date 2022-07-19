@@ -9,7 +9,7 @@ import editIcon from './assets/edit.svg';
 import deleteIcon from './assets/delete.svg';
 
 import { tasks } from './tasks';
-import { add, isWithinInterval, startOfDay } from 'date-fns';
+import { add, format, isWithinInterval, parseISO, startOfDay } from 'date-fns';
 
 
 
@@ -128,7 +128,10 @@ const _createCancelButton = (container, i) => {
     cancelBtn.setAttribute('id', `${i}`);
     cancelBtn.innerText = "cancel";
     if (container.getAttribute('class') === 'cardRow3') {
-        cancelBtn.addEventListener('click', () => displayTasks(i))
+        cancelBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            displayTasks()
+        })
     };
     container.appendChild(cancelBtn);   
 }
@@ -146,20 +149,34 @@ const createCheckboxContainer = (tr, task, i) => {
 const createDateContainer = (tr, task, i) => {
     const dateContainer = document.createElement('td');
     dateContainer.setAttribute('class', 'dateContainer');
-    //task card
+    //task card date format
     if (tr.classList.contains('editDateContainer')) {
         dateContainer.innerHTML = `<input class='taskCardInput taskCardDate${i}' 
                                    type='date' 
                                    id='taskCardDate' 
                                    name='taskCardDate' 
                                    value='${task.date}'>`
-    // task listing
+    // task listing date format
     } else {
+        // grab todays date and due date
+        const today = new Date();
+        const taskDate = parseISO(task.date)
+
         // only display due date if there is one
         if (task.date === '') {
             dateContainer.innerText === ''
+        // display today
+        } else if (today.getDate() === taskDate.getDate()) {
+            dateContainer.innerText = `Today`
+        // display tomorrow 
+        } else if (add(today, {days: 1}).getDate() === taskDate.getDate()) {
+            dateContainer.innerText = `Tomorrow`
+        // display weekday (if in 2 days)
+        } else if (add(today, {days: 2}).getDate() === taskDate.getDate()) {
+            dateContainer.innerText = `${format(parseISO(task.date), 'eeee')}`
+        // display date 
         } else {
-            dateContainer.innerText = `${add(new Date(task.date), {days: 1}).toLocaleDateString()}`
+            dateContainer.innerText = `${format(parseISO(task.date), 'LLL do')}`
         }
     }
     tr.appendChild(dateContainer);
@@ -362,7 +379,7 @@ const displayTasks = () => {
         }
 
         // assign past due class (for darkred font color)
-        if (new Date() - new Date(task.date) > 0) {
+        if (new Date() - add(parseISO(task.date), {days: 1, seconds: -1}) > 0 && task.complete === 'false') {
             newListing.classList.add('taskPastDue');
         }
 
@@ -424,13 +441,15 @@ const displayTasks = () => {
                 return;
             }
             
-            // grab today's date and task date
+            // grab today's date and task due date
             const today = new Date();
-            const taskDate = new Date(task.date)
-            
+            // end of day due date
+            const taskDate = add(parseISO(task.date), {days: 1, seconds: -1})
+            // console.log(add(parseISO(task.date), {days: 1, seconds: -1}))
+
             // hide if not due today
             if (today.getMonth() !== taskDate.getMonth() ||
-                today.getDate() - 1 !== taskDate.getDate() ||
+                today.getDate() !== taskDate.getDate() ||
                 today.getFullYear() !== taskDate.getFullYear() ) {
                     newListing.classList.add('hidden');
             }
@@ -446,9 +465,9 @@ const displayTasks = () => {
             
             // grab week dates and task due date date
             const today = startOfDay(new Date())
-            const endOfWeek = add(today, {days: 7})
+            const endOfWeek = add(today, {days: 8, seconds: -1})
             // midnight due date
-            const taskDate = add(startOfDay(new Date(task.date)), {days: 1, hours: 23, minutes: 59})
+            const taskDate = add(parseISO(task.date), {days: 1, seconds: -1})
             
             // hide if not due this week
             if (isWithinInterval(taskDate, {
@@ -463,12 +482,12 @@ const displayTasks = () => {
             
         } else if (filter === 'Past due') {
             // Past due 
-            if (task.date === '') {
+            if (task.date === '' || task.complete === 'true') {
                 newListing.classList.add('hidden');
                 return;
 
             // hide if not past due
-            } else if (new Date() - new Date(task.date) < 0) {
+            } else if (new Date() - add(parseISO(task.date), {days: 1, seconds: -1}) < 0) {
                 newListing.classList.add('hidden');
                 return;
             }    
@@ -665,8 +684,8 @@ const displayTasks = () => {
     // sort tasks by due date then priority
     const storageTasks = JSON.parse(localStorage.getItem('storageTasks'))
     storageTasks.sort((taskA, taskB) => {
-        if (new Date(taskA.date) - new Date(taskB.date) !== 0) {
-            return new Date(taskA.date) - new Date(taskB.date);
+        if (parseISO(taskA.date) - parseISO(taskB.date) !== 0) {
+            return parseISO(taskA.date) - parseISO(taskB.date);
         } else {
             return taskA.priority - taskB.priority;
         }
