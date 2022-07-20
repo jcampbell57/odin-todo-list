@@ -83,8 +83,8 @@ header {
 }
 
 header>h1 {
-    font-size: 30pt;
-    font-weight: 800;
+    font-size: 2em;
+    font-weight: bolder;
 }
 
 
