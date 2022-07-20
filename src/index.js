@@ -1,6 +1,7 @@
 
 // Page initialization
 import initialize from './core'
+import './reset.css'
 import './style.css';
 
 initialize();
