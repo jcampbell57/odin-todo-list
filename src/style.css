@@ -80,6 +80,9 @@ header {
     display: flex;
     align-items: center;
     box-sizing: border-box;
+    /* Title formatting */
+    font-size: 30pt;
+    font-weight: 900;
 }
 
 
@@ -159,6 +162,10 @@ header {
     box-sizing: border-box;
 }
 
+.menu>ul.menuOptions {
+    margin-top: 20px;
+}
+
 .icon {
     height: 1.2rem;
 }
@@ -214,6 +221,11 @@ header {
     box-shadow: 2px 2px 6px rgb(0, 0, 0, 0.1);
 }
 
+input#newProjectInput,
+input#newTaskInput {
+    width: 100%;
+    margin: 0;
+}
 
 
 
@@ -259,6 +271,7 @@ legend {
 #newTaskInput,
 .taskCardInput,
 #newProjectInput {
+    /* display: block; */
     padding: 6px;
     font-size: 1.2rem;
     margin: 6px;
@@ -270,7 +283,7 @@ legend {
 .addBtn,
 .cancelBtn {
     padding: 8px;
-    width: calc(48%);
+    width: 50%;
     border-radius: 8px;    
     font-size: 1rem;
 }
@@ -380,6 +393,10 @@ img.icon:hover,
     text-decoration: line-through;
 }
 
+.editContainer {
+    display: flex;
+}
+
 
 
 
@@ -435,6 +452,24 @@ input[type='date'] {
     filter: invert(58%) sepia(26%) saturate(5470%) hue-rotate(2deg) brightness(105%) contrast(103%);    
 }
 
+/* input widths */
+.projectInputContainer, 
+.priorityInputContainer {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 8px;
+}
+
+
+select#taskCardProject, 
+select#taskCardPriority {
+    width: 100%;
+    margin: 0%;
+    text-align: center;
+    
+}
+
 /* format delete button on task card */
 .card>img.deleteItem {
     margin-bottom: auto;
@@ -454,10 +489,8 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* margin-top: auto; */
     gap: 10px;
     box-sizing: border-box;
-    /* padding: 10px 0px */
 }
 
 footer>a {
