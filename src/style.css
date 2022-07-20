@@ -220,12 +220,7 @@ header {
 
 /* Form styling */
 
-/* form {
-    width: 100%;
-} */
-
 legend {
-    /* width: 100%; */
     max-width: none;
 }
 
@@ -265,8 +260,6 @@ legend {
 .taskCardInput,
 #newProjectInput {
     padding: 6px;
-    /* with padding compensation */
-    width: calc(100% - 12px);
     font-size: 1.2rem;
     margin: 6px;
     border: none;
@@ -328,7 +321,6 @@ label {
     max-width: 1000px;
     box-sizing: border-box;
     overflow: auto;
-    /* padding: 20px; */
 }
 
 
@@ -400,13 +392,10 @@ fieldset {
     /* border-radius: 6px; */
     box-sizing: border-box;
     padding: 6px;
-    /* width: 100%; */
     border: none;
 }
 
 fieldset > legend {
-    /* box-sizing: border-box; */
-    /* width: 100%; */
     display: flex;
     flex-direction: column;
     gap: none;
@@ -415,14 +404,11 @@ fieldset > legend {
 }
 
 .cardRow2 > div {
-    /* width: 100%; */
     box-sizing: border-box;
 }
 
 legend>.cardRow {
-    /* width: 100%; */
     /* border: 2px solid blue; */
-    /* box-sizing: border-box; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -438,8 +424,8 @@ input[type='date'] {
 
 ::-webkit-calendar-picker-indicator {
     cursor: pointer;    
-    /* new edit calendar icon */
     display: block;
+    /* new edit calendar icon */
     background: url('./assets/calendar-edit.svg');
     height: 1.2rem;
 }
@@ -468,9 +454,14 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: auto;
+    /* margin-top: auto; */
     gap: 10px;
     box-sizing: border-box;
+    /* padding: 10px 0px */
+}
+
+footer>a {
+    display: flex;
 }
 
 .github {
