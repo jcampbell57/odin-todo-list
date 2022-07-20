@@ -478,6 +478,7 @@ select#taskCardPriority {
 /* format delete button on task card */
 .card>img.deleteItem {
     margin-bottom: auto;
+    margin-left: auto;
 }
 
 
