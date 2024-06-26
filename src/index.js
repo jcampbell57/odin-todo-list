@@ -3,6 +3,7 @@
 import initialize from './core'
 import './reset.css'
 import './style.css';
+import { add, sub } from 'date-fns';
 
 initialize();
 
@@ -70,84 +71,84 @@ if (localStorage.length === 0) {
     storageTasks.push(
         {
             name: 'Meal Prep',
-            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 5}`,
+            date: add(new Date(), { days: 5 }).toISOString().split('T')[0],
             project: `Home`,
             priority: '2',
             complete: 'false',
         },
         {
             name: 'Dust & vacuum',
-            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() - 1}`,
+            date: sub(new Date(), { days: 1 }).toISOString().split('T')[0],
             project: `Home`,
             priority: '3',
             complete: 'false',
         },
         {
             name: 'Disc golf with friends',
-            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 2}`,
+            date: add(new Date(), { days: 2 }).toISOString().split('T')[0],
             project: `Home`,
             priority: '2',
             complete: 'false',
         },
         {
             name: 'Yardwork',
-            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() - 2}`,
+            date: sub(new Date(), { days: 2 }).toISOString().split('T')[0],
             project: `Home`,
             priority: '3',
             complete: 'true',
         },
         {
             name: 'Practice on HackerRank',
-            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 1}`,
+            date: add(new Date(), { days: 1 }).toISOString().split('T')[0],
             project: `Study`,
             priority: '2',
             complete: 'false',
         },
         {
             name: 'Practice on CodeWars',
-            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate()}`,
+            date: new Date().toISOString().split('T')[0],
             project: `Study`,
             priority: '2',
             complete: 'false',
         },
         {
             name: 'Update resume',
-            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 4}`,
+            date: add(new Date(), { days: 4 }).toISOString().split('T')[0],
             project: `Work`,
             priority: '1',
             complete: 'false',
         },
         {
             name: 'Apply for SWE positions',
-            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 7}`,
+            date: add(new Date(), { days: 7 }).toISOString().split('T')[0],
             project: `Work`,
             priority: '1',
             complete: 'false',
         },
         {
             name: 'Purchase event admission tickets',
-            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 8}`,
+            date: add(new Date(), { days: 8 }).toISOString().split('T')[0],
             project: `Vacation`,
             priority: '1',
             complete: 'false',
         },
         {
             name: 'Purchase plane tickets',
-            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 9}`,
+            date: add(new Date(), { days: 9 }).toISOString().split('T')[0],
             project: `Vacation`,
             priority: '2',
             complete: 'false',
         },
         {
             name: 'Reserve airport parking',
-            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 9}`,
+            date: add(new Date(), { days: 9 }).toISOString().split('T')[0],
             project: `Vacation`,
             priority: '3',
             complete: 'false',
         },
         {
             name: 'Book hotel or AirBnB',
-            date: `${(new Date).getFullYear()}-0${(new Date).getMonth() + 1}-${(new Date).getDate() + 9}`,
+            date: add(new Date(), { days: 9 }).toISOString().split('T')[0],
             project: `Vacation`,
             priority: '2',
             complete: 'false',        
