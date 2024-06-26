@@ -34,7 +34,7 @@ import { displayTasks } from './interactive';
 // Initiate storage arrays if localStorage is empty
 const storageTasksArray = [];
 const storageProjectsArray = [];
-if (localStorage.length === 0) {
+if (localStorage.storageTasks === undefined) {
     localStorage.setItem('storageTasks', JSON.stringify(storageTasksArray));
     localStorage.setItem('storageProjects', JSON.stringify(storageProjectsArray));
     localStorage.setItem('completedFilter', true);
