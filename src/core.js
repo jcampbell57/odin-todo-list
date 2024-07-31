@@ -1,4 +1,3 @@
-
 const body = document.querySelector('body');
 
 import logoIcon from './assets/check-decagram-outline.svg';
@@ -14,6 +13,7 @@ import {
     createPastDueIcon,
     createTodayIcon,
     createAdditionIcon } from './interactive';
+
 
 
 // Initialization functions
@@ -232,6 +232,7 @@ const _createContent = () => {
 }
 
 
+
 const _createFooter = () => {
     const footer = document.createElement('footer')
 
@@ -254,12 +255,12 @@ const _createFooter = () => {
 }
 
 
+
 const initialize = () => {
     _createHeader();
     _createMenu();
     _createContent();
     _createFooter();
 };
-
 
 export default initialize;

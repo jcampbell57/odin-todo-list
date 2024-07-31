@@ -60,33 +60,27 @@ const _createEditIcon = (container, i) => {
 }
 
 const _createDeleteIcon = (container, i) => {
-    // create image and assign attributes
     const newDeleteIcon = document.createElement('img');
     newDeleteIcon.src = deleteIcon;
     newDeleteIcon.classList.add('icon', 'deleteItem')
     newDeleteIcon.setAttribute('id', `${i}`)
     
-    // ADD EVENT LISTENER
     if (container.classList.contains('task')) {
         // Event listener to delete task
         newDeleteIcon.addEventListener('click', (e) => _deleteTask(e))
     } else if (container.classList.contains('projectListing')) {
         // Event listener to delete project
-        newDeleteIcon.classList.add(`deleteProject`, `deleteProject${i}`, `hidden`)        
-        newDeleteIcon.addEventListener('click', (e) => _deleteProject(e, i))        
+        newDeleteIcon.classList.add('deleteProject', `deleteProject${i}`, 'hidden')
+        newDeleteIcon.addEventListener('click', (e) => _deleteProject(e, i))
+
         // display trash icon on hover
-        container.addEventListener('mouseenter', () => {
-            const trashIcon = document.querySelector(`.deleteProject${i}`)
-            trashIcon.classList.remove('hidden')
-        })
+        container.addEventListener('mouseenter', () => newDeleteIcon.classList.remove('hidden'))
         // hide trash icon 
-        container.addEventListener('mouseleave', () => {
-            const trashIcon = document.querySelector(`.deleteProject${i}`)
-            trashIcon.classList.add('hidden')
-        })    
+        container.addEventListener('mouseleave', () => newDeleteIcon.classList.add('hidden'))
     } else {
         console.log('this is strange');
     }
+
     // append to container
     container.appendChild(newDeleteIcon)
 }
@@ -143,7 +137,7 @@ const _createAddButton = (container, i) => {
     container.appendChild(addBtn);
 }
 
-const _createCancelButton = (container, i) => {
+const _createCancelButton = (container) => {
     const cancelBtn = document.createElement('button');
     cancelBtn.classList.add('cancelBtn');
     cancelBtn.innerText = "cancel";
@@ -200,7 +194,6 @@ const createDateContainer = (li, task, i) => {
 
 // Form generator
 const createForm = (form) => {
-    
     const formRow1 = document.createElement('div');
     formRow1.classList.add('formRow');
     
@@ -226,14 +219,12 @@ const createForm = (form) => {
     }
     // row two: submit and cancel buttons
     _createAddButton(formRow2, form);
-    _createCancelButton(formRow2, form);
+    _createCancelButton(formRow2);
        
     form.appendChild(formRow1);
     form.appendChild(formRow2);
     form.appendChild(formRow3);
 }
-
-
 
 
 
@@ -365,7 +356,6 @@ const _submitProjectCard = (e, projectIndex) => {
 }
 
 
-// Delete project
 const _deleteProject = (e) => {
     // grab arrays from storage
     const storageProjects = JSON.parse(localStorage.getItem('storageProjects'))
@@ -415,8 +405,6 @@ const _deleteProject = (e) => {
     displayProjects();
     displayTasks();
 }
-
-
 
 
 
@@ -519,7 +507,6 @@ const displayTasks = () => {
             const today = new Date();
             // end of day due date
             const taskDate = add(parseISO(task.date), {days: 1, seconds: -1})
-            // console.log(add(parseISO(task.date), {days: 1, seconds: -1}))
 
             // hide if not due today
             if (today.getMonth() !== taskDate.getMonth() ||
@@ -605,9 +592,9 @@ const displayTasks = () => {
         }
 
         // Create form
-        const editCardForm = document.createElement('form');
-        editCardForm.setAttribute('class', 'menuOptions');
-        editCardForm.setAttribute('id', `${i}`);
+        const taskEditCardForm = document.createElement('form');
+        taskEditCardForm.classList.add('menuOptions');
+        taskEditCardForm.setAttribute('id', `${i}`);
         
         // Create fieldset
         const taskCard = document.createElement('fieldset');
@@ -724,7 +711,7 @@ const displayTasks = () => {
         const cardRow3 = document.createElement('div');
         cardRow3.classList.add('cardRow', 'cardRow3')
         _createAddButton(cardRow3, i);
-        _createCancelButton(cardRow3, `${i}`);
+        _createCancelButton(cardRow3);
 
 
 
@@ -734,8 +721,8 @@ const displayTasks = () => {
         taskCardLegend.appendChild(cardRow3);
         
         taskCard.appendChild(taskCardLegend);
-        editCardForm.appendChild(taskCard);
-        newCardContainer.appendChild(editCardForm);
+        taskEditCardForm.appendChild(taskCard);
+        newCardContainer.appendChild(taskEditCardForm);
 
         // Create delete button
         _createDeleteIcon(newCardContainer, i)
@@ -767,22 +754,17 @@ const displayTasks = () => {
 
 
     // append all tasks to tasklist
-    let i=0
-    storageTasks.forEach(task => {
+    storageTasks.forEach((task, i) => {
         _createTaskListing(task, i);
         _createTaskCard(task, i);
-        i++
     });
 }
-
-
 
 
 
 // Complete task
 const _markComplete = (e) => {
     const taskID = e.target.getAttribute('id');
-    // NEW
     const storageTasks = JSON.parse(localStorage.getItem('storageTasks'))
     if (storageTasks[taskID].complete === 'true') {
         //mark task incomplete
@@ -799,16 +781,15 @@ const _markComplete = (e) => {
 }
 
 // Show task card
-const _showTaskCard = (e) => {
-    const taskID = e.target.getAttribute('id');
+const _showTaskCard = (e, taskIndex) => {
     // refresh tasklist to close other task cards (optional but looks cleaner)
     displayTasks();
     // show task card
-    const taskCard = document.querySelector(`.card${taskID}`);
-    taskCard.setAttribute('id', `${taskID}`);
+    const taskCard = document.querySelector(`.card${taskIndex}`);
+    taskCard.classList.remove('hidden');
     //hide task listing
-    const taskListing = document.querySelector(`.listing${taskID}`);
-    taskListing.setAttribute('id', 'hidden');
+    const taskListing = document.querySelector(`.listing${taskIndex}`);
+    taskListing.classList.add('hidden');
 }
 
 const _submitTaskCard = (e) => {
@@ -845,8 +826,6 @@ const _deleteTask = (e) => {
     // refresh tasklist
     displayTasks();
 }
-
-
 
 
 
@@ -897,8 +876,6 @@ const setTaskFilter = (container, e) => {
     displayProjects();    
     displayTasks();
 }
-
-
 
 
 

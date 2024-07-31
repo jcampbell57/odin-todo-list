@@ -1,4 +1,3 @@
-
 // Page initialization
 import initialize from './core'
 import './reset.css'
@@ -23,11 +22,8 @@ const newTaskErrorContainer = document.querySelector('.newTaskErrorContainer');
 
 
 // DOM modification functions
-
 import { displayProjects } from './interactive';
 import { displayTasks } from './interactive';
-
-
 
 
 
@@ -156,7 +152,6 @@ if (localStorage.storageTasks === undefined) {
     )
     // set tasks array back into storage
     localStorage.setItem('storageTasks', JSON.stringify(storageTasks));
-
 }
 
 
@@ -285,10 +280,8 @@ const _submitNewTaskForm = (e) => {
         _submitTask(newTask);
     }
     _hideAddTaskForm();
-    newTaskErrorContainer.setAttribute('id', 'hidden');
+    newTaskErrorContainer.classList.add('hidden');
 }
-
-
 
 
 

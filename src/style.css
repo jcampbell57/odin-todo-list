@@ -20,8 +20,6 @@ body {
 
 
 
-
-
 /* Scrollbar styling */
 
 ::-webkit-scrollbar {
@@ -56,8 +54,6 @@ body {
 ::-webkit-scrollbar-thumb:active {
     border: 1px solid rgb(20, 20, 20, 0.2);
 }
-
-
 
 
 
@@ -148,8 +144,6 @@ header>h1 {
 .dropdownItem:active {
     color: darkorange;
 }
-
-
 
 
 
@@ -327,8 +321,6 @@ label {
 
 
 
-
-
 /* Content styling */
 
 .content {
@@ -339,8 +331,6 @@ label {
     box-sizing: border-box;
     overflow: auto;
 }
-
-
 
 
 
@@ -400,8 +390,6 @@ img.icon:hover,
 .editContainer {
     display: flex;
 }
-
-
 
 
 
@@ -479,8 +467,6 @@ select#taskCardPriority {
     margin-bottom: auto;
     margin-left: auto;
 }
-
-
 
 
 
