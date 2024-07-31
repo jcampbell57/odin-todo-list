@@ -126,7 +126,7 @@ const _createCancelButton = (container, i) => {
     cancelBtn.setAttribute('class', 'cancelBtn');
     cancelBtn.setAttribute('id', `${i}`);
     cancelBtn.innerText = "cancel";
-    if (container.getAttribute('class') === 'cardRow3') {
+    if (container.classList.contains('cardRow3')) {
         cancelBtn.addEventListener('click', (e) => {
             e.preventDefault();
             displayTasks()
