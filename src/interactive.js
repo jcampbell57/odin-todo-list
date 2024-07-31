@@ -67,11 +67,19 @@ const _createDeleteIcon = (container, i) => {
     
     if (container.classList.contains('task')) {
         // Event listener to delete task
-        newDeleteIcon.addEventListener('click', (e) => _deleteTask(e))
+        newDeleteIcon.addEventListener('click', (e) => {
+            if (window.confirm("Are you sure you want to delete this task?")) {
+                _deleteTask(e)
+            }
+        })
     } else if (container.classList.contains('projectListing')) {
         // Event listener to delete project
         newDeleteIcon.classList.add('deleteProject', `deleteProject${i}`, 'hidden')
-        newDeleteIcon.addEventListener('click', (e) => _deleteProject(e, i))
+        newDeleteIcon.addEventListener('click', (e) => {
+            if (window.confirm("Are you sure you want to delete this project?")) {
+                _deleteProject(e, i)
+            }
+        })
 
         // display trash icon on hover
         container.addEventListener('mouseenter', () => newDeleteIcon.classList.remove('hidden'))
