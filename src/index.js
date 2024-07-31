@@ -167,17 +167,15 @@ displayTasks();
 
 
 
-
-
 // PROJECT FORM
 // Show/hide new project form
 const _showAddProjectForm = () => {
-    if (addTaskForm.getAttribute('id') === 'showBlock') {
-        addTaskBtn.setAttribute('id', 'showFlex')
-        addTaskForm.setAttribute('id', 'hidden')
+    if (!addTaskForm.classList.contains('hidden')) {
+        addTaskBtn.classList.remove('hidden')
+        addTaskForm.classList.add('hidden')
     }
-    addProjectBtn.setAttribute('id', 'hidden')
-    addProjectForm.setAttribute('id', 'showBlock')
+    addProjectBtn.classList.add('hidden')
+    addProjectForm.classList.remove('hidden')
 }
 
 
@@ -201,15 +199,15 @@ const _submitNewProjectForm = (e) => {
     }
     
     const _hideAddProjectForm = () => {
-        addProjectBtn.setAttribute('id', 'showFlex')
-        addProjectForm.setAttribute('id', 'hidden')
+        addProjectBtn.classList.remove('hidden')
+        addProjectForm.classList.add('hidden')
         newProjectInput.value = '';
     }
     
     // verify or cancel submission
     if (e.submitter.classList.contains('addBtn') && newProjectInput.value === '') {
         // show project name error
-        newProjErrorContainer.setAttribute('id', 'showBlock');
+        newProjErrorContainer.classList.remove('hidden');
         return;
     } else if (e.submitter.classList.contains('addBtn')) {
         // submit new project
@@ -226,17 +224,15 @@ const _submitNewProjectForm = (e) => {
 
 
 
-
-
 // TASK FORM
 // Show/hide new task form
 const _showAddTaskForm = () => {
-    if (addProjectForm.getAttribute('id') === 'showBlock') {
-        addProjectBtn.setAttribute('id', 'showFlex')
-        addProjectForm.setAttribute('id', 'hidden')    
+    if (!addProjectForm.classList.contains('hidden')) {
+        addProjectBtn.classList.remove('hidden')
+        addProjectForm.classList.add('hidden')
     }
-    addTaskBtn.setAttribute('id', 'hidden')
-    addTaskForm.setAttribute('id', 'showBlock')
+    addTaskBtn.classList.add('hidden')
+    addTaskForm.classList.remove('hidden')
 }
 
 
@@ -259,15 +255,15 @@ const _submitNewTaskForm = (e) => {
     }
 
     const _hideAddTaskForm = () => {
-        addTaskBtn.setAttribute('id', 'showFlex')
-        addTaskForm.setAttribute('id', 'hidden')
+        addTaskBtn.classList.remove('hidden')
+        addTaskForm.classList.add('hidden')
         newTaskInput.value = '';
     }
     
     // verify or cancel submission
     if (e.submitter.classList.contains('addBtn') && newTaskInput.value === '') {
         // show Task name error
-        newTaskErrorContainer.setAttribute('id', 'showBlock');
+        newTaskErrorContainer.classList.remove('hidden');
         return;
     } else if (e.submitter.classList.contains('addBtn')) {
         // assign project

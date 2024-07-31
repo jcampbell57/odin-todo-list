@@ -241,18 +241,6 @@ legend {
     max-width: none;
 }
 
-#showBlock {
-    display: block;
-}
-
-#showFlex {
-    display: flex;
-}
-
-#hidden {
-    display: none;
-}
-
 .addProjectForm,
 .addTaskForm {
     padding: 0;
