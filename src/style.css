@@ -227,11 +227,21 @@ img.selected {
 }
 
 input#newProjectInput,
-input#newTaskInput {
+input#newTaskInput,
+input#projNameInput {
     width: 100%;
     margin: 0;
 }
 
+.submitProjectEdit:hover {
+    /* DarkGreen color */
+    filter: invert(15%) sepia(56%) saturate(5410%) hue-rotate(107deg) brightness(100%) contrast(104%);
+}
+
+.submitProjectEdit:active {
+    /* ForestGreen color */
+    filter: invert(28%) sepia(66%) saturate(3505%) hue-rotate(112deg) brightness(94%) contrast(73%);
+}
 
 
 
@@ -263,7 +273,8 @@ legend {
 
 #newTaskInput,
 .taskCardInput,
-#newProjectInput {
+#newProjectInput,
+#projNameInput {
     /* display: block; */
     padding: 6px;
     font-size: 1.2rem;
@@ -365,7 +376,7 @@ img.icon:hover,
     cursor: pointer;
 }
 
-.deleteProject,
+.projectEdit,
 .dateContainer {
     margin-left: auto;
 }

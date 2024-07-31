@@ -35,14 +35,28 @@ const createChecklistIcon = (li) => {
     li.appendChild(checklistIcon);
 }
 
-const _createEditIcon = (div, i) => {
+const _createEditIcon = (container, i) => {
     const newEditIcon = document.createElement('img');
     newEditIcon.src = editIcon;
-    newEditIcon.setAttribute('class', 'icon');
-    newEditIcon.setAttribute('id', `${i}`);
-    // event listener to open task card
-    newEditIcon.addEventListener('click', (e) => _showTaskCard(e))
-    div.appendChild(newEditIcon);
+    newEditIcon.classList.add('icon');
+    if (container.classList.contains('taskEdit')) {
+        newEditIcon.addEventListener('click', (e) => _showTaskCard(e, i))
+        container.appendChild(newEditIcon);
+    } else if (container.classList.contains('projectListing')) {
+        const editBtnContainer = document.createElement('div')
+        editBtnContainer.classList.add('editContainer', 'projectEdit')
+        editBtnContainer.appendChild(newEditIcon)
+
+        newEditIcon.classList.add('hidden')
+        newEditIcon.addEventListener('click', (e) => {
+            e.stopPropagation()
+            _showProjectCard(e, i)}
+        )
+
+        container.addEventListener('mouseenter', () => newEditIcon.classList.remove('hidden'))
+        container.addEventListener('mouseleave', () => newEditIcon.classList.add('hidden'))
+        container.appendChild(editBtnContainer);
+    }
 }
 
 const _createDeleteIcon = (container, i) => {
@@ -238,41 +252,117 @@ const displayProjects = () => {
     }
 
     // Add single project to menu (called below)
-    const _displayProject = (newProj, i) => {
-        const newProjectContainer = document.createElement('li');
-        newProjectContainer.classList.add(`project`)
-        newProjectContainer.setAttribute('id', `${i}`)
+    const _createProjectListing = (newProj, i) => {
+        const projectListingContainer = document.createElement('li');
+        projectListingContainer.classList.add('projectListing', `projectListing${i}`)
+        projectListingContainer.setAttribute('id', `${i}`)
         // assign class to selected project 
         if (newProj.selected === 'true') {
-            newProjectContainer.classList.add('selected')
+            projectListingContainer.classList.add('selected')
         }
 
         // event listener to filter tasklist by project name     
-        newProjectContainer.addEventListener('click', (e) => {
+        projectListingContainer.addEventListener('click', (e) => {
             // if deleting project, do not set filter
             if (e.target.classList.contains('deleteItem')) {
                 return;
             };
-            setTaskFilter(newProjectContainer)
+            setTaskFilter(projectListingContainer)
         })
     
-        createChecklistIcon(newProjectContainer);
+        createChecklistIcon(projectListingContainer);
         const newProjectText = document.createElement('span');
         newProjectText.textContent = newProj.name;
-        newProjectContainer.appendChild(newProjectText)
-        _createDeleteIcon(newProjectContainer, i);
-        projectsMenu.appendChild(newProjectContainer);
-    } 
+        projectListingContainer.appendChild(newProjectText)
+        _createEditIcon(projectListingContainer, i)
+        _createDeleteIcon(projectListingContainer, i);
+        projectsMenu.appendChild(projectListingContainer);
+    }
+
+    const _createProjectCard = (newProj, i) => {
+        const projectCardContainer = document.createElement('li')
+        projectCardContainer.classList.add('projectCard', `projectCard${i}`, 'hidden')
+
+        createChecklistIcon(projectCardContainer)
+
+        const projNameInputContainer = document.createElement('form')
+        projNameInputContainer.addEventListener('submit', (e) => _submitProjectCard(e, i))
+
+        projNameInputContainer.innerHTML = `<input type='text'
+                                                   id='projNameInput'
+                                                   class='projNameInput${i}'
+                                                   name='projectNameInput'
+                                                   value='${newProj.name}'></input>`
+        projectCardContainer.appendChild(projNameInputContainer)
+
+        _createCheckmarkIcon(projectCardContainer, i)
+
+        projectsMenu.appendChild(projectCardContainer)
+    }
 
     // Append all tasks to tasklist
-    let i=0
     const storageProjects = JSON.parse(localStorage.getItem('storageProjects'))
-    storageProjects.forEach(project => {
-        _displayProject(project, i)
-        i++
-    });
+    storageProjects.forEach((project, i) => {
+        _createProjectListing(project, i)
+        _createProjectCard(project, i)
+    })
 }
 
+const _showProjectCard = (e, projectIndex) => {
+    // refresh tasklist to close other task cards (optional but looks cleaner)
+    displayTasks();
+
+    // refresh project list to close other project cards (optional but looks cleaner)
+    displayProjects()
+
+    // show project card
+    const projectCard = document.querySelector(`.projectCard${projectIndex}`);
+    projectCard.classList.remove('hidden');
+
+    //hide project listing
+    const projectListing = document.querySelector(`.projectListing${projectIndex}`);
+    projectListing.classList.add('hidden');
+}
+
+
+const _submitProjectCard = (e, projectIndex) => {
+    e.preventDefault()
+
+    // get input value
+    const updatedValue = document.querySelector(`.projNameInput${projectIndex}`).value
+
+    // grab updated project from localStorage
+    const storageProjects = JSON.parse(localStorage.getItem('storageProjects'))
+    var updatedProject = storageProjects[projectIndex]
+
+    // apply input values to project object
+    updatedProject.name = updatedValue
+
+    // set project array back into localStorage
+    localStorage.setItem('storageProjects', JSON.stringify(storageProjects))
+
+    // get old value
+    const oldValue = document.querySelector(`.projectListing${projectIndex} > span`).textContent
+    console.log(oldValue)
+
+    // get storageTasks
+    const storageTasks = JSON.parse(localStorage.getItem('storageTasks'))
+
+    // update tasks
+    storageTasks.forEach(task => {
+        console.log(task)
+        console.log(task.project)
+        console.log(task.project === oldValue)
+        if (task.project === oldValue) {
+            task.project = updatedValue
+        }
+    })
+
+    // set task array back into localStorage
+    localStorage.setItem('storageTasks', JSON.stringify(storageTasks))
+
+    displayProjects();
+}
 
 
 // Delete project
