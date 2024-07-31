@@ -1,6 +1,7 @@
 import checkboxBlank from './assets/checkbox-blank.svg';
 import checkboxMarked from './assets/checkbox-marked.svg';
 import checklist from './assets/checklist.svg';
+import checkmarkIcon from './assets/check-circle-outline.svg';
 import calendarToday from './assets/calendar-today.svg';
 import calendarWeek from './assets/calendar-range.svg';
 import pastDue from './assets/history.svg';
@@ -74,6 +75,14 @@ const _createDeleteIcon = (container, i) => {
     }
     // append to container
     container.appendChild(newDeleteIcon)
+}
+
+const _createCheckmarkIcon = (container, i) => {
+    const newCheckmarkIcon = document.createElement('img');
+    newCheckmarkIcon.src = checkmarkIcon;
+    newCheckmarkIcon.classList.add('icon', 'submitProjectEdit')
+    newCheckmarkIcon.addEventListener('click', (e) => _submitProjectCard(e, i))
+    container.appendChild(newCheckmarkIcon)
 }
 
 const createAdditionIcon = (li) => {
