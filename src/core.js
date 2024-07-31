@@ -24,7 +24,7 @@ const _createHeader = () => {
     const logo = document.createElement('img');
     logo.src = logoIcon;
     logo.target = '_blank';
-    logo.setAttribute('class', 'logo');
+    logo.classList.add('logo');
     header.appendChild(logo);
     
     // display title
@@ -35,9 +35,9 @@ const _createHeader = () => {
     // DROPDOWN MENU
     // create options icon container and display icon
     const optionsIconContainer = document.createElement('div');
-    optionsIconContainer.setAttribute('class', 'optionsIconContainer');
+    optionsIconContainer.classList.add('optionsIconContainer');
     const optionsIcon = document.createElement('img');
-    optionsIcon.setAttribute('class', 'icon optionsIcon');
+    optionsIcon.classList.add('icon', 'optionsIcon');
     //show dropdown listener
     optionsIcon.addEventListener('click', (e) => {
         optionsIcon.classList.toggle('selected')
@@ -60,12 +60,12 @@ const _createHeader = () => {
 
     // create dropdown container 
     const dropdownContainer = document.createElement('div');
-    dropdownContainer.setAttribute('class', 'dropdownContainer hidden');
+    dropdownContainer.classList.add('dropdownContainer', 'hidden');
 
     // create dropdown options
     // set completed filter
     const completedToggle = document.createElement('span');
-    completedToggle.setAttribute('class', 'dropdownItem completedTasksToggle');    
+    completedToggle.classList.add('dropdownItem', 'completedTasksToggle');
     if (localStorage.getItem('completedFilter') === 'false') {
         completedToggle.innerText = 'Hide completed tasks'
     } else {
@@ -93,16 +93,17 @@ const _createHeader = () => {
 }
 
 
+
 const _createMenu = () => {
     const menu = document.createElement('div');
-    menu.setAttribute('class', 'menu');
+    menu.classList.add('menu');
 
     // Main menu
     const menuOptions = document.createElement('ul');
-    menuOptions.setAttribute('class', 'menuOptions');
+    menuOptions.classList.add('menuOptions');
     
     const allTasks = document.createElement('li');
-    allTasks.setAttribute('class', 'allTasks selected');
+    allTasks.classList.add('allTasks', 'selected');
     allTasks.addEventListener('click', (e) => {
         setTaskFilter(allTasks, e)
         allTasks.classList.add('selected')
@@ -114,7 +115,7 @@ const _createMenu = () => {
     menuOptions.appendChild(allTasks);
 
     const dueToday = document.createElement('li');
-    dueToday.setAttribute('class', 'dueToday');
+    dueToday.classList.add('dueToday');
     dueToday.addEventListener('click', (e) => {
         setTaskFilter(dueToday, e)
         dueToday.classList.add('selected')
@@ -127,7 +128,7 @@ const _createMenu = () => {
     menuOptions.appendChild(dueToday);
 
     const dueWeek = document.createElement('li');
-    dueWeek.setAttribute('class', 'dueWeek');
+    dueWeek.classList.add('dueWeek');
     dueWeek.addEventListener('click', (e) => {
         setTaskFilter(dueWeek, e)
         dueWeek.classList.add('selected')
@@ -140,7 +141,7 @@ const _createMenu = () => {
     menuOptions.appendChild(dueWeek);
 
     const pastDue = document.createElement('li');
-    pastDue.setAttribute('class', 'pastDue');
+    pastDue.classList.add('pastDue');
     pastDue.addEventListener('click', (e) => {
         setTaskFilter(pastDue, e)
         pastDue.classList.add('selected')
@@ -155,19 +156,19 @@ const _createMenu = () => {
 
     // Projects menu
     const projectsHeader = document.createElement('p');
-    projectsHeader.setAttribute('class', 'projectsHeader')
+    projectsHeader.classList.add('projectsHeader')
     projectsHeader.textContent = 'Projects';
 
     const projectsMenu = document.createElement('ul');
-    projectsMenu.setAttribute('class', 'menuOptions');
+    projectsMenu.classList.add('menuOptions');
     projectsMenu.setAttribute('id', 'projectsMenu');
 
 
     // Generate add project button
     const addProjectContainer = document.createElement('ul');
-    addProjectContainer.setAttribute('class', 'menuOptions');
+    addProjectContainer.classList.add('menuOptions');
     const addProject = document.createElement('li');
-    addProject.setAttribute('class', 'addProjectBtn')
+    addProject.classList.add('addProjectBtn')
     createAdditionIcon(addProject)
     const addProjectText = document.createElement('span');
     addProjectText.innerText = 'Add Project';
@@ -177,8 +178,7 @@ const _createMenu = () => {
 
     // Generate and hide new project form
     const addProjectForm = document.createElement('form');
-    addProjectForm.setAttribute('class', 'addProjectForm');
-    addProjectForm.setAttribute('id', 'hidden')
+    addProjectForm.classList.add('addProjectForm', 'hidden');
     addProjectForm.method = 'get';
     createForm(addProjectForm);
     addProjectContainer.appendChild(addProjectForm)
@@ -193,23 +193,24 @@ const _createMenu = () => {
 }
 
 
+
 const _createContent = () => {
     const content = document.createElement('div');
-    content.setAttribute('class', 'content');
+    content.classList.add('content');
 
     const contentTitle = document.createElement('h2');
-    contentTitle.setAttribute('class', 'contentTitle');
+    contentTitle.classList.add('contentTitle');
     contentTitle.innerText = 'All tasks';
 
     const taskContainer = document.createElement('ul');
-    taskContainer.setAttribute('class', 'taskList');
+    taskContainer.classList.add('taskList');
     taskContainer.setAttribute('id', 'taskList');
 
     // Create add task button
     const addTaskContainer = document.createElement('ul');
-    addTaskContainer.setAttribute('class', 'menuOptions');
+    addTaskContainer.classList.add('menuOptions');
     const addTask = document.createElement('li');
-    addTask.setAttribute('class', 'addTaskBtn');
+    addTask.classList.add('addTaskBtn');
     createAdditionIcon(addTask);
     const addTaskText = document.createElement('span');
     addTaskText.innerText = 'Add task';
@@ -218,8 +219,7 @@ const _createContent = () => {
 
     // Generate and hide new task form
     const addTaskForm = document.createElement('form');
-    addTaskForm.setAttribute('class', 'addTaskForm');
-    addTaskForm.setAttribute('id', 'hidden')
+    addTaskForm.classList.add('addTaskForm', 'hidden');
     addTaskForm.method = 'get';
     createForm(addTaskForm);
     
@@ -244,7 +244,7 @@ const _createFooter = () => {
   
     const newGithubIcon = document.createElement('img');
     newGithubIcon.src = githubIcon;
-    newGithubIcon.setAttribute('class', 'github');
+    newGithubIcon.classList.add('github');
 
     githubLink.appendChild(newGithubIcon);
     footer.appendChild(copyright);

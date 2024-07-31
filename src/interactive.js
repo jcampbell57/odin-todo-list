@@ -21,7 +21,7 @@ const _createCheckboxIcon = (div, task, i) => {
     } else {
         checkboxIcon.src = checkboxBlank;
     }
-    checkboxIcon.setAttribute('class', 'icon');
+    checkboxIcon.classList.add('icon');
     checkboxIcon.setAttribute('id', `${i}`);
     checkboxIcon.addEventListener('click', (e) => _markComplete(e))
     div.appendChild(checkboxIcon);
@@ -30,7 +30,7 @@ const _createCheckboxIcon = (div, task, i) => {
 const createChecklistIcon = (li) => {
     const checklistIcon = document.createElement('img');
     checklistIcon.src = checklist;
-    checklistIcon.setAttribute('class', 'icon')
+    checklistIcon.classList.add('icon')
     li.appendChild(checklistIcon);
 }
 
@@ -48,15 +48,14 @@ const _createDeleteIcon = (container, i) => {
     // create image and assign attributes
     const newDeleteIcon = document.createElement('img');
     newDeleteIcon.src = deleteIcon;
-    newDeleteIcon.setAttribute('class', 'icon deleteItem')
+    newDeleteIcon.classList.add('icon', 'deleteItem')
     newDeleteIcon.setAttribute('id', `${i}`)
     
     // ADD EVENT LISTENER
     if (container.classList.contains('task')) {
         // Event listener to delete task
         newDeleteIcon.addEventListener('click', (e) => _deleteTask(e))
-    } else if (container.getAttribute('class') === 'project' || 
-    container.classList.contains('project')) {
+    } else if (container.classList.contains('projectListing')) {
         // Event listener to delete project
         newDeleteIcon.classList.add(`deleteProject`, `deleteProject${i}`, `hidden`)        
         newDeleteIcon.addEventListener('click', (e) => _deleteProject(e, i))        
@@ -80,42 +79,42 @@ const _createDeleteIcon = (container, i) => {
 const createAdditionIcon = (li) => {
     const newAdditionIcon = document.createElement('img');
     newAdditionIcon.src = additionIcon;
-    newAdditionIcon.setAttribute('class', 'icon')
+    newAdditionIcon.classList.add('icon')
     li.appendChild(newAdditionIcon);
 }
 
 const createTodayIcon = (li) => {
     const newTodayIcon = document.createElement('img');
     newTodayIcon.src = calendarToday;
-    newTodayIcon.setAttribute('class', 'icon')
+    newTodayIcon.classList.add('icon')
     li.appendChild(newTodayIcon);
 }
 
 const createWeekIcon = (li) => {
     const newWeekIcon = document.createElement('img');
     newWeekIcon.src = calendarWeek;
-    newWeekIcon.setAttribute('class', 'icon')
+    newWeekIcon.classList.add('icon')
     li.appendChild(newWeekIcon);
 }
 
 const createPastDueIcon = (li) => {
     const newPastDueIcon = document.createElement('img');
     newPastDueIcon.src = pastDue;
-    newPastDueIcon.setAttribute('class', 'icon')
+    newPastDueIcon.classList.add('icon')
     li.appendChild(newPastDueIcon);
 }
 
 const _createAddButton = (container, i) => {
     const addBtn = document.createElement('button');
-    addBtn.setAttribute('class', 'addBtn');
+    addBtn.classList.add('addBtn');
     addBtn.innerText = "submit";
     if (container.classList.contains('cardRow3')) {
         // convert card to form? and change this event listener to trigger when form submits
         addBtn.setAttribute('id', `${i}`);
         addBtn.addEventListener('click', (e) => _submitTaskCard(e))
-    } else if (i.getAttribute('class') === 'addProjectForm') {
+    } else if (i.classList.contains('addProjectForm')) {
         addBtn.classList.add('projectAddBtn');
-    } else if (i.getAttribute('class') === 'addTaskForm') {
+    } else if (i.classList.contains('addTaskForm')) {
         addBtn.classList.add('taskAddBtn');
     };
     container.appendChild(addBtn);
@@ -123,8 +122,7 @@ const _createAddButton = (container, i) => {
 
 const _createCancelButton = (container, i) => {
     const cancelBtn = document.createElement('button');
-    cancelBtn.setAttribute('class', 'cancelBtn');
-    cancelBtn.setAttribute('id', `${i}`);
+    cancelBtn.classList.add('cancelBtn');
     cancelBtn.innerText = "cancel";
     if (container.classList.contains('cardRow3')) {
         cancelBtn.addEventListener('click', (e) => {
@@ -141,8 +139,8 @@ const _createCancelButton = (container, i) => {
 
 const createDateContainer = (li, task, i) => {
     const dateContainer = document.createElement('span');
-    dateContainer.setAttribute('class', 'dateContainer');
-    //task card date format
+    dateContainer.classList.add('dateContainer');
+    // task card date format
     if (li.classList.contains('editDateContainer')) {
         dateContainer.innerHTML = `<input class='taskCardInput taskCardDate${i}' 
                                    type='date' 
@@ -181,24 +179,24 @@ const createDateContainer = (li, task, i) => {
 const createForm = (form) => {
     
     const formRow1 = document.createElement('div');
-    formRow1.setAttribute('class', 'formRow');
+    formRow1.classList.add('formRow');
     
     const formRow2 = document.createElement('div');
-    formRow2.setAttribute('class', 'formRow');
+    formRow2.classList.add('formRow');
     formRow2.setAttribute('id', 'formButtons');
 
     const formRow3 = document.createElement('div');
-    formRow3.setAttribute('id', 'hidden');
+    formRow3.classList.add('hidden');
 
     // row one: assign input according to class of form
     // row three: assign error class and text according to class of form
-    if (form.getAttribute('class') === 'addProjectForm') {
+    if (form.classList.contains('addProjectForm')) {
         formRow1.innerHTML = "<input type='text' id='newProjectInput' name='newProjectInput'></input>";
-        formRow3.setAttribute('class', 'newProjErrorContainer');
+        formRow3.classList.add('newProjErrorContainer');
         formRow3.innerText = 'Name your project!'
-    } else if (form.getAttribute('class') === 'addTaskForm') {
+    } else if (form.classList.contains('addTaskForm')) {
         formRow1.innerHTML = "<input type='text' id='newTaskInput' name='newTaskInput'></input>";
-        formRow3.setAttribute('class', 'newTaskErrorContainer');
+        formRow3.classList.add('newTaskErrorContainer');
         formRow3.innerText = 'Name your task!'
     } else {
         console.log('this is strange')
@@ -341,7 +339,7 @@ const displayTasks = () => {
     const _createTaskListing = (task, i) => {
         // create task container
         const newListing = document.createElement('li');
-        newListing.setAttribute('class', `task listing${i}`);
+        newListing.classList.add('task', `listing${i}`);
         // complete filter to assign class
         if (task.complete === 'true') {
             newListing.classList.add('complete')
@@ -367,7 +365,7 @@ const displayTasks = () => {
         
         // add task
         const taskContainer = document.createElement('div');
-        taskContainer.setAttribute('class', `taskContainer${i}`);
+        taskContainer.classList.add(`taskContainer${i}`);
         // complete filter for strikethrough
         if (task.complete === 'true') {
             taskContainer.setAttribute('id', 'complete');
@@ -380,7 +378,7 @@ const displayTasks = () => {
 
         // add edit button
         const editContainer = document.createElement('div');
-        editContainer.setAttribute('class', 'editContainer');
+        editContainer.classList.add('editContainer', 'taskEdit');
         _createEditIcon(editContainer, i);
         newListing.appendChild(editContainer);
 
@@ -491,8 +489,7 @@ const displayTasks = () => {
     const _createTaskCard = (task, i) => {
         // CREATE TASK CARD
         const newCardContainer = document.createElement('li')
-        newCardContainer.setAttribute('class', `task card card${i}`);
-        newCardContainer.setAttribute('id', `hidden`);
+        newCardContainer.classList.add('task', 'card', `card${i}`, 'hidden');
 
         // complete filter to assign class
         if (task.complete === 'true') {
@@ -523,10 +520,10 @@ const displayTasks = () => {
 
         // First row
         const cardRow1 = document.createElement('div');
-        cardRow1.setAttribute('class', 'cardRow cardRow1')
+        cardRow1.classList.add('cardRow', 'cardRow1')
         // add task name input
         const taskInputContainer = document.createElement('div');
-        taskInputContainer.setAttribute('class', `taskInputContainer`);
+        taskInputContainer.classList.add(`taskInputContainer`);
         taskInputContainer.innerHTML = `<label for='taskCardTask'>Task:</label>
 
                                         <input type='text' 
@@ -537,7 +534,7 @@ const displayTasks = () => {
         cardRow1.appendChild(taskInputContainer);
         // add date input
         const editDateContainer = document.createElement('div');
-        editDateContainer.setAttribute('class', `editDateContainer`);
+        editDateContainer.classList.add(`editDateContainer`);
         editDateContainer.innerHTML = "<label for='taskCardDate'>Due date:</label>";
         createDateContainer(editDateContainer, task, i);
         cardRow1.appendChild(editDateContainer);
@@ -546,16 +543,16 @@ const displayTasks = () => {
 
         // Second row 
         const cardRow2 = document.createElement('div');
-        cardRow2.setAttribute('class', 'cardRow cardRow2')
+        cardRow2.classList.add('cardRow', 'cardRow2')
         
         // project input container
         const projectInputContainer = document.createElement('div');
-        projectInputContainer.setAttribute('class', 'projectInputContainer');
+        projectInputContainer.classList.add('projectInputContainer');
         projectInputContainer.innerHTML = "<label for='taskCardProject'>Project:</label>";
 
         // create project dropdown 
         const projectDropdown = document.createElement('select')
-        projectDropdown.setAttribute('class', `taskCardInput taskCardProject${i}`)
+        projectDropdown.classList.add('taskCardInput', `taskCardProject${i}`)
         projectDropdown.setAttribute('id', 'taskCardProject')
         projectDropdown.setAttribute('name', 'taskCardProject')
         projectDropdown.setAttribute('value', `${task.project}`)
@@ -583,12 +580,12 @@ const displayTasks = () => {
 
         // priority input container
         const priorityInputContainer = document.createElement('div');
-        priorityInputContainer.setAttribute('class', 'priorityInputContainer');
+        priorityInputContainer.classList.add('priorityInputContainer');
         priorityInputContainer.innerHTML = "<label for='taskCardPriority'>Priority:</label>";
 
         // create priority dropdown 
         const priorityDropdown = document.createElement('select')
-        priorityDropdown.setAttribute('class', `taskCardInput taskCardPriority${i}`)
+        priorityDropdown.classList.add('taskCardInput', `taskCardPriority${i}`)
         priorityDropdown.setAttribute('id', 'taskCardPriority')
         priorityDropdown.setAttribute('name', 'taskCardPriority')
         priorityDropdown.setAttribute('value', `${task.priority}`)
@@ -626,7 +623,7 @@ const displayTasks = () => {
 
         // Third row 
         const cardRow3 = document.createElement('div');
-        cardRow3.setAttribute('class', 'cardRow cardRow3')
+        cardRow3.classList.add('cardRow', 'cardRow3')
         _createAddButton(cardRow3, i);
         _createCancelButton(cardRow3, `${i}`);
 
@@ -789,7 +786,7 @@ const setTaskFilter = (container, e) => {
     }) 
 
     // Select project if one is chosen (main menu selection is handled in event listener)
-    if (container.getAttribute('class') === 'project') {
+    if (container.classList.contains('projectListing')) {
         var selectedProjectId = container.getAttribute('id');
         storageProjects[selectedProjectId].selected = 'true'
     }

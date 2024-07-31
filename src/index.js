@@ -221,7 +221,7 @@ const _submitNewProjectForm = (e) => {
         submitProj(newProj);
     }
     _hideAddProjectForm();
-    newProjErrorContainer.setAttribute('id', 'hidden');
+    newProjErrorContainer.classList.add('hidden');
 }
 
 
